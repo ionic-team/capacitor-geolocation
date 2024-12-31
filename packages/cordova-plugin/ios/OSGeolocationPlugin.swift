@@ -33,7 +33,7 @@ final class OSGeolocation: CDVPlugin {
         handleLocationRequest(config.enableHighAccuracy, watchUUID: config.id, command.callbackId)
     }
 
-    @objc
+    @objc(clearWatch:)
     func clearWatch(command: CDVInvokedUrlCommand) {
         guard let config: OSGeolocationClearWatchModel = createModel(for: command.argument(at: 0))
         else {
@@ -142,8 +142,11 @@ private extension OSGeolocation {
             callbackManager?.addLocationCallback(callbackId)
         }
 
-        if plugin?.authorisationStatus == .granted {
-            requestLocation()
+        switch plugin?.authorisationStatus {
+        case .granted: requestLocation()
+        case .denied: callbackManager?.sendError(.permissionDenied)
+        case .restricted: callbackManager?.sendError(.permissionRestricted)
+        default: break
         }
     }
 

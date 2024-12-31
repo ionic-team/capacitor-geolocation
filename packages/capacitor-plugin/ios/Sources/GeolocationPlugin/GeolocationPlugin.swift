@@ -71,15 +71,11 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     public override func requestPermissions(_ call: CAPPluginCall) {
         checkIfLocationServicesAreEnabled()
 
-        requestLocationIfAuthorisationStatus(
-            is: .notDetermined,
-            fallbackIfTrue: { [weak self] in
-                self?.shouldSetupBindings()
-            },
-            fallbackIfFalse: { [weak self] in
-                self?.checkPermissions(call)
-            }
-        )
+        if plugin?.authorisationStatus == .notDetermined {
+            shouldSetupBindings()
+        } else {
+            checkPermissions(call)
+        }
     }
 }
 
@@ -177,27 +173,11 @@ private extension GeolocationPlugin {
             callbackManager?.addLocationCallback(capacitorCall: call)
         }
 
-        requestLocationIfAuthorisationStatus(
-            is: .granted,
-            fallbackIfTrue: { [weak self] in
-                self?.requestLocation()
-            },
-            fallbackIfFalse: { [weak self] in
-                switch self?.plugin?.authorisationStatus {
-                case .denied: self?.callbackManager?.sendError(.permissionDenied)
-                case .restricted: self?.callbackManager?.sendError(.permissionRestricted)
-                default: break
-                }
-            }
-        )
-    }
-
-    func requestLocationIfAuthorisationStatus(is authorisationStatus: OSGLOCAuthorisation, fallbackIfTrue: (() -> Void), fallbackIfFalse: (() -> Void)) {
-        if plugin?.authorisationStatus == authorisationStatus {
-            fallbackIfTrue()
-        } else {
-            fallbackIfFalse()
-        }
+        switch plugin?.authorisationStatus {
+        case .granted: requestLocation()
+        case .denied: callbackManager?.sendError(.permissionDenied)
+        case .restricted: callbackManager?.sendError(.permissionRestricted)
+        default: break
     }
 
     func handlePositionUnavailability() {
