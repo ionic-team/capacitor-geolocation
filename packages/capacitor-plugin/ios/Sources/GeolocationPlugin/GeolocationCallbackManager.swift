@@ -5,6 +5,10 @@ private enum GeolocationCallbackType {
     case location
     case watch
 
+    var shouldKeepCallback: Bool {
+        self == .watch
+    }
+
     var shouldClearAfterSending: Bool {
         self == .location
     }
@@ -101,11 +105,15 @@ private extension GeolocationCallbackManager {
         }
     }
 
-    func send(_ callResultStatus: CallResultStatus, to group:GeolocationCallbackGroup) {
+    func send(_ callResultStatus: CallResultStatus, to group: GeolocationCallbackGroup) {
         group.ids.forEach { call in
             switch callResultStatus {
-            case .success(let data): call.resolve(data)
-            case .error(let error): call.reject(error.message, error.code)
+            case .success(let data):
+                call.keepAlive = group.type.shouldKeepCallback
+                call.resolve(data)
+            case .error(let error):
+                call.keepAlive = false
+                call.reject(error.message, error.code)
             }
         }
 
