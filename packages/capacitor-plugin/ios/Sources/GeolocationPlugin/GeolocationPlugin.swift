@@ -40,7 +40,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func clearWatch(_ call: CAPPluginCall) {
         shouldSetupBindings()
-        guard let callbackId = call.getString("id") else {
+        guard let callbackId = call.getString(Constants.Arguments.id) else {
             callbackManager?.sendError(.inputArgumentsIssue(target: .clearWatch))
             return
         }
@@ -62,10 +62,11 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         default: Constants.AuthorisationStatus.Status.prompt
         }
 
-        call.resolve([
+        let callResultData = [
             Constants.AuthorisationStatus.ResultKey.location: status,
             Constants.AuthorisationStatus.ResultKey.coarseLocation: status
-        ])
+        ]
+        callbackManager?.sendSuccess(call, with: callResultData)
     }
 
     public override func requestPermissions(_ call: CAPPluginCall) {
@@ -122,7 +123,7 @@ private extension GeolocationPlugin {
 
     func requestLocationAuthorisation() {
         DispatchQueue.global(qos: .background).async {
-            checkIfLocationServicesAreEnabled()
+            self.checkIfLocationServicesAreEnabled()
 
             var requestType: OSGLOCAuthorisationRequestType?
             if Bundle.main.object(forInfoDictionaryKey: Constants.LocationUsageDescription.whenInUse) != nil {
@@ -132,10 +133,10 @@ private extension GeolocationPlugin {
             }
 
             guard let requestType else {
-                callbackManager?.sendError(.missingUsageDescription)
+                self.callbackManager?.sendError(.missingUsageDescription)
                 return
             }
-            plugin?.requestAuthorisation(withType: requestType)
+            self.plugin?.requestAuthorisation(withType: requestType)
         }
     }
 
@@ -178,6 +179,7 @@ private extension GeolocationPlugin {
         case .denied: callbackManager?.sendError(.permissionDenied)
         case .restricted: callbackManager?.sendError(.permissionRestricted)
         default: break
+        }
     }
 
     func handlePositionUnavailability() {

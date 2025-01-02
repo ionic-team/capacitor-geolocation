@@ -1,6 +1,7 @@
 enum Constants {
     enum Arguments {
         static let enableHighAccuracy = "enableHighAccuracy"
+        static let id = "id"
     }
 
     enum AuthorisationStatus {
@@ -17,7 +18,7 @@ enum Constants {
     }
 
     enum LocationUsageDescription {
-        static let always: String = "NSLocationAlwaysUsageDescription"
+        static let always: String = "NSLocationAlwaysAndWhenInUseUsageDescription"
         static let whenInUse: String = "NSLocationWhenInUseUsageDescription"
     }
 
