@@ -22,7 +22,7 @@ export type OSGLOCPosition = {
   [Prop in keyof typeof SpeedProp]: number | null;
 }
 
-export type PositionOptions = {
+export type CurrentPositionOptions = {
   /**
    * High accuracy mode (such as GPS, if available)
    *
@@ -64,11 +64,13 @@ export type PositionOptions = {
    * @since 6.1.0
    */
   minimumUpdateInterval?: number;
-
 }
+
 export type ClearWatchOptions = {
   id: string;
 }
+
+export type WatchPositionOptions = CurrentPositionOptions & ClearWatchOptions
 
 export type Position = {
   /**

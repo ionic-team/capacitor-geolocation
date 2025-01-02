@@ -1,6 +1,6 @@
-import { ClearWatchOptions, PositionOptions } from "./definitions";
+import { ClearWatchOptions, CurrentPositionOptions, WatchPositionOptions } from "./definitions";
 
-export const PositionOptionsDefault: PositionOptions = {
+export const CurrentPositionOptionsDefault: CurrentPositionOptions = {
     enableHighAccuracy: false,
     timeout: 1000,
     maximumAge: 0,
@@ -9,4 +9,8 @@ export const PositionOptionsDefault: PositionOptions = {
 
 export const ClearWatchOptionsDefault: ClearWatchOptions = {
     id: "-1"
+}
+
+export const WatchPositionOptionsDefault: WatchPositionOptions = {
+    ...CurrentPositionOptionsDefault, ...ClearWatchOptionsDefault
 }
