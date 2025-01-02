@@ -109,6 +109,7 @@ private extension GeolocationPlugin {
             .store(in: &cancellables)
 
         plugin?.currentLocationPublisher
+            .dropFirst()
             .sink { [weak self] position in
                 guard let self else { return }
 
