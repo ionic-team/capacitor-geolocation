@@ -49,21 +49,44 @@ final class OSGLOCManagerWrapperTests: XCTestCase {
         XCTAssertTrue(locationManager.didCallRequestAlwaysAuthorization)
     }
 
-    func test_locationManagerAuthorisationChangesToWhenInUse_authorisationStatusUpdatesToGranted() {
+    func test_locationManagerAuthorisationChangesToWhenInUse_authorisationStatusUpdatesToWhenInUse() {
         // Given
-        let expectedStatus = OSGLOCAuthorisation.granted
-        let expectation = expectation(description: "Authorisation status updated to 'granted'.")
+        let expectedStatus = OSGLOCAuthorisation.authorisedWhenInUse
+        let expectation = expectation(description: "Authorisation status updated to 'authorisedWhenInUse'.")
 
-        sut.authorisationStatusPublisher
-            .dropFirst()    // ignore the first value as it's the one set on the constructor.
-            .sink { status in
-                XCTAssertEqual(status, expectedStatus)
-                expectation.fulfill()
-            }
-            .store(in: &cancellables)
+        validateAuthorisationStatusPublisher(expectation, expectedStatus)
 
         // When
         locationManager.changeAuthorisation(to: .authorizedWhenInUse)
+
+        // Then
+        waitForExpectations(timeout: 1.0)
+    }
+
+    func test_locationManagerAuthorisationChangesToAlways_authorisationStatusUpdatesToAlways() {
+        // Given
+        let expectedStatus = OSGLOCAuthorisation.authorisedAlways
+        let expectation = expectation(description: "Authorisation status updated to 'authorisedAlways'.")
+
+        validateAuthorisationStatusPublisher(expectation, expectedStatus)
+
+        // When
+        locationManager.changeAuthorisation(to: .authorizedAlways)
+
+        // Then
+        waitForExpectations(timeout: 1.0)
+    }
+
+    func test_locationManagerAuthorisationChangesToWhenInUse_andThenToAlways_authorisationStatusUpdatesToAlways() {
+        // Given
+        locationManager.changeAuthorisation(to: .authorizedWhenInUse)
+
+        let expectedStatus = OSGLOCAuthorisation.authorisedAlways
+        let expectationAlways = expectation(description: "Authorisation status updated to 'authorisedAlways'.")
+        validateAuthorisationStatusPublisher(expectationAlways, expectedStatus)
+
+        // When
+        locationManager.changeAuthorisation(to: .authorizedAlways)
 
         // Then
         waitForExpectations(timeout: 1.0)
@@ -217,6 +240,23 @@ final class OSGLOCManagerWrapperTests: XCTestCase {
         waitForExpectations(timeout: 1.0)
     }
 
+    func test_locationIsUpdated_andThenAgain_locationManagerTriggersLatestPosition() {
+        // Given
+        let firstLocation = CLLocation(latitude: 37.7749, longitude: -122.4194)
+        locationManager.updateLocation(to: [firstLocation])
+
+        let expectedLocation = CLLocation(latitude: 48.8859, longitude: -111.3083)
+        let expectedPosition = OSGLOCPositionModel.create(from: expectedLocation)
+        let expectation = expectation(description: "Location updated.")
+        validateCurrentLocationPublisher(expectation, expectedPosition)
+
+        // When
+        locationManager.updateLocation(to: [expectedLocation])
+
+        // Then
+        waitForExpectations(timeout: 1.0)
+    }
+
     func test_locationIsMissing_locationManagerTriggersError() {
         // Given
         let noLocationData = [CLLocation]()
@@ -249,9 +289,22 @@ final class OSGLOCManagerWrapperTests: XCTestCase {
 private extension OSGLOCManagerWrapperTests {
     func validateCurrentLocationPublisher(_ expectation: XCTestExpectation, _ expectedPosition: OSGLOCPositionModel? = nil) {
         sut.currentLocationPublisher
-            .dropFirst()    // ignore the first value as it's the one set on the constructor.
-            .sink { newPosition in
+            .sink(receiveCompletion: { completion in
+                if expectedPosition == nil, case .failure = completion {
+                    expectation.fulfill()
+                }
+            }, receiveValue: { newPosition in
                 XCTAssertEqual(newPosition, expectedPosition)
+                expectation.fulfill()
+            })
+            .store(in: &cancellables)
+    }
+
+    func validateAuthorisationStatusPublisher(_ expectation: XCTestExpectation, _ expectedStatus: OSGLOCAuthorisation) {
+        sut.authorisationStatusPublisher
+            .dropFirst()    // ignore the first value as it's the one set on the constructor.
+            .sink { status in
+                XCTAssertEqual(status, expectedStatus)
                 expectation.fulfill()
             }
             .store(in: &cancellables)

@@ -11,9 +11,14 @@ public protocol OSGLOCAuthorisationHandler {
     func requestAuthorisation(withType authorisationType: OSGLOCAuthorisationRequestType)
 }
 
+public enum OSGLOCLocationError: Error {
+    case locationUnavailable
+    case other(_ error: Error)
+}
+
 public protocol OSGLOCLocationHandler {
     var currentLocation: OSGLOCPositionModel? { get }
-    var currentLocationPublisher: Published<OSGLOCPositionModel?>.Publisher { get }
+    var currentLocationPublisher: AnyPublisher<OSGLOCPositionModel, OSGLOCLocationError> { get }
 
     func updateConfiguration(_ configuration: OSGLOCConfigurationModel)
 }

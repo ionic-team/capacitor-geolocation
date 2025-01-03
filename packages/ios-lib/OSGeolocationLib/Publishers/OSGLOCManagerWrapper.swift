@@ -16,7 +16,16 @@ public class OSGLOCManagerWrapper: NSObject, OSGLOCService {
     public var authorisationStatusPublisher: Published<OSGLOCAuthorisation>.Publisher { $authorisationStatus }
 
     @Published public var currentLocation: OSGLOCPositionModel?
-    public var currentLocationPublisher: Published<OSGLOCPositionModel?>.Publisher { $currentLocation }
+    public var currentLocationPublisher: AnyPublisher<OSGLOCPositionModel, OSGLOCLocationError> {
+        $currentLocation
+            .dropFirst()    // ignore the first value as it's the one set on the constructor.
+            .tryMap { location in
+                guard let location else { throw OSGLOCLocationError.locationUnavailable }
+                return location
+            }
+            .mapError { $0 as? OSGLOCLocationError ?? .other($0) }
+            .eraseToAnyPublisher()
+    }
 
     private let locationManager: CLLocationManager
     private let servicesChecker: OSGLOCServicesChecker
