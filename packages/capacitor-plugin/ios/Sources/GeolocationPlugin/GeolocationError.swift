@@ -8,7 +8,6 @@ enum GeolocationError: Error {
     case locationServicesDisabled
     case permissionDenied
     case permissionRestricted
-//    case missingUsageDescription
     case positionUnavailable
     case inputArgumentsIssue(target: OSGeolocationMethod)
     case other(_ error: Error)
@@ -21,28 +20,26 @@ enum GeolocationError: Error {
 private extension GeolocationError {
     var code: Int {
         switch self {
-        case .locationServicesDisabled: 1
-        case .permissionDenied: 2
-        case .permissionRestricted: 3
-//        case .missingUsageDescription: 4
-        case .positionUnavailable: 5
+        case .positionUnavailable: 4
+        case .permissionDenied: 5
+        case .locationServicesDisabled: 11
+        case .permissionRestricted: 12
         case .inputArgumentsIssue(let target):
             switch target {
-            case .getCurrentPosition: 6
-            case .watchPosition: 7
-            case .clearWatch: 8
+            case .getCurrentPosition: 13
+            case .watchPosition: 14
+            case .clearWatch: 15
             }
-        case .other: 9
+        case .other: 16
         }
     }
 
     var description: String {
         switch self {
+        case .positionUnavailable: "There was en error trying to obtain the location."
+        case .permissionDenied: "Location permission request was denied."
         case .locationServicesDisabled: "Location services are not enabled."
-        case .permissionDenied: "Application's use of location services is denied."
-        case .permissionRestricted: "Application's use of location services is restricted."
-//        case .missingUsageDescription: "No NSLocationAlwaysUsageDescription nor NSLocationWhenInUseUsageDescription key is defined in the Info.plist file."
-        case .positionUnavailable: "Unable to retrieve a location value."
+        case .permissionRestricted: "Application's use of location services was restricted."
         case .inputArgumentsIssue(let target): "The '\(target.rawValue)' input parameters aren't valid."
         case .other(let error): "\(error.localizedDescription)"
         }
