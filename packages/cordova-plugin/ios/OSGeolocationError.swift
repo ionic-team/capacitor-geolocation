@@ -8,7 +8,7 @@ enum OSGeolocationError: Error {
     case locationServicesDisabled
     case permissionDenied
     case permissionRestricted
-    case missingUsageDescription
+//    case missingUsageDescription
     case positionUnavailable
     case inputArgumentsIssue(target: OSGeolocationMethod)
     case other(_ error: Error)
@@ -27,7 +27,7 @@ private extension OSGeolocationError {
         case .locationServicesDisabled: 1
         case .permissionDenied: 2
         case .permissionRestricted: 3
-        case .missingUsageDescription: 4
+//        case .missingUsageDescription: 4
         case .positionUnavailable: 5
         case .inputArgumentsIssue(let target):
             switch target {
@@ -44,7 +44,7 @@ private extension OSGeolocationError {
         case .locationServicesDisabled: "Location services are not enabled."
         case .permissionDenied: "Application's use of location services is denied."
         case .permissionRestricted: "Application's use of location services is restricted."
-        case .missingUsageDescription: "No NSLocationAlwaysUsageDescription nor NSLocationWhenInUseUsageDescription key is defined in the Info.plist file."
+//        case .missingUsageDescription: "No NSLocationAlwaysUsageDescription nor NSLocationWhenInUseUsageDescription key is defined in the Info.plist file."
         case .positionUnavailable: "Unable to retrieve a location value."
         case .inputArgumentsIssue(let target): "The '\(target.rawValue)' input parameters aren't valid."
         case .other(let error): "\(error.localizedDescription)"

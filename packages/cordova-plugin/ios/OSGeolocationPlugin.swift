@@ -51,15 +51,15 @@ final class OSGeolocation: CDVPlugin {
 private extension OSGeolocation {
     func setupBindings() {
         plugin?.authorisationStatusPublisher
-            .sink(receiveValue: { [weak self] status in
+            .sink { [weak self] status in
                 guard let self else { return }
 
                 do {
                     switch status {
                     case .denied: throw OSGeolocationError.permissionDenied
-                    case .notDetermined: self.requestLocationAuthorisation()
+                    case .notDetermined: self.requestLocationAuthorisation(type: .whenInUse)
                     case .restricted: throw OSGeolocationError.permissionRestricted
-                    case .granted: self.requestLocation()
+                    case .authorisedAlways, .authorisedWhenInUse: self.requestLocation()
                     @unknown default: break
                     }
                 } catch let error as OSGeolocationError {
@@ -67,41 +67,27 @@ private extension OSGeolocation {
                 } catch {
                     self.callbackManager?.sendError(.other(error))
                 }
-            })
+            }
             .store(in: &cancellables)
 
         plugin?.currentLocationPublisher
-            .dropFirst()
-            .sink { [weak self] position in
-                guard let self else { return }
-
-                if let position {
-                    self.sendCurrentPosition(position)
-                } else {
-                    self.handlePositionUnavailability()
+            .sink(receiveCompletion: { [weak self] completion in
+                if case .failure(let error) = completion {
+                    print("An error was found while retrieving the location: \(error)")
+                    self?.handlePositionUnavailability()
                 }
-            }
+            }, receiveValue: { [weak self] position in
+                self?.sendCurrentPosition(position)
+            })
             .store(in: &cancellables)
     }
 
-    func requestLocationAuthorisation() {
+    func requestLocationAuthorisation(type requestType: OSGLOCAuthorisationRequestType) {
         commandDelegate.run { [weak self] in
             guard let self else { return }
 
             guard plugin?.areLocationServicesEnabled() ?? false else {
                 self.callbackManager?.sendError(.locationServicesDisabled)
-                return
-            }
-
-            var requestType: OSGLOCAuthorisationRequestType?
-            if Bundle.main.object(forInfoDictionaryKey: Constants.LocationUsageDescription.whenInUse) != nil {
-                requestType = .whenInUse
-            } else if Bundle.main.object(forInfoDictionaryKey: Constants.LocationUsageDescription.always) != nil {
-                requestType = .always
-            }
-
-            guard let requestType else {
-                self.callbackManager?.sendError(.missingUsageDescription)
                 return
             }
             self.plugin?.requestAuthorisation(withType: requestType)
@@ -144,7 +130,7 @@ private extension OSGeolocation {
         }
 
         switch plugin?.authorisationStatus {
-        case .granted: requestLocation()
+        case .authorisedAlways, .authorisedWhenInUse: requestLocation()
         case .denied: callbackManager?.sendError(.permissionDenied)
         case .restricted: callbackManager?.sendError(.permissionRestricted)
         default: break

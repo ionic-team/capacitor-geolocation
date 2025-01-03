@@ -12,7 +12,8 @@ public enum OSGLOCAuthorisation {
   case notDetermined
   case restricted
   case denied
-  case granted
+  case authorisedAlways
+  case authorisedWhenInUse
   public static func == (a: OSGeolocationLib.OSGLOCAuthorisation, b: OSGeolocationLib.OSGLOCAuthorisation) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
@@ -91,7 +92,7 @@ public struct OSGLOCServicesValidator : OSGeolocationLib.OSGLOCServicesChecker {
     @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
     set
   }
-  public var currentLocationPublisher: Combine.Published<OSGeolocationLib.OSGLOCPositionModel?>.Publisher {
+  public var currentLocationPublisher: Combine.AnyPublisher<OSGeolocationLib.OSGLOCPositionModel, OSGeolocationLib.OSGLOCLocationError> {
     get
   }
   public init(locationManager: CoreLocation.CLLocationManager = .init(), servicesChecker: any OSGeolocationLib.OSGLOCServicesChecker = OSGLOCServicesValidator())
@@ -116,9 +117,13 @@ public protocol OSGLOCAuthorisationHandler {
   var authorisationStatusPublisher: Combine.Published<OSGeolocationLib.OSGLOCAuthorisation>.Publisher { get }
   func requestAuthorisation(withType authorisationType: OSGeolocationLib.OSGLOCAuthorisationRequestType)
 }
+public enum OSGLOCLocationError : Swift.Error {
+  case locationUnavailable
+  case other(_: any Swift.Error)
+}
 public protocol OSGLOCLocationHandler {
   var currentLocation: OSGeolocationLib.OSGLOCPositionModel? { get }
-  var currentLocationPublisher: Combine.Published<OSGeolocationLib.OSGLOCPositionModel?>.Publisher { get }
+  var currentLocationPublisher: Combine.AnyPublisher<OSGeolocationLib.OSGLOCPositionModel, OSGeolocationLib.OSGLOCLocationError> { get }
   func updateConfiguration(_ configuration: OSGeolocationLib.OSGLOCConfigurationModel)
 }
 public protocol OSGLOCSingleLocationHandler : OSGeolocationLib.OSGLOCLocationHandler {
