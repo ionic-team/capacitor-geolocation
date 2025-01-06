@@ -1,27 +1,27 @@
-import { ClearWatchOptions, OSGLOCPosition, PluginError, Position, CurrentPositionOptions, WatchPositionOptions } from "../../cordova-plugin/src/definitions";
-import { v4 as uuidv4 } from 'uuid';
+import { ClearWatchOptions, OSGLOCPosition, PluginError, Position, CurrentPositionOptions, WatchPositionOptions } from "../../cordova-plugin/src/definitions"
+import { v4 as uuidv4 } from 'uuid'
 
 class OSGeolocation {
     #lastPosition: Position | null = null
-    #timers: { [key: string]: ReturnType<typeof setTimeout> | undefined; } = {}
+    #timers: { [key: string]: ReturnType<typeof setTimeout> | undefined } = {}
 
     getCurrentPosition(success: (position: Position) => void, error: (err: PluginError | GeolocationPositionError) => void, options: CurrentPositionOptions): void {
         // @ts-ignore
         if (typeof (CapacitorUtils) === 'undefined') {
             // if we're not in synapse land, we call the good old bridge or web api 
             // (it's the same clobber)
-            navigator.geolocation.getCurrentPosition(success, error, options);
+            navigator.geolocation.getCurrentPosition(success, error, options)
             return
         }
 
-        let id = uuidv4();
-        let timeoutID: ReturnType<typeof setTimeout> | undefined;
+        let id = uuidv4()
+        let timeoutID: ReturnType<typeof setTimeout> | undefined
         const successCallback = (position: Position | OSGLOCPosition) => {
             if (typeof (this.#timers[id]) == 'undefined') {
                 // Timeout already happened, or native fired error callback for
                 // this geo request.
                 // Don't continue with success callback.
-                return;
+                return
             }
 
             if (this.#isLegacyPosition(position)) {
@@ -43,20 +43,20 @@ class OSGeolocation {
         // Check our cached position, if its timestamp difference with current time is less than the maximumAge, then just
         // fire the success callback with the cached position.
         if (this.#lastPosition && options.maximumAge && (((new Date()).getTime() - this.#lastPosition.timestamp) <= options.maximumAge)) {
-            success(this.#lastPosition);
+            success(this.#lastPosition)
             // If the cached position check failed and the timeout was set to 0, error out with a TIMEOUT error object.
         } else if (options.timeout === 0) {
             error({
                 code: 'OS-GLOC-0002',
                 message: "timeout value in CurrentPositionOptions set to 0 and no cached Position object available, or cached Position object's age exceeds provided CurrentPositionOptions' maximumAge parameter."
-            });
+            })
             // Otherwise we have to call into native to retrieve a position.
         } else {
             if (options.timeout !== Infinity) {
                 // If the timeout value was not set to Infinity (default), then
                 // set up a timeout function that will fire the error callback
                 // if no successful position was retrieved before timeout expired.
-                timeoutID = this.#createTimeout(errorCallback, options.timeout, false, id);
+                timeoutID = this.#createTimeout(errorCallback, options.timeout, false, id)
                 this.#timers[id] = timeoutID
             }
 
@@ -70,17 +70,17 @@ class OSGeolocation {
         if (typeof (CapacitorUtils) === 'undefined') {
             // if we're not in synapse land, we call the good old bridge or web api 
             // (it's the same clobber)
-            return navigator.geolocation.watchPosition(success, error, options);
+            return navigator.geolocation.watchPosition(success, error, options)
         }
 
-        let watchId = uuidv4();
-        let timeoutID: ReturnType<typeof setTimeout> | undefined;
+        let watchId = uuidv4()
+        let timeoutID: ReturnType<typeof setTimeout> | undefined
         const successCallback = (res: Position | OSGLOCPosition) => {
             if (typeof (this.#timers[watchId]) == 'undefined') {
                 // Timeout already happened, or native fired error callback for
                 // this geo request.
                 // Don't continue with success callback.
-                return;
+                return
             }
 
             if (this.#isLegacyPosition(res)) {
@@ -102,7 +102,7 @@ class OSGeolocation {
             // If the timeout value was not set to Infinity (default), then
             // set up a timeout function that will fire the error callback
             // if no successful position was retrieved before timeout expired.
-            timeoutID = this.#createTimeout(errorCallback, options.timeout, true, watchId);
+            timeoutID = this.#createTimeout(errorCallback, options.timeout, true, watchId)
             this.#timers[watchId] = timeoutID
         }
         options.id = watchId
@@ -115,19 +115,20 @@ class OSGeolocation {
     /**
     * Clears the specified heading watch.
     */
-    clearWatch(options: ClearWatchOptions): void {
+    clearWatch(options: ClearWatchOptions, success: () => void = () => { }, error: (error: PluginError | GeolocationPositionError) => void = () => { }): void {
         // @ts-ignore
         if (typeof (CapacitorUtils) === 'undefined') {
             // if we're not in synapse land, we call the good old bridge or web api 
             // (it's the same clobber)
             // @ts-ignore
-            navigator.geolocation.clearWatch(options.id);
+            navigator.geolocation.clearWatch(options.id)
+            return
         }
 
-        clearTimeout(this.#timers[options.id]);
-        delete this.#timers[options.id];
+        clearTimeout(this.#timers[options.id])
+        delete this.#timers[options.id]
         // @ts-ignore
-        CapacitorUtils.Synapse.OSGeolocation.clearWatch(options.id, null, null)
+        CapacitorUtils.Synapse.OSGeolocation.clearWatch(options, success, error)
     }
 
 
@@ -140,16 +141,17 @@ class OSGeolocation {
      * @returns the timeout's ID
      */
     #createTimeout(onError: (error: PluginError) => void, timeout: number | undefined, isWatch: boolean, id: string): ReturnType<typeof setTimeout> {
+
         let t = setTimeout(() => {
             if (isWatch === true) {
-                this.clearWatch({ id });
+                this.clearWatch({ id })
             }
             onError({
                 code: 'OS-GLOC-0001',
                 message: 'Position retrieval timed out.'
-            });
-        }, timeout);
-        return t;
+            })
+        }, timeout)
+        return t
     }
 
     /**
@@ -179,8 +181,8 @@ class OSGeolocation {
      * @returns true if the object contains the `velocity` property
      */
     #isLegacyPosition(position: Position | OSGLOCPosition): position is OSGLOCPosition {
-        return (position as OSGLOCPosition).velocity !== undefined;
+        return (position as OSGLOCPosition).velocity !== undefined
     }
 }
 
-export const OSGeolocationInstance = new OSGeolocation();
+export const OSGeolocationInstance = new OSGeolocation()

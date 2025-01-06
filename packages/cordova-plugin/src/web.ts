@@ -16,7 +16,7 @@ function getCurrentPosition(options: CurrentPositionOptions, success: (output: P
         accuracy: position.accuracy,
         heading: position.heading,
         speed: position.speed,
-        altitudeAccuracy: position.accuracy
+        altitudeAccuracy: position.altitudeAccuracy
       },
       timestamp: position.timestamp,
     }
@@ -37,7 +37,7 @@ function watchPosition(options: WatchPositionOptions, success: (output: Position
         accuracy: position.accuracy,
         heading: position.heading,
         speed: position.speed,
-        altitudeAccuracy: position.accuracy
+        altitudeAccuracy: position.altitudeAccuracy
       },
       timestamp: position.timestamp,
     }
@@ -46,10 +46,9 @@ function watchPosition(options: WatchPositionOptions, success: (output: Position
   exec(convertOnSuccess, error, 'OSGeolocation', 'watchPosition', [options]);
 }
 
-function clearWatch(options: ClearWatchOptions, success: (output: string) => void, error: (error: PluginError) => void): void {
+function clearWatch(options: ClearWatchOptions, success: () => void, error: (error: PluginError) => void): void {
   options = { ...ClearWatchOptionsDefault, ...options };
-
-  exec(success, error, 'OSGeolocation', 'clearWatch', [options]);
+  exec(success, error, "OSGeolocation", "clearWatch", [options]);
 }
 
 module.exports = {
