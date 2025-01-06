@@ -45,6 +45,8 @@ final class OSGeolocation: CDVPlugin {
         if (callbackManager?.watchCallbacks.isEmpty) ?? false {
             plugin?.stopMonitoringLocation()
         }
+
+        callbackManager?.sendSuccess(command.callbackId)
     }
 }
 
@@ -107,8 +109,8 @@ private extension OSGeolocation {
         }
     }
 
-    func sendCurrentPosition(_ position: OSGLOCPositionModel) {
-        callbackManager?.sendSuccess(position)
+    func sendCurrentPosition(_ currentPosition: OSGLOCPositionModel) {
+        callbackManager?.sendSuccess(with: currentPosition)
     }
 
     func createModel<T: Decodable>(for inputArgument: Any?) -> T? {

@@ -56,7 +56,12 @@ final class OSGeolocationCallbackManager {
         watchCallbacks.removeAll()
     }
 
-    func sendSuccess(_ position: OSGLOCPositionModel) {
+    func sendSuccess(_ callbackId: String) {
+        let result = CDVPluginResult(status: .ok)
+        commandDelegate.send(result, callbackId: callbackId)
+    }
+
+    func sendSuccess(with position: OSGLOCPositionModel) {
         createPluginResult(status: .ok, message: position.toResultDictionary())
     }
 
