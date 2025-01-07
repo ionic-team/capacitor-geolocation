@@ -54,7 +54,7 @@ steps:
       /usr/bin/mvn deploy:deploy-file \
       -DpomFile=/home/vsts/work/1/s/pom.xml \
       -DgeneratePom=true \
-      -Dfile=build/outputs/aar/PingDemoLib-Android-release.aar \
+      -Dfile=build/outputs/aar/OSGeolocationLib-Android-release.aar \
       -Dpackaging=aar \
       -DrepositoryId=PublicArtifactRepository \
       -Durl=https://pkgs.dev.azure.com/OutSystemsRD/9e79bc5b-69b2-4476-9ca5-d67594972a52/_packaging/PublicArtifactRepository/maven/v1

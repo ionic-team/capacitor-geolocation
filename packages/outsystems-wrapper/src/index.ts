@@ -47,8 +47,8 @@ class OSGeolocation {
             // If the cached position check failed and the timeout was set to 0, error out with a TIMEOUT error object.
         } else if (options.timeout === 0) {
             error({
-                code: 'OS-GLOC-0002',
-                message: "timeout value in CurrentPositionOptions set to 0 and no cached Position object available, or cached Position object's age exceeds provided CurrentPositionOptions' maximumAge parameter."
+                code: 'OS-PLUG-GLOC-0018',
+                message: " The Timeout value in CurrentPositionOptions is set to 0 and: (1) no cached Position object available, or (2) cached Position object's age exceeds provided CurrentPositionOptions' maximumAge parameter."
             })
             // Otherwise we have to call into native to retrieve a position.
         } else {
@@ -147,7 +147,7 @@ class OSGeolocation {
                 this.clearWatch({ id })
             }
             onError({
-                code: 'OS-GLOC-0001',
+                code: 'OS-PLUG-GLOC-0017',
                 message: 'Position retrieval timed out.'
             })
         }, timeout)
