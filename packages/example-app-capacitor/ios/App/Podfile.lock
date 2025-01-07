@@ -4,17 +4,17 @@ PODS:
   - CapacitorCamera (6.1.2):
     - Capacitor
   - CapacitorCordova (6.2.0)
-  - CapacitorSplashScreen (6.0.3):
+  - CapacitorGeolocation (0.0.1):
     - Capacitor
-  - GeolocationPlugin (0.0.1):
+  - CapacitorSplashScreen (6.0.3):
     - Capacitor
 
 DEPENDENCIES:
   - "Capacitor (from `../../../../node_modules/.pnpm/@capacitor+ios@6.2.0_@capacitor+core@6.2.0/node_modules/@capacitor/ios`)"
   - "CapacitorCamera (from `../../../../node_modules/.pnpm/@capacitor+camera@6.1.2_@capacitor+core@6.2.0/node_modules/@capacitor/camera`)"
   - "CapacitorCordova (from `../../../../node_modules/.pnpm/@capacitor+ios@6.2.0_@capacitor+core@6.2.0/node_modules/@capacitor/ios`)"
+  - CapacitorGeolocation (from `../../../capacitor-plugin`)
   - "CapacitorSplashScreen (from `../../../../node_modules/.pnpm/@capacitor+splash-screen@6.0.3_@capacitor+core@6.2.0/node_modules/@capacitor/splash-screen`)"
-  - GeolocationPlugin (from `../../../capacitor-plugin`)
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -23,18 +23,18 @@ EXTERNAL SOURCES:
     :path: "../../../../node_modules/.pnpm/@capacitor+camera@6.1.2_@capacitor+core@6.2.0/node_modules/@capacitor/camera"
   CapacitorCordova:
     :path: "../../../../node_modules/.pnpm/@capacitor+ios@6.2.0_@capacitor+core@6.2.0/node_modules/@capacitor/ios"
+  CapacitorGeolocation:
+    :path: "../../../capacitor-plugin"
   CapacitorSplashScreen:
     :path: "../../../../node_modules/.pnpm/@capacitor+splash-screen@6.0.3_@capacitor+core@6.2.0/node_modules/@capacitor/splash-screen"
-  GeolocationPlugin:
-    :path: "../../../capacitor-plugin"
 
 SPEC CHECKSUMS:
   Capacitor: 1f3c7b9802d958cd8c4eb63895fff85dff2e1eea
   CapacitorCamera: 9052bd3f464f135ba983feccd8ac1266272f0549
   CapacitorCordova: b33e7f4aa4ed105dd43283acdd940964374a87d9
+  CapacitorGeolocation: 2faa44212989076c74a2e428170dc8e1e32f4cfa
   CapacitorSplashScreen: 68893659d77b5f82d753b3a70475082845e3039c
-  GeolocationPlugin: 0e57ddb67c1d274f140c27acde013d60750fbcf4
 
-PODFILE CHECKSUM: a71a349683b6e7040f5367abcba8bcc9e93b14d8
+PODFILE CHECKSUM: 347a424b60c24f0b77ec1b82d7395c505e6c8ee8
 
 COCOAPODS: 1.15.2
