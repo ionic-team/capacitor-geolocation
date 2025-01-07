@@ -1,5 +1,5 @@
 import { SplashScreen } from '@capacitor/splash-screen';
-import { GeolocationPlugin } from 'geolocation';
+import { GeolocationPlugin } from 'capacitor-geolocation';
 
 window.customElements.define(
   'capacitor-welcome',
@@ -24,10 +24,10 @@ window.customElements.define(
       }
       .button {
         display: inline-block;
-        padding: 16px;
+        padding: 10px;
         background-color: #73B5F6;
         color: #fff;
-        font-size: 1.1em;
+        font-size: 0.9em;
         border: 0;
         border-radius: 3px;
         text-decoration: none;
@@ -57,31 +57,12 @@ window.customElements.define(
     </style>
     <div>
       <capacitor-welcome-titlebar>
-        <h1>Capacitor Geolocation Example App</h1>
+        <h1>Capacitor</h1>
       </capacitor-welcome-titlebar>
       <main>
-        <p>Below are the several features for the capacitor geolocation plugin. You may be prompted to grant location permission to the application.</p>
-        <button id="check-permission" class="button">Check permission</button>
-        <button id="request-permission" class="button">Request permission</button>
-        <br><br>
-        <button id="current-location" class="button">Get Current (single) position</button>
-        <br><br>
-        <button id="watch-location" class="button">Watch position (updates)</button>
-        <br><br>
-
-        <!-- List to hold watch IDs -->
-        <div id="watch-ids-container">
-          <h2>Active watches (click one to stop receiving updates):</h2>
-          <ul id="watch-id-list"></ul>
-        </div>
-
-        <br>
-
-        <div id="watch-position-updates-container">
-          <h2>Position updates are shown below:</h2>
-          <button id="clear-position-updates" class="button">Clear list</button>
-          <ul id="watch-position-updates-list"></ul>
-        </div>
+        <h1>Welcome to Capacitor!</h1>
+        <button id="run-test" class="button">Test</button>
+        <textarea id="output" style="width: 100%; height: 200px;"></textarea>
       </main>
     </div>
     `;
@@ -90,122 +71,13 @@ window.customElements.define(
     connectedCallback() {
       const self = this;
 
-      self.shadowRoot.querySelector('#check-permission').addEventListener('click', async function (e) {
-        // TODO fix usage with Synapse
-        //const permissionStatus = await window.CapacitorUtils.Synapse.GeolocationPlugin.checkPermissions();
-        const permissionStatus = await GeolocationPlugin.checkPermissions();
-        alert(`Permissions are:\nlocation = ${permissionStatus.location}`)
+      self.shadowRoot.querySelector('#run-test').addEventListener('click', async function (e) {
+        window.CapacitorUtils.Synapse.GeolocationPlugin.ping(
+          { value: "hello" },
+          (val) => { console.log(val) },
+          (err) => { console.error(err) }
+        );
       });
-      self.shadowRoot.querySelector('#request-permission').addEventListener('click', async function (e) {
-        // TODO fix usage with Synapse
-        //const permissionStatus = await window.CapacitorUtils.Synapse.GeolocationPlugin.requestPermissions();
-        const permissionStatus = await GeolocationPlugin.requestPermissions();
-        alert(`Permissions are:\nlocation = ${permissionStatus.location}`)
-      });
-
-      self.shadowRoot.querySelector('#current-location').addEventListener('click', async function (e) {
-        try {
-          // TODO fix usage with Synapse
-          /*let currentLocation = await window.CapacitorUtils.Synapse.GeolocationPlugin.getCurrentPosition(
-            { enableHighAccuracy: true }
-          );*/
-          let currentLocation = await GeolocationPlugin.getCurrentPosition(
-            { enableHighAccuracy: true }
-          );
-          const locationString = locationToString(currentLocation, '')
-          alert(locationString)
-        } catch (exception) {
-          alert(`Error getting current position:\n\t code=${exception.code}\n\t message=\"${exception.message}\"`)
-        }
-      });
-
-      self.shadowRoot.querySelector('#watch-location').addEventListener('click', async function (e) {
-        var watchId = ""
-        try {
-          var shouldAppendWatchId = true
-          // TODO fix usage with Synapse
-          //let watchId = await window.CapacitorUtils.Synapse.GeolocationPlugin.watchPosition(
-          watchId = await GeolocationPlugin.watchPosition(
-            { enableHighAccuracy: true },
-            (position, err) => {
-              if (err) {
-                alert(`Error getting current position:\n\t code=${err.code}\n\t message=\"${err.message}\"`)
-              } else {
-                const locationString = locationToString(position, watchId)
-                if (shouldAppendWatchId && watchId) {
-                  shouldAppendWatchId = false
-                  onWatchAdded(watchId);
-                }
-                const positionUpdatesList = self.shadowRoot.querySelector('#watch-position-updates-list');
-                const newListItem = document.createElement('li');
-                newListItem.textContent = locationString;
-                 // 'pre-wrap' to make \n's count as line breaks
-                newListItem.style.whiteSpace = 'pre-wrap'; 
-                newListItem.style.padding = '10px';
-                newListItem.style.borderBottom = '1px solid #ddd';
-                // add to top of list
-                if (positionUpdatesList.firstChild) {
-                  positionUpdatesList.insertBefore(newListItem, positionUpdatesList.firstChild);
-                } else {
-                  positionUpdatesList.appendChild(newListItem);
-                }
-                console.log(locationString)
-              }
-            },
-          );
-        } catch (exception) {
-          alert(`Error getting current position:\n\t code=${exception.code}\n\t message=\"${exception.message}\"`)
-        }
-      });
-
-      self.shadowRoot.querySelector('#clear-position-updates').addEventListener('click', () => {
-        const wacthesList = self.shadowRoot.querySelector('#watch-position-updates-list');
-        wacthesList.innerHTML = '';
-      });
-
-      function onWatchAdded(watchId) {
-        // Append the watchId as a button to the list
-        const watchIdListElement = self.shadowRoot.querySelector('#watch-id-list');
-        const newListItem = document.createElement('li');
-        const watchIdButton = document.createElement('button');
-        watchIdButton.textContent = `Watch ID: ${watchId}`;
-        watchIdButton.classList.add('watch-id-button');
-        watchIdButton.style.cursor = 'pointer';
-
-        watchIdButton.addEventListener('click',  async function (e) {
-          // for simplicity, watch is already removed visually, regardless of clearWatch result
-          newListItem.remove();
-          // TODO fix usage with Synapse
-          //await window.CapacitorUtils.Synapse.GeolocationPlugin.clearWatch({id: watchId});
-          await GeolocationPlugin.clearWatch({id: watchId});
-        });
-
-        newListItem.appendChild(watchIdButton);
-        watchIdListElement.appendChild(newListItem);
-      }
-
-      function locationToString(location, watchId) {
-        if (location == null || location == undefined) {
-          return ""
-        }
-        var stringRepresentation = 'Position'
-        if (watchId) {
-          stringRepresentation += ` for watch ${watchId}:\n`
-        } else {
-          stringRepresentation += ':\n'
-        }
-        const timeRepresentation = location.timestamp ? new Date(location.timestamp).toISOString() : '-'
-        stringRepresentation += `- Time: ${timeRepresentation}\n`
-        stringRepresentation += `- Latitute: ${location?.coords.latitude}\n- Longitude: ${location?.coords.longitude}\n`
-        if (location?.coords.altitude || location?.coords.heading) {
-          stringRepresentation += `- Altitude: ${location?.coords.altitude}\n- Heading: ${location?.coords.heading}\n`
-        }
-        stringRepresentation += `- Accuracy: ${location?.coords.accuracy}\n`
-        if (location?.coords.altitudeAccuracy) {
-          stringRepresentation += `- Altitude accuracy: ${location?.coords.altitudeAccuracy}\n`
-        }
-        return stringRepresentation
-      }
     }
   }
 );

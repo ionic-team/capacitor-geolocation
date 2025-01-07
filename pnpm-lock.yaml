@@ -125,9 +125,6 @@ importers:
         specifier: latest
         version: 6.0.3(@capacitor/core@6.2.0)
       capacitor-geolocation:
-        specifier: link:/Users/rcj/Documents/Projects/outsystems-geolocation/packages/capacitor-plugin
-        version: link:../capacitor-plugin
-      geolocation:
         specifier: file:../capacitor-plugin
         version: link:../capacitor-plugin
     devDependencies:
