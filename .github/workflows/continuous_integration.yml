@@ -29,3 +29,24 @@ jobs:
       - name: 'Verify iOS + Android + Web'
         working-directory: ./packages/capacitor-plugin
         run: npm run verify
+
+  check-example-app:
+    needs: ['verify-plugin']
+    runs-on: 'macos-15'
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Setup Tools'
+        uses: ./.github/actions/setup-tools
+      - name: 'Build plugin'
+        working-directory: ./packages/capacitor-plugin
+        run: npm run build
+      - name: 'Install example app dependencies'
+        working-directory: ./packages/example-app-capacitor
+        run: npm i
+      - name: 'Build example app'
+        working-directory: ./packages/example-app-capacitor
+        run: npm run build
+      - name: 'Sync example app platforms'
+        working-directory: ./packages/example-app-capacitor
+        run: npx cap sync --deployment
