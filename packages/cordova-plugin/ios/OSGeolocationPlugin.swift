@@ -3,12 +3,12 @@ import Combine
 
 @objc(OSGeolocation)
 final class OSGeolocation: CDVPlugin {
-    private var plugin: (any OSGLOCService)?
+    private var locationService: (any OSGLOCService)?
     private var cancellables = Set<AnyCancellable>()
     private var callbackManager: OSGeolocationCallbackManager?
 
     override func pluginInitialize() {
-        self.plugin = OSGLOCManagerWrapper()
+        self.locationService = OSGLOCManagerWrapper()
         self.callbackManager = .init(commandDelegate: commandDelegate)
         setupBindings()
     }
@@ -43,7 +43,7 @@ final class OSGeolocation: CDVPlugin {
         callbackManager?.clearWatchCallbackIfExists(config.id)
 
         if (callbackManager?.watchCallbacks.isEmpty) ?? false {
-            plugin?.stopMonitoringLocation()
+            locationService?.stopMonitoringLocation()
         }
 
         callbackManager?.sendSuccess(command.callbackId)
@@ -52,7 +52,7 @@ final class OSGeolocation: CDVPlugin {
 
 private extension OSGeolocation {
     func setupBindings() {
-        plugin?.authorisationStatusPublisher
+        locationService?.authorisationStatusPublisher
             .sink { [weak self] status in
                 guard let self else { return }
 
@@ -70,7 +70,7 @@ private extension OSGeolocation {
             }
             .store(in: &cancellables)
 
-        plugin?.currentLocationPublisher
+        locationService?.currentLocationPublisher
             .sink(receiveCompletion: { [weak self] completion in
                 if case .failure(let error) = completion {
                     print("An error was found while retrieving the location: \(error)")
@@ -86,11 +86,11 @@ private extension OSGeolocation {
         commandDelegate.run { [weak self] in
             guard let self else { return }
 
-            guard plugin?.areLocationServicesEnabled() ?? false else {
+            guard locationService?.areLocationServicesEnabled() ?? false else {
                 self.callbackManager?.sendError(.locationServicesDisabled)
                 return
             }
-            self.plugin?.requestAuthorisation(withType: requestType)
+            self.locationService?.requestAuthorisation(withType: requestType)
         }
     }
 
@@ -100,10 +100,10 @@ private extension OSGeolocation {
         let shouldRequestLocationMonitoring = callbackManager?.watchCallbacks.isEmpty == false
 
         if shouldRequestCurrentPosition {
-            plugin?.requestSingleLocation()
+            locationService?.requestSingleLocation()
         }
         if shouldRequestLocationMonitoring {
-            plugin?.startMonitoringLocation()
+            locationService?.startMonitoringLocation()
         }
     }
 
@@ -117,7 +117,7 @@ private extension OSGeolocation {
 
     func handleLocationRequest(_ enableHighAccuracy: Bool, watchUUID: String? = nil, _ callbackId: String) {
         let configurationModel = OSGLOCConfigurationModel.createWithAccuracy(enableHighAccuracy)
-        plugin?.updateConfiguration(configurationModel)
+        locationService?.updateConfiguration(configurationModel)
 
         if let watchUUID {
             callbackManager?.addWatchCallback(watchUUID, callbackId)
@@ -125,7 +125,7 @@ private extension OSGeolocation {
             callbackManager?.addLocationCallback(callbackId)
         }
 
-        switch plugin?.authorisationStatus {
+        switch locationService?.authorisationStatus {
         case .authorisedAlways, .authorisedWhenInUse: requestLocation()
         case .denied: callbackManager?.sendError(.permissionDenied)
         case .restricted: callbackManager?.sendError(.permissionRestricted)

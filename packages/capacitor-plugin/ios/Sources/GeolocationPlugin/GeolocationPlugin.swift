@@ -15,13 +15,13 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         .init(name: "requestPermissions", returnType: CAPPluginReturnPromise)
     ]
 
-    private var plugin: (any OSGLOCService)?
+    private var locationService: (any OSGLOCService)?
     private var cancellables = Set<AnyCancellable>()
     private var callbackManager: GeolocationCallbackManager?
     private var isInitialised: Bool = false
 
     public override func load() {
-        self.plugin = OSGLOCManagerWrapper()
+        self.locationService = OSGLOCManagerWrapper()
         self.callbackManager = .init(capacitorBridge: bridge)
     }
 
@@ -47,7 +47,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         callbackManager?.clearWatchCallbackIfExists(callbackId)
 
         if (callbackManager?.watchCallbacks.isEmpty) ?? false {
-            plugin?.stopMonitoringLocation()
+            locationService?.stopMonitoringLocation()
         }
 
         callbackManager?.sendSuccess(call)
@@ -56,7 +56,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     public override func checkPermissions(_ call: CAPPluginCall) {
         checkIfLocationServicesAreEnabled()
 
-        let status = switch plugin?.authorisationStatus {
+        let status = switch locationService?.authorisationStatus {
         case .restricted, .denied: Constants.AuthorisationStatus.Status.denied
         case .authorisedAlways, .authorisedWhenInUse: Constants.AuthorisationStatus.Status.granted
         default: Constants.AuthorisationStatus.Status.prompt
@@ -72,7 +72,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     public override func requestPermissions(_ call: CAPPluginCall) {
         checkIfLocationServicesAreEnabled()
 
-        if plugin?.authorisationStatus == .notDetermined {
+        if locationService?.authorisationStatus == .notDetermined {
             shouldSetupBindings()
         } else {
             checkPermissions(call)
@@ -88,7 +88,7 @@ private extension GeolocationPlugin {
     }
 
     func setupBindings() {
-        plugin?.authorisationStatusPublisher
+        locationService?.authorisationStatusPublisher
             .sink(receiveValue: { [weak self] status in
                 guard let self else { return }
 
@@ -106,7 +106,7 @@ private extension GeolocationPlugin {
             })
             .store(in: &cancellables)
 
-        plugin?.currentLocationPublisher
+        locationService?.currentLocationPublisher
             .sink(receiveCompletion: { [weak self] completion in
                 if case .failure(let error) = completion {
                     print("An error was found while retrieving the location: \(error)")
@@ -121,12 +121,12 @@ private extension GeolocationPlugin {
     func requestLocationAuthorisation(type requestType: OSGLOCAuthorisationRequestType) {
         DispatchQueue.global(qos: .background).async {
             self.checkIfLocationServicesAreEnabled()
-            self.plugin?.requestAuthorisation(withType: requestType)
+            self.locationService?.requestAuthorisation(withType: requestType)
         }
     }
 
     func checkIfLocationServicesAreEnabled() {
-        guard plugin?.areLocationServicesEnabled() ?? false else {
+        guard locationService?.areLocationServicesEnabled() ?? false else {
             callbackManager?.sendError(.locationServicesDisabled)
             return
         }
@@ -138,16 +138,16 @@ private extension GeolocationPlugin {
         let shouldRequestLocationMonitoring = callbackManager?.watchCallbacks.isEmpty == false
 
         if shouldRequestCurrentPosition {
-            plugin?.requestSingleLocation()
+            locationService?.requestSingleLocation()
         }
         if shouldRequestLocationMonitoring {
-            plugin?.startMonitoringLocation()
+            locationService?.startMonitoringLocation()
         }
     }
 
     func handleLocationRequest(_ enableHighAccuracy: Bool, watchUUID: String? = nil, call: CAPPluginCall) {
         let configurationModel = OSGLOCConfigurationModel(enableHighAccuracy: enableHighAccuracy)
-        plugin?.updateConfiguration(configurationModel)
+        locationService?.updateConfiguration(configurationModel)
 
         if let watchUUID {
             callbackManager?.addWatchCallback(watchUUID, capacitorCall: call)
@@ -155,7 +155,7 @@ private extension GeolocationPlugin {
             callbackManager?.addLocationCallback(capacitorCall: call)
         }
 
-        switch plugin?.authorisationStatus {
+        switch locationService?.authorisationStatus {
         case .authorisedAlways, .authorisedWhenInUse: requestLocation()
         case .denied: callbackManager?.sendError(.permissionDenied)
         case .restricted: callbackManager?.sendError(.permissionRestricted)
