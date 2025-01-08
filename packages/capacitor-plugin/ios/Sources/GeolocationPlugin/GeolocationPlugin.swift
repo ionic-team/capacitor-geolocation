@@ -92,18 +92,16 @@ private extension GeolocationPlugin {
             .sink(receiveValue: { [weak self] status in
                 guard let self else { return }
 
-                do {
-                    switch status {
-                    case .denied: throw GeolocationError.permissionDenied
-                    case .notDetermined: self.requestLocationAuthorisation(type: .whenInUse)
-                    case .restricted: throw GeolocationError.permissionRestricted
-                    case .authorisedAlways, .authorisedWhenInUse: self.requestLocation()
-                    @unknown default: break
-                    }
-                } catch let error as GeolocationError {
-                    self.callbackManager?.sendError(error)
-                } catch {
-                    self.callbackManager?.sendError(.other(error))
+                switch status {
+                case .denied:
+                    self.callbackManager?.sendError(.permissionDenied)
+                case .notDetermined:
+                    self.requestLocationAuthorisation(type: .whenInUse)
+                case .restricted:
+                    self.callbackManager?.sendError(.permissionRestricted)
+                case .authorisedAlways, .authorisedWhenInUse:
+                    self.requestLocation()
+                @unknown default: break
                 }
             })
             .store(in: &cancellables)
