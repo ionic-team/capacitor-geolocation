@@ -1,15 +1,22 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { CallbackID, IGeolocationPlugin, PermissionStatus, Position, PositionOptions, WatchPositionCallback } from './definitions';
+import type {
+  CallbackID,
+  IGeolocationPlugin,
+  PermissionStatus,
+  Position,
+  PositionOptions,
+  WatchPositionCallback,
+} from './definitions';
 
 export class GeolocationPluginWeb extends WebPlugin implements IGeolocationPlugin {
   async getCurrentPosition(options?: PositionOptions): Promise<Position> {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
-        pos => {
+        (pos) => {
           resolve(pos);
         },
-        err => {
+        (err) => {
           reject(err);
         },
         {
@@ -24,10 +31,10 @@ export class GeolocationPluginWeb extends WebPlugin implements IGeolocationPlugi
 
   async watchPosition(options: PositionOptions, callback: WatchPositionCallback): Promise<CallbackID> {
     const id = navigator.geolocation.watchPosition(
-      pos => {
+      (pos) => {
         callback(pos);
       },
-      err => {
+      (err) => {
         callback(null, err);
       },
 
