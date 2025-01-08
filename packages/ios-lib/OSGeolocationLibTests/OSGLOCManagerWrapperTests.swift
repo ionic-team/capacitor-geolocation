@@ -9,23 +9,25 @@ final class OSGLOCManagerWrapperTests: XCTestCase {
 
     private var locationManager: MockCLLocationManager!
     private var servicesChecker: MockServicesChecker!
-    private var cancellables = Set<AnyCancellable>()
+    private var cancellables: Set<AnyCancellable>!
 
     override func setUp() {
         super.setUp()
         locationManager = MockCLLocationManager()
         servicesChecker = MockServicesChecker()
+        cancellables = .init()
         sut = .init(locationManager: locationManager, servicesChecker: servicesChecker)
     }
 
     override func tearDown() {
         sut = nil
+        cancellables = nil
         servicesChecker = nil
         locationManager = nil
         super.tearDown()
     }
 
-    // MARK: - 'requestAuthorisation'  tests
+    // MARK: - 'requestAuthorisation' tests
 
     func test_requestWhenInUseAuthorisation_triggersALocationManagerWhenInUseAuthorizationRequest() {
         // Given
