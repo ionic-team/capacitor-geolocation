@@ -61,18 +61,6 @@ final class GeolocationCallbackManager {
         locationCallbacks.removeAll()
     }
 
-    func clearWatchCallbacks() {
-        watchCallbacks.forEach {
-            capacitorBridge?.releaseCall($0.value)
-        }
-        watchCallbacks.removeAll()
-    }
-
-    func clearAllCallbacks() {
-        clearLocationCallbacks()
-        clearWatchCallbacks()
-    }
-
     func sendSuccess(_ call: CAPPluginCall) {
         call.resolve()
     }
@@ -107,12 +95,11 @@ private extension GeolocationCallbackManager {
 
     func send(_ callResultStatus: CallResultStatus, to group: GeolocationCallbackGroup) {
         group.ids.forEach { call in
+            call.keepAlive = group.type.shouldKeepCallback
             switch callResultStatus {
             case .success(let data):
-                call.keepAlive = group.type.shouldKeepCallback
                 call.resolve(data)
             case .error(let error):
-                call.keepAlive = false
                 call.reject(error.message, error.code)
             }
         }

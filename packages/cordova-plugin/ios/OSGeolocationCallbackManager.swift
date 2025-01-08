@@ -51,11 +51,6 @@ final class OSGeolocationCallbackManager {
         }
     }
 
-    func clearAllCallbacks() {
-        locationCallbacks.removeAll()
-        watchCallbacks.removeAll()
-    }
-
     func sendSuccess(_ callbackId: String) {
         let result = CDVPluginResult(status: .ok)
         commandDelegate.send(result, callbackId: callbackId)
@@ -80,7 +75,7 @@ private extension OSGeolocationCallbackManager {
     }
 
     func configureResult(_ result: CDVPluginResult, for type: OSGeolocationCallbackType) -> CDVPluginResult {
-        result.keepCallback = NSNumber(booleanLiteral: type.shouldKeepCallback && result.status.intValue == CDVCommandStatus.ok.rawValue)
+        result.keepCallback = NSNumber(booleanLiteral: type.shouldKeepCallback)
         return result
     }
 

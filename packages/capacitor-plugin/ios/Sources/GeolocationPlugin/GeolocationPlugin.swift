@@ -112,10 +112,10 @@ private extension GeolocationPlugin {
             .sink(receiveCompletion: { [weak self] completion in
                 if case .failure(let error) = completion {
                     print("An error was found while retrieving the location: \(error)")
-                    self?.handlePositionUnavailability()
+                    self?.callbackManager?.sendError(.positionUnavailable)
                 }
             }, receiveValue: { [weak self] position in
-                self?.sendCurrentPosition(position)
+                self?.callbackManager?.sendSuccess(with: position)
             })
             .store(in: &cancellables)
     }
@@ -147,10 +147,6 @@ private extension GeolocationPlugin {
         }
     }
 
-    func sendCurrentPosition(_ position: OSGLOCPositionModel) {
-        callbackManager?.sendSuccess(with: position)
-    }
-
     func handleLocationRequest(_ enableHighAccuracy: Bool, watchUUID: String? = nil, call: CAPPluginCall) {
         let configurationModel = OSGLOCConfigurationModel(enableHighAccuracy: enableHighAccuracy)
         plugin?.updateConfiguration(configurationModel)
@@ -167,11 +163,5 @@ private extension GeolocationPlugin {
         case .restricted: callbackManager?.sendError(.permissionRestricted)
         default: break
         }
-    }
-
-    func handlePositionUnavailability() {
-        callbackManager?.sendError(.positionUnavailable)
-        callbackManager?.clearAllCallbacks()
-        plugin?.stopMonitoringLocation()
     }
 }

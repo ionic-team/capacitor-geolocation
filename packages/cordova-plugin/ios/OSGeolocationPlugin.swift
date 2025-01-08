@@ -76,10 +76,10 @@ private extension OSGeolocation {
             .sink(receiveCompletion: { [weak self] completion in
                 if case .failure(let error) = completion {
                     print("An error was found while retrieving the location: \(error)")
-                    self?.handlePositionUnavailability()
+                    self?.callbackManager?.sendError(.positionUnavailable)
                 }
-            }, receiveValue: { [weak self] position in
-                self?.sendCurrentPosition(position)
+            }, receiveValue: { [weak self] currentPosition in
+                self?.callbackManager?.sendSuccess(with: currentPosition)
             })
             .store(in: &cancellables)
     }
@@ -109,10 +109,6 @@ private extension OSGeolocation {
         }
     }
 
-    func sendCurrentPosition(_ currentPosition: OSGLOCPositionModel) {
-        callbackManager?.sendSuccess(with: currentPosition)
-    }
-
     func createModel<T: Decodable>(for inputArgument: Any?) -> T? {
         guard let argumentsDictionary = inputArgument as? [String: Any],
               let argumentsData = try? JSONSerialization.data(withJSONObject: argumentsDictionary),
@@ -137,11 +133,5 @@ private extension OSGeolocation {
         case .restricted: callbackManager?.sendError(.permissionRestricted)
         default: break
         }
-    }
-
-    func handlePositionUnavailability() {
-        callbackManager?.sendError(.positionUnavailable)
-        callbackManager?.clearAllCallbacks()
-        plugin?.stopMonitoringLocation()
     }
 }
