@@ -2,9 +2,6 @@ name: "Build Plugin"
 
 on: 
   workflow_call:
-    secrets:
-      THE_GH_RELEASE_TOKEN:
-        required: true
 
 jobs:
   build:
