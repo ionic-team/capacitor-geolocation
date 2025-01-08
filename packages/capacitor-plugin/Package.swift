@@ -2,11 +2,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "GeolocationPlugin",
+    name: "GeolocationCapacitor",
     platforms: [.iOS(.v13)],
     products: [
         .library(
-            name: "GeolocationPlugin",
+            name: "GeolocationCapacitor",
             targets: ["GeolocationPlugin"])
     ],
     dependencies: [
@@ -23,6 +23,6 @@ let package = Package(
         .testTarget(
             name: "GeolocationPluginTests",
             dependencies: ["GeolocationPlugin"],
-            path: "ios/Tests/GeolocationPluginTests")
+            path: "ios/Tests/GeolocationTests")
     ]
 )
