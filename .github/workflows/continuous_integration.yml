@@ -1,8 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches: [ main, development, feat/RMET-3980/capacitor-ci ]
   pull_request:
     types: [opened, synchronize, reopened]
 
