@@ -6,7 +6,7 @@ import Combine
 @objc(GeolocationPlugin)
 public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "GeolocationPlugin"
-    public let jsName = "GeolocationPlugin"
+    public let jsName = "Geolocation"
     public let pluginMethods: [CAPPluginMethod] = [
         .init(name: "getCurrentPosition", returnType: CAPPluginReturnPromise),
         .init(name: "watchPosition", returnType: CAPPluginReturnCallback),

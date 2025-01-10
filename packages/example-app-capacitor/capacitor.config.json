@@ -1,6 +1,6 @@
 {
-  "appId": "com.outsystems.exampleucapp.capacitor",
-  "appName": "ExampleUCApp",
+  "appId": "com.outsystems.exampleucapp.capacitor.plugins.geolocation",
+  "appName": "OSGLOC Sample",
   "bundledWebRuntime": false,
   "webDir": "dist",
   "plugins": {

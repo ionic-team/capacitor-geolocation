@@ -17,9 +17,7 @@ allprojects {
 }
 
 dependencies{
-    //implementation project(':osgeolocationlib')
-
-    implementation (files("libs/android-lib-debug.aar"))
+    implementation("io.ionic.libs:osgeolocation-android:0.0.1")
 
     implementation("androidx.browser:browser:1.8.0")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
@@ -40,13 +38,6 @@ dependencies{
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
     implementation 'com.google.code.gson:gson:2.10.1'
 }
-
-/*
-project(':osgeolocationlib') {
-    projectDir = file('../../../android-lib')
-}
- */
-
 
 android {
     buildTypes {

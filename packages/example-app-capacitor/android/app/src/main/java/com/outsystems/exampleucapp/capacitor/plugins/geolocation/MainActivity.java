@@ -1,4 +1,4 @@
-package com.outsystems.exampleucapp.capacitor;
+package com.outsystems.exampleucapp.capacitor.plugins.geolocation;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -22,7 +22,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 @CapacitorPlugin(
-    name = "GeolocationPlugin",
+    name = "Geolocation",
     permissions = [Permission(
         strings = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION],
         alias = GeolocationPlugin.LOCATION_ALIAS
