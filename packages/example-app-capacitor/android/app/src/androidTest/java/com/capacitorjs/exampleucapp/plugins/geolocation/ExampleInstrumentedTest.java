@@ -1,4 +1,4 @@
-package com.getcapacitor.android;
+package com.capacitorjs.exampleucapp.plugins.geolocation;
 
 import static org.junit.Assert.*;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.getcapacitor.android", appContext.getPackageName());
+        assertEquals("com.capacitorjs.exampleucapp.plugins.geolocation", appContext.getPackageName());
     }
 }

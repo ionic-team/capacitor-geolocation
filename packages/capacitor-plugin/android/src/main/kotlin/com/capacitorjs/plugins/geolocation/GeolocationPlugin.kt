@@ -1,4 +1,4 @@
-package com.outsystems.capacitor.plugins.geolocation
+package com.capacitorjs.plugins.geolocation
 
 import android.Manifest
 import android.os.Build
@@ -12,10 +12,10 @@ import com.getcapacitor.annotation.CapacitorPlugin
 import com.getcapacitor.annotation.Permission
 import com.getcapacitor.annotation.PermissionCallback
 import com.google.android.gms.location.LocationServices
-import com.outsystems.plugins.osgeolocation.controller.OSGLOCController
-import com.outsystems.plugins.osgeolocation.model.OSGLOCException
-import com.outsystems.plugins.osgeolocation.model.OSGLOCLocationOptions
-import com.outsystems.plugins.osgeolocation.model.OSGLOCLocationResult
+import io.ionic.libs.osgeolocationlib.controller.OSGLOCController
+import io.ionic.libs.osgeolocationlib.model.OSGLOCException
+import io.ionic.libs.osgeolocationlib.model.OSGLOCLocationOptions
+import io.ionic.libs.osgeolocationlib.model.OSGLOCLocationResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel

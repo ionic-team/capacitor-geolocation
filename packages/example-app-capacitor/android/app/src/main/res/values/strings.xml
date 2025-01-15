@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">OSGLOC Sample</string>
     <string name="title_activity_main">OSGLOC Sample</string>
-    <string name="package_name">com.outsystems.exampleucapp.capacitor.plugins.geolocation</string>
-    <string name="custom_url_scheme">com.outsystems.exampleucapp.capacitor.plugins.geolocation</string>
+    <string name="package_name">com.capacitorjs.exampleucapp.plugins.geolocation</string>
+    <string name="custom_url_scheme">com.capacitorjs.exampleucapp.plugins.geolocation</string>
 </resources>

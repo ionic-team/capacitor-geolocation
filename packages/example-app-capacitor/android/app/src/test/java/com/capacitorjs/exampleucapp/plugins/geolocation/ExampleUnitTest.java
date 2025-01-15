@@ -1,4 +1,4 @@
-package com.getcapacitor;
+package com.capacitorjs.exampleucapp.plugins.geolocation;
 
 import static org.junit.Assert.*;
 

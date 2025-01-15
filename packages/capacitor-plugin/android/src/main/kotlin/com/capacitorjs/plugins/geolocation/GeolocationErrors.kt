@@ -1,4 +1,4 @@
-package com.outsystems.capacitor.plugins.geolocation
+package com.capacitorjs.plugins.geolocation
 
 /**
  * Object with plugin errors
