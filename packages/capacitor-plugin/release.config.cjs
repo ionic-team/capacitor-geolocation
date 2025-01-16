@@ -4,7 +4,7 @@ module.exports = {
     { name: 'next', channel: 'next', prerelease: true },
     { name: 'development', channel: 'dev', prerelease: true }
   ],
-  repositoryUrl: 'https://github.com/ionic-team/outsystems-geolocation.git',
+  repositoryUrl: 'https://github.com/ionic-team/capacitor-outsystems-geolocation.git',
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
