@@ -1,2 +1,2 @@
-# outsystems-geolocation
+# capacitor-plugin-geolocation
  
