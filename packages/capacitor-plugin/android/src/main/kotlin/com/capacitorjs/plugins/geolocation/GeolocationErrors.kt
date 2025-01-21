@@ -6,7 +6,7 @@ package com.capacitorjs.plugins.geolocation
 object GeolocationErrors {
 
     private fun formatErrorCode(number: Int): String {
-        return "OS-PLUG-GLOC-" + number.toString().padStart(4, '0')
+        return "CAP-PLUGIN-GLOC-" + number.toString().padStart(4, '0')
     }
 
     data class ErrorInfo(
