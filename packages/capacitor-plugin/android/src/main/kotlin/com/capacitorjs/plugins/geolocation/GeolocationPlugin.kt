@@ -12,10 +12,10 @@ import com.getcapacitor.annotation.CapacitorPlugin
 import com.getcapacitor.annotation.Permission
 import com.getcapacitor.annotation.PermissionCallback
 import com.google.android.gms.location.LocationServices
-import io.ionic.libs.osgeolocationlib.controller.OSGLOCController
-import io.ionic.libs.osgeolocationlib.model.OSGLOCException
-import io.ionic.libs.osgeolocationlib.model.OSGLOCLocationOptions
-import io.ionic.libs.osgeolocationlib.model.OSGLOCLocationResult
+import io.ionic.libs.iongeolocationlib.controller.IONGLOCController
+import io.ionic.libs.iongeolocationlib.model.IONGLOCException
+import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationOptions
+import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 )
 class GeolocationPlugin : Plugin() {
 
-    private lateinit var controller: OSGLOCController
+    private lateinit var controller: IONGLOCController
     private lateinit var coroutineScope: CoroutineScope
     private val watchingCalls: MutableMap<String, PluginCall> = mutableMapOf()
 
@@ -54,7 +54,7 @@ class GeolocationPlugin : Plugin() {
             }
         }
 
-        this.controller = OSGLOCController(
+        this.controller = IONGLOCController(
             LocationServices.getFusedLocationProviderClient(context),
             activityLauncher
         )
@@ -246,11 +246,11 @@ class GeolocationPlugin : Plugin() {
     }
 
     /**
-     * Helper function to convert OSGLOCLocationResult object into the format accepted by the Capacitor bridge
-     * @param locationResult OSGLOCLocationResult object with the location to convert
+     * Helper function to convert IONGLOCLocationResult object into the format accepted by the Capacitor bridge
+     * @param locationResult IONGLOCLocationResult object with the location to convert
      * @return JSObject with converted JSON object
      */
-    private fun getJSObjectForLocation(locationResult: OSGLOCLocationResult): JSObject {
+    private fun getJSObjectForLocation(locationResult: IONGLOCLocationResult): JSObject {
         val coords = JSObject().apply {
             put("latitude", locationResult.latitude)
             put("longitude", locationResult.longitude)
@@ -273,23 +273,23 @@ class GeolocationPlugin : Plugin() {
      */
     private fun onLocationError(exception: Throwable?, call: PluginCall) {
         when (exception) {
-            is OSGLOCException.OSGLOCRequestDeniedException -> {
+            is IONGLOCException.IONGLOCRequestDeniedException -> {
                 call.sendError(GeolocationErrors.LOCATION_ENABLE_REQUEST_DENIED)
             }
-            is OSGLOCException.OSGLOCSettingsException -> {
+            is IONGLOCException.IONGLOCSettingsException -> {
                 call.sendError(GeolocationErrors.LOCATION_SETTINGS_ERROR)
             }
-            is OSGLOCException.OSGLOCInvalidTimeoutException -> {
+            is IONGLOCException.IONGLOCInvalidTimeoutException -> {
                 call.sendError(GeolocationErrors.INVALID_TIMEOUT)
             }
-            is OSGLOCException.OSGLOCGoogleServicesException -> {
+            is IONGLOCException.IONGLOCGoogleServicesException -> {
                 if (exception.resolvable) {
                     call.sendError(GeolocationErrors.GOOGLE_SERVICES_RESOLVABLE)
                 } else {
                     call.sendError(GeolocationErrors.GOOGLE_SERVICES_ERROR)
                 }
             }
-            is OSGLOCException.OSGLOCLocationRetrievalTimeoutException -> {
+            is IONGLOCException.IONGLOCLocationRetrievalTimeoutException -> {
                 call.sendError(GeolocationErrors.GET_LOCATION_TIMEOUT)
             }
             else -> {
@@ -323,15 +323,15 @@ class GeolocationPlugin : Plugin() {
     /**
      * Creates the location options to pass to the native controller
      * @param call the plugin call
-     * @return OSGLOCLocationOptions object
+     * @return IONGLOCLocationOptions object
      */
-    private fun createOptions(call: PluginCall): OSGLOCLocationOptions {
+    private fun createOptions(call: PluginCall): IONGLOCLocationOptions {
         val timeout = call.getLong("timeout", 10000) ?: 10000
         val maximumAge = call.getLong("maximumAge", 0) ?: 0
         val enableHighAccuracy = call.getBoolean("enableHighAccuracy", false) ?: false
         val minimumUpdateInterval = call.getLong("minimumUpdateInterval", 5000) ?: 5000
 
-        val locationOptions = OSGLOCLocationOptions(timeout, maximumAge, enableHighAccuracy, minimumUpdateInterval)
+        val locationOptions = IONGLOCLocationOptions(timeout, maximumAge, enableHighAccuracy, minimumUpdateInterval)
 
         return locationOptions
     }

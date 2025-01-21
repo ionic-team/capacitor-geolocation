@@ -58,7 +58,7 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation("io.ionic.libs:osgeolocation-android:1.0.0")
+    implementation("io.ionic.libs:iongeolocation-android:1.0.0")
     implementation project(':capacitor-android')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
 
