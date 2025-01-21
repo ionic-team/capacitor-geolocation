@@ -1,5 +1,5 @@
 import Capacitor
-import OSGeolocationLib
+import IONGeolocationLib
 
 private enum GeolocationCallbackType {
     case location
@@ -69,7 +69,7 @@ final class GeolocationCallbackManager {
         call.resolve(data)
     }
 
-    func sendSuccess(with position: OSGLOCPositionModel) {
+    func sendSuccess(with position: IONGLOCPositionModel) {
         createPluginResult(status: .success(position.toJSObject()))
     }
 

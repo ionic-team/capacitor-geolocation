@@ -1,0 +1,2807 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "IONGeolocationLib",
+    "printedName": "IONGeolocationLib",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "CoreLocation",
+        "printedName": "CoreLocation",
+        "declKind": "Import",
+        "moduleName": "IONGeolocationLib"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCAuthorisation",
+        "printedName": "IONGLOCAuthorisation",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "notDetermined",
+            "printedName": "notDetermined",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(IONGeolocationLib.IONGLOCAuthorisation.Type) -> IONGeolocationLib.IONGLOCAuthorisation",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCAuthorisation",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                    "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCAuthorisation",
+                        "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                        "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO13notDeterminedyA2CmF",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCAuthorisationO13notDeterminedyA2CmF",
+            "moduleName": "IONGeolocationLib"
+          },
+          {
+            "kind": "Var",
+            "name": "restricted",
+            "printedName": "restricted",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(IONGeolocationLib.IONGLOCAuthorisation.Type) -> IONGeolocationLib.IONGLOCAuthorisation",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCAuthorisation",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                    "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCAuthorisation",
+                        "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                        "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO10restrictedyA2CmF",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCAuthorisationO10restrictedyA2CmF",
+            "moduleName": "IONGeolocationLib"
+          },
+          {
+            "kind": "Var",
+            "name": "denied",
+            "printedName": "denied",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(IONGeolocationLib.IONGLOCAuthorisation.Type) -> IONGeolocationLib.IONGLOCAuthorisation",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCAuthorisation",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                    "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCAuthorisation",
+                        "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                        "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO6deniedyA2CmF",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCAuthorisationO6deniedyA2CmF",
+            "moduleName": "IONGeolocationLib"
+          },
+          {
+            "kind": "Var",
+            "name": "authorisedAlways",
+            "printedName": "authorisedAlways",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(IONGeolocationLib.IONGLOCAuthorisation.Type) -> IONGeolocationLib.IONGLOCAuthorisation",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCAuthorisation",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                    "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCAuthorisation",
+                        "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                        "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO16authorisedAlwaysyA2CmF",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCAuthorisationO16authorisedAlwaysyA2CmF",
+            "moduleName": "IONGeolocationLib"
+          },
+          {
+            "kind": "Var",
+            "name": "authorisedWhenInUse",
+            "printedName": "authorisedWhenInUse",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(IONGeolocationLib.IONGLOCAuthorisation.Type) -> IONGeolocationLib.IONGLOCAuthorisation",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCAuthorisation",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                    "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCAuthorisation",
+                        "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                        "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO19authorisedWhenInUseyA2CmF",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCAuthorisationO19authorisedWhenInUseyA2CmF",
+            "moduleName": "IONGeolocationLib"
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCAuthorisation",
+                "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCAuthorisation",
+                "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCAuthorisationO2eeoiySbAC_ACtFZ",
+            "moduleName": "IONGeolocationLib",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "hashValue",
+            "printedName": "hashValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO9hashValueSivp",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCAuthorisationO9hashValueSivp",
+            "moduleName": "IONGeolocationLib",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO9hashValueSivg",
+                "mangledName": "$s17IONGeolocationLib20IONGLOCAuthorisationO9hashValueSivg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "hash",
+            "printedName": "hash(into:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Hasher",
+                "printedName": "Swift.Hasher",
+                "paramValueOwnership": "InOut",
+                "usr": "s:s6HasherV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO4hash4intoys6HasherVz_tF",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCAuthorisationO4hash4intoys6HasherVz_tF",
+            "moduleName": "IONGeolocationLib",
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO",
+        "mangledName": "$s17IONGeolocationLib20IONGLOCAuthorisationO",
+        "moduleName": "IONGeolocationLib",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CoreLocation",
+        "printedName": "CoreLocation",
+        "declKind": "Import",
+        "moduleName": "IONGeolocationLib"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCPositionModel",
+        "printedName": "IONGLOCPositionModel",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "altitude",
+            "printedName": "altitude",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Double",
+                "printedName": "Swift.Double",
+                "usr": "s:Sd"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV8altitudeSdvp",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV8altitudeSdvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "SetterAccess"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV8altitudeSdvg",
+                "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV8altitudeSdvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "course",
+            "printedName": "course",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Double",
+                "printedName": "Swift.Double",
+                "usr": "s:Sd"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV6courseSdvp",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV6courseSdvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "SetterAccess"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV6courseSdvg",
+                "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV6courseSdvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "horizontalAccuracy",
+            "printedName": "horizontalAccuracy",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Double",
+                "printedName": "Swift.Double",
+                "usr": "s:Sd"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV18horizontalAccuracySdvp",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV18horizontalAccuracySdvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "SetterAccess"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV18horizontalAccuracySdvg",
+                "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV18horizontalAccuracySdvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "latitude",
+            "printedName": "latitude",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Double",
+                "printedName": "Swift.Double",
+                "usr": "s:Sd"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV8latitudeSdvp",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV8latitudeSdvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "SetterAccess"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV8latitudeSdvg",
+                "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV8latitudeSdvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "longitude",
+            "printedName": "longitude",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Double",
+                "printedName": "Swift.Double",
+                "usr": "s:Sd"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV9longitudeSdvp",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV9longitudeSdvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "SetterAccess"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV9longitudeSdvg",
+                "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV9longitudeSdvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "speed",
+            "printedName": "speed",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Double",
+                "printedName": "Swift.Double",
+                "usr": "s:Sd"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV5speedSdvp",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV5speedSdvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "SetterAccess"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV5speedSdvg",
+                "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV5speedSdvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "timestamp",
+            "printedName": "timestamp",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Double",
+                "printedName": "Swift.Double",
+                "usr": "s:Sd"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV9timestampSdvp",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV9timestampSdvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "SetterAccess"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV9timestampSdvg",
+                "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV9timestampSdvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "verticalAccuracy",
+            "printedName": "verticalAccuracy",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Double",
+                "printedName": "Swift.Double",
+                "usr": "s:Sd"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV16verticalAccuracySdvp",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV16verticalAccuracySdvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl",
+              "SetterAccess"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV16verticalAccuracySdvg",
+                "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV16verticalAccuracySdvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCPositionModel",
+                "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCPositionModel",
+                "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV2eeoiySbAC_ACtFZ",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV2eeoiySbAC_ACtFZ",
+            "moduleName": "IONGeolocationLib",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "create",
+            "printedName": "create(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCPositionModel",
+                "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLLocation",
+                "printedName": "CoreLocation.CLLocation",
+                "usr": "c:objc(cs)CLLocation"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV6create4fromACSo10CLLocationC_tFZ",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV6create4fromACSo10CLLocationC_tFZ",
+            "moduleName": "IONGeolocationLib",
+            "static": true,
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV",
+        "mangledName": "$s17IONGeolocationLib20IONGLOCPositionModelV",
+        "moduleName": "IONGeolocationLib",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CoreLocation",
+        "printedName": "CoreLocation",
+        "declKind": "Import",
+        "moduleName": "IONGeolocationLib"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCAuthorisationRequestType",
+        "printedName": "IONGLOCAuthorisationRequestType",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "whenInUse",
+            "printedName": "whenInUse",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(IONGeolocationLib.IONGLOCAuthorisationRequestType.Type) -> IONGeolocationLib.IONGLOCAuthorisationRequestType",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCAuthorisationRequestType",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisationRequestType",
+                    "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisationRequestType.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCAuthorisationRequestType",
+                        "printedName": "IONGeolocationLib.IONGLOCAuthorisationRequestType",
+                        "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO9whenInUseyA2CmF",
+            "mangledName": "$s17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO9whenInUseyA2CmF",
+            "moduleName": "IONGeolocationLib"
+          },
+          {
+            "kind": "Var",
+            "name": "always",
+            "printedName": "always",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(IONGeolocationLib.IONGLOCAuthorisationRequestType.Type) -> IONGeolocationLib.IONGLOCAuthorisationRequestType",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCAuthorisationRequestType",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisationRequestType",
+                    "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisationRequestType.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCAuthorisationRequestType",
+                        "printedName": "IONGeolocationLib.IONGLOCAuthorisationRequestType",
+                        "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO6alwaysyA2CmF",
+            "mangledName": "$s17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO6alwaysyA2CmF",
+            "moduleName": "IONGeolocationLib"
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCAuthorisationRequestType",
+                "printedName": "IONGeolocationLib.IONGLOCAuthorisationRequestType",
+                "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCAuthorisationRequestType",
+                "printedName": "IONGeolocationLib.IONGLOCAuthorisationRequestType",
+                "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO2eeoiySbAC_ACtFZ",
+            "moduleName": "IONGeolocationLib",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "hashValue",
+            "printedName": "hashValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO9hashValueSivp",
+            "mangledName": "$s17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO9hashValueSivp",
+            "moduleName": "IONGeolocationLib",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO9hashValueSivg",
+                "mangledName": "$s17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO9hashValueSivg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "hash",
+            "printedName": "hash(into:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Hasher",
+                "printedName": "Swift.Hasher",
+                "paramValueOwnership": "InOut",
+                "usr": "s:s6HasherV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO4hash4intoys6HasherVz_tF",
+            "mangledName": "$s17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO4hash4intoys6HasherVz_tF",
+            "moduleName": "IONGeolocationLib",
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO",
+        "mangledName": "$s17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO",
+        "moduleName": "IONGeolocationLib",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Combine",
+        "printedName": "Combine",
+        "declKind": "Import",
+        "moduleName": "IONGeolocationLib"
+      },
+      {
+        "kind": "Import",
+        "name": "CoreLocation",
+        "printedName": "CoreLocation",
+        "declKind": "Import",
+        "moduleName": "IONGeolocationLib"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCServicesValidator",
+        "printedName": "IONGLOCServicesValidator",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCServicesValidator",
+                "printedName": "IONGeolocationLib.IONGLOCServicesValidator",
+                "usr": "s:17IONGeolocationLib24IONGLOCServicesValidatorV"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:17IONGeolocationLib24IONGLOCServicesValidatorVACycfc",
+            "mangledName": "$s17IONGeolocationLib24IONGLOCServicesValidatorVACycfc",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "areLocationServicesEnabled",
+            "printedName": "areLocationServicesEnabled()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib24IONGLOCServicesValidatorV26areLocationServicesEnabledSbyF",
+            "mangledName": "$s17IONGeolocationLib24IONGLOCServicesValidatorV26areLocationServicesEnabledSbyF",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:17IONGeolocationLib24IONGLOCServicesValidatorV",
+        "mangledName": "$s17IONGeolocationLib24IONGLOCServicesValidatorV",
+        "moduleName": "IONGeolocationLib",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "IONGLOCServicesChecker",
+            "printedName": "IONGLOCServicesChecker",
+            "usr": "s:17IONGeolocationLib22IONGLOCServicesCheckerP",
+            "mangledName": "$s17IONGeolocationLib22IONGLOCServicesCheckerP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCManagerWrapper",
+        "printedName": "IONGLOCManagerWrapper",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "authorisationStatus",
+            "printedName": "authorisationStatus",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCAuthorisation",
+                "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC19authorisationStatusAA20IONGLOCAuthorisationOvp",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC19authorisationStatusAA20IONGLOCAuthorisationOvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "ProjectedValueProperty",
+              "AccessControl",
+              "Custom"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCAuthorisation",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                    "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC19authorisationStatusAA20IONGLOCAuthorisationOvg",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC19authorisationStatusAA20IONGLOCAuthorisationOvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCAuthorisation",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                    "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC19authorisationStatusAA20IONGLOCAuthorisationOvs",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC19authorisationStatusAA20IONGLOCAuthorisationOvs",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "intro_Macosx": "10.15",
+                "intro_iOS": "13.0",
+                "intro_tvOS": "13.0",
+                "intro_watchOS": "6.0",
+                "declAttributes": [
+                  "Available",
+                  "Available",
+                  "Available",
+                  "Available"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC19authorisationStatusAA20IONGLOCAuthorisationOvM",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC19authorisationStatusAA20IONGLOCAuthorisationOvM",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "intro_Macosx": "10.15",
+                "intro_iOS": "13.0",
+                "intro_tvOS": "13.0",
+                "intro_watchOS": "6.0",
+                "declAttributes": [
+                  "Available",
+                  "Available",
+                  "Available",
+                  "Available"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "$authorisationStatus",
+            "printedName": "$authorisationStatus",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Publisher",
+                "printedName": "Combine.Published<IONGeolocationLib.IONGLOCAuthorisation>.Publisher",
+                "usr": "s:7Combine9PublishedV9PublisherV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC20$authorisationStatus7Combine9PublishedV9PublisherVyAA20IONGLOCAuthorisationO_Gvp",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC20$authorisationStatus7Combine9PublishedV9PublisherVyAA20IONGLOCAuthorisationO_Gvp",
+            "moduleName": "IONGeolocationLib",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Publisher",
+                    "printedName": "Combine.Published<IONGeolocationLib.IONGLOCAuthorisation>.Publisher",
+                    "usr": "s:7Combine9PublishedV9PublisherV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC20$authorisationStatus7Combine9PublishedV9PublisherVyAA20IONGLOCAuthorisationO_Gvg",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC20$authorisationStatus7Combine9PublishedV9PublisherVyAA20IONGLOCAuthorisationO_Gvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Publisher",
+                    "printedName": "Combine.Published<IONGeolocationLib.IONGLOCAuthorisation>.Publisher",
+                    "usr": "s:7Combine9PublishedV9PublisherV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC20$authorisationStatus7Combine9PublishedV9PublisherVyAA20IONGLOCAuthorisationO_Gvs",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC20$authorisationStatus7Combine9PublishedV9PublisherVyAA20IONGLOCAuthorisationO_Gvs",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "intro_Macosx": "11.0",
+                "intro_iOS": "14.0",
+                "intro_tvOS": "14.0",
+                "intro_watchOS": "7.0",
+                "declAttributes": [
+                  "Available",
+                  "Available",
+                  "Available",
+                  "Available"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC20$authorisationStatus7Combine9PublishedV9PublisherVyAA20IONGLOCAuthorisationO_GvM",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC20$authorisationStatus7Combine9PublishedV9PublisherVyAA20IONGLOCAuthorisationO_GvM",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "intro_Macosx": "11.0",
+                "intro_iOS": "14.0",
+                "intro_tvOS": "14.0",
+                "intro_watchOS": "7.0",
+                "declAttributes": [
+                  "Available",
+                  "Available",
+                  "Available",
+                  "Available"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "authorisationStatusPublisher",
+            "printedName": "authorisationStatusPublisher",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Publisher",
+                "printedName": "Combine.Published<IONGeolocationLib.IONGLOCAuthorisation>.Publisher",
+                "usr": "s:7Combine9PublishedV9PublisherV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC28authorisationStatusPublisher7Combine9PublishedV0G0VyAA20IONGLOCAuthorisationO_Gvp",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC28authorisationStatusPublisher7Combine9PublishedV0G0VyAA20IONGLOCAuthorisationO_Gvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Publisher",
+                    "printedName": "Combine.Published<IONGeolocationLib.IONGLOCAuthorisation>.Publisher",
+                    "usr": "s:7Combine9PublishedV9PublisherV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC28authorisationStatusPublisher7Combine9PublishedV0G0VyAA20IONGLOCAuthorisationO_Gvg",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC28authorisationStatusPublisher7Combine9PublishedV0G0VyAA20IONGLOCAuthorisationO_Gvg",
+                "moduleName": "IONGeolocationLib",
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "currentLocation",
+            "printedName": "currentLocation",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "IONGeolocationLib.IONGLOCPositionModel?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCPositionModel",
+                    "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                    "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC15currentLocationAA20IONGLOCPositionModelVSgvp",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC15currentLocationAA20IONGLOCPositionModelVSgvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "ProjectedValueProperty",
+              "AccessControl",
+              "Custom"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "IONGeolocationLib.IONGLOCPositionModel?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCPositionModel",
+                        "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                        "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC15currentLocationAA20IONGLOCPositionModelVSgvg",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC15currentLocationAA20IONGLOCPositionModelVSgvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "IONGeolocationLib.IONGLOCPositionModel?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCPositionModel",
+                        "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                        "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC15currentLocationAA20IONGLOCPositionModelVSgvs",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC15currentLocationAA20IONGLOCPositionModelVSgvs",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "intro_Macosx": "10.15",
+                "intro_iOS": "13.0",
+                "intro_tvOS": "13.0",
+                "intro_watchOS": "6.0",
+                "declAttributes": [
+                  "Available",
+                  "Available",
+                  "Available",
+                  "Available"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC15currentLocationAA20IONGLOCPositionModelVSgvM",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC15currentLocationAA20IONGLOCPositionModelVSgvM",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "intro_Macosx": "10.15",
+                "intro_iOS": "13.0",
+                "intro_tvOS": "13.0",
+                "intro_watchOS": "6.0",
+                "declAttributes": [
+                  "Available",
+                  "Available",
+                  "Available",
+                  "Available"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "$currentLocation",
+            "printedName": "$currentLocation",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Publisher",
+                "printedName": "Combine.Published<Swift.Optional<IONGeolocationLib.IONGLOCPositionModel>>.Publisher",
+                "usr": "s:7Combine9PublishedV9PublisherV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC16$currentLocation7Combine9PublishedV9PublisherVyAA20IONGLOCPositionModelVSg_Gvp",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC16$currentLocation7Combine9PublishedV9PublisherVyAA20IONGLOCPositionModelVSg_Gvp",
+            "moduleName": "IONGeolocationLib",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Publisher",
+                    "printedName": "Combine.Published<Swift.Optional<IONGeolocationLib.IONGLOCPositionModel>>.Publisher",
+                    "usr": "s:7Combine9PublishedV9PublisherV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC16$currentLocation7Combine9PublishedV9PublisherVyAA20IONGLOCPositionModelVSg_Gvg",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC16$currentLocation7Combine9PublishedV9PublisherVyAA20IONGLOCPositionModelVSg_Gvg",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Publisher",
+                    "printedName": "Combine.Published<Swift.Optional<IONGeolocationLib.IONGLOCPositionModel>>.Publisher",
+                    "usr": "s:7Combine9PublishedV9PublisherV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC16$currentLocation7Combine9PublishedV9PublisherVyAA20IONGLOCPositionModelVSg_Gvs",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC16$currentLocation7Combine9PublishedV9PublisherVyAA20IONGLOCPositionModelVSg_Gvs",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "intro_Macosx": "11.0",
+                "intro_iOS": "14.0",
+                "intro_tvOS": "14.0",
+                "intro_watchOS": "7.0",
+                "declAttributes": [
+                  "Available",
+                  "Available",
+                  "Available",
+                  "Available"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC16$currentLocation7Combine9PublishedV9PublisherVyAA20IONGLOCPositionModelVSg_GvM",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC16$currentLocation7Combine9PublishedV9PublisherVyAA20IONGLOCPositionModelVSg_GvM",
+                "moduleName": "IONGeolocationLib",
+                "implicit": true,
+                "intro_Macosx": "11.0",
+                "intro_iOS": "14.0",
+                "intro_tvOS": "14.0",
+                "intro_watchOS": "7.0",
+                "declAttributes": [
+                  "Available",
+                  "Available",
+                  "Available",
+                  "Available"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "currentLocationPublisher",
+            "printedName": "currentLocationPublisher",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "AnyPublisher",
+                "printedName": "Combine.AnyPublisher<IONGeolocationLib.IONGLOCPositionModel, IONGeolocationLib.IONGLOCLocationError>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCPositionModel",
+                    "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                    "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCLocationError",
+                    "printedName": "IONGeolocationLib.IONGLOCLocationError",
+                    "usr": "s:17IONGeolocationLib20IONGLOCLocationErrorO"
+                  }
+                ],
+                "usr": "s:7Combine12AnyPublisherV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC24currentLocationPublisher7Combine03AnyG0VyAA20IONGLOCPositionModelVAA20IONGLOCLocationErrorOGvp",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC24currentLocationPublisher7Combine03AnyG0VyAA20IONGLOCPositionModelVAA20IONGLOCLocationErrorOGvp",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AnyPublisher",
+                    "printedName": "Combine.AnyPublisher<IONGeolocationLib.IONGLOCPositionModel, IONGeolocationLib.IONGLOCLocationError>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCPositionModel",
+                        "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                        "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCLocationError",
+                        "printedName": "IONGeolocationLib.IONGLOCLocationError",
+                        "usr": "s:17IONGeolocationLib20IONGLOCLocationErrorO"
+                      }
+                    ],
+                    "usr": "s:7Combine12AnyPublisherV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC24currentLocationPublisher7Combine03AnyG0VyAA20IONGLOCPositionModelVAA20IONGLOCLocationErrorOGvg",
+                "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC24currentLocationPublisher7Combine03AnyG0VyAA20IONGLOCPositionModelVAA20IONGLOCLocationErrorOGvg",
+                "moduleName": "IONGeolocationLib",
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(locationManager:servicesChecker:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCManagerWrapper",
+                "printedName": "IONGeolocationLib.IONGLOCManagerWrapper",
+                "usr": "c:@M@IONGeolocationLib@objc(cs)IONGLOCManagerWrapper"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLLocationManager",
+                "printedName": "CoreLocation.CLLocationManager",
+                "hasDefaultArg": true,
+                "usr": "c:objc(cs)CLLocationManager"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCServicesChecker",
+                "printedName": "any IONGeolocationLib.IONGLOCServicesChecker",
+                "hasDefaultArg": true,
+                "usr": "s:17IONGeolocationLib22IONGLOCServicesCheckerP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC15locationManager15servicesCheckerACSo010CLLocationF0C_AA015IONGLOCServicesH0_ptcfc",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC15locationManager15servicesCheckerACSo010CLLocationF0C_AA015IONGLOCServicesH0_ptcfc",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "requestAuthorisation",
+            "printedName": "requestAuthorisation(withType:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCAuthorisationRequestType",
+                "printedName": "IONGeolocationLib.IONGLOCAuthorisationRequestType",
+                "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC20requestAuthorisation8withTypeyAA027IONGLOCAuthorisationRequestH0O_tF",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC20requestAuthorisation8withTypeyAA027IONGLOCAuthorisationRequestH0O_tF",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "startMonitoringLocation",
+            "printedName": "startMonitoringLocation()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC23startMonitoringLocationyyF",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC23startMonitoringLocationyyF",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "stopMonitoringLocation",
+            "printedName": "stopMonitoringLocation()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC22stopMonitoringLocationyyF",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC22stopMonitoringLocationyyF",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "requestSingleLocation",
+            "printedName": "requestSingleLocation()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC21requestSingleLocationyyF",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC21requestSingleLocationyyF",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "updateConfiguration",
+            "printedName": "updateConfiguration(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCConfigurationModel",
+                "printedName": "IONGeolocationLib.IONGLOCConfigurationModel",
+                "usr": "s:17IONGeolocationLib25IONGLOCConfigurationModelV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC19updateConfigurationyyAA25IONGLOCConfigurationModelVF",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC19updateConfigurationyyAA25IONGLOCConfigurationModelVF",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "areLocationServicesEnabled",
+            "printedName": "areLocationServicesEnabled()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib21IONGLOCManagerWrapperC26areLocationServicesEnabledSbyF",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC26areLocationServicesEnabledSbyF",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCManagerWrapper",
+                "printedName": "IONGeolocationLib.IONGLOCManagerWrapper",
+                "usr": "c:@M@IONGeolocationLib@objc(cs)IONGLOCManagerWrapper"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@IONGeolocationLib@objc(cs)IONGLOCManagerWrapper(im)init",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperCACycfc",
+            "moduleName": "IONGeolocationLib",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "locationManagerDidChangeAuthorization",
+            "printedName": "locationManagerDidChangeAuthorization(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLLocationManager",
+                "printedName": "CoreLocation.CLLocationManager",
+                "usr": "c:objc(cs)CLLocationManager"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@IONGeolocationLib@objc(cs)IONGLOCManagerWrapper(im)locationManagerDidChangeAuthorization:",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC37locationManagerDidChangeAuthorizationyySo010CLLocationF0CF",
+            "moduleName": "IONGeolocationLib",
+            "objc_name": "locationManagerDidChangeAuthorization:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "locationManager",
+            "printedName": "locationManager(_:didUpdateLocations:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLLocationManager",
+                "printedName": "CoreLocation.CLLocationManager",
+                "usr": "c:objc(cs)CLLocationManager"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[CoreLocation.CLLocation]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CLLocation",
+                    "printedName": "CoreLocation.CLLocation",
+                    "usr": "c:objc(cs)CLLocation"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@IONGeolocationLib@objc(cs)IONGLOCManagerWrapper(im)locationManager:didUpdateLocations:",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC15locationManager_18didUpdateLocationsySo010CLLocationF0C_SaySo0J0CGtF",
+            "moduleName": "IONGeolocationLib",
+            "objc_name": "locationManager:didUpdateLocations:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "locationManager",
+            "printedName": "locationManager(_:didFailWithError:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CLLocationManager",
+                "printedName": "CoreLocation.CLLocationManager",
+                "usr": "c:objc(cs)CLLocationManager"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Error",
+                "printedName": "any Swift.Error",
+                "usr": "s:s5ErrorP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@IONGeolocationLib@objc(cs)IONGLOCManagerWrapper(im)locationManager:didFailWithError:",
+            "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC15locationManager_16didFailWithErrorySo010CLLocationF0C_s0J0_ptF",
+            "moduleName": "IONGeolocationLib",
+            "objc_name": "locationManager:didFailWithError:",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "AccessControl"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@IONGeolocationLib@objc(cs)IONGLOCManagerWrapper",
+        "mangledName": "$s17IONGeolocationLib21IONGLOCManagerWrapperC",
+        "moduleName": "IONGeolocationLib",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "IONGLOCServicesChecker",
+            "printedName": "IONGLOCServicesChecker",
+            "usr": "s:17IONGeolocationLib22IONGLOCServicesCheckerP",
+            "mangledName": "$s17IONGeolocationLib22IONGLOCServicesCheckerP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "IONGLOCAuthorisationHandler",
+            "printedName": "IONGLOCAuthorisationHandler",
+            "usr": "s:17IONGeolocationLib27IONGLOCAuthorisationHandlerP",
+            "mangledName": "$s17IONGeolocationLib27IONGLOCAuthorisationHandlerP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "IONGLOCSingleLocationHandler",
+            "printedName": "IONGLOCSingleLocationHandler",
+            "usr": "s:17IONGeolocationLib28IONGLOCSingleLocationHandlerP",
+            "mangledName": "$s17IONGeolocationLib28IONGLOCSingleLocationHandlerP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "IONGLOCMonitorLocationHandler",
+            "printedName": "IONGLOCMonitorLocationHandler",
+            "usr": "s:17IONGeolocationLib29IONGLOCMonitorLocationHandlerP",
+            "mangledName": "$s17IONGeolocationLib29IONGLOCMonitorLocationHandlerP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "IONGLOCLocationHandler",
+            "printedName": "IONGLOCLocationHandler",
+            "usr": "s:17IONGeolocationLib22IONGLOCLocationHandlerP",
+            "mangledName": "$s17IONGeolocationLib22IONGLOCLocationHandlerP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Combine",
+        "printedName": "Combine",
+        "declKind": "Import",
+        "moduleName": "IONGeolocationLib"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCServicesChecker",
+        "printedName": "IONGLOCServicesChecker",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "areLocationServicesEnabled",
+            "printedName": "areLocationServicesEnabled()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib22IONGLOCServicesCheckerP26areLocationServicesEnabledSbyF",
+            "mangledName": "$s17IONGeolocationLib22IONGLOCServicesCheckerP26areLocationServicesEnabledSbyF",
+            "moduleName": "IONGeolocationLib",
+            "genericSig": "<τ_0_0 where τ_0_0 : IONGeolocationLib.IONGLOCServicesChecker>",
+            "sugared_genericSig": "<Self where Self : IONGeolocationLib.IONGLOCServicesChecker>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:17IONGeolocationLib22IONGLOCServicesCheckerP",
+        "mangledName": "$s17IONGeolocationLib22IONGLOCServicesCheckerP",
+        "moduleName": "IONGeolocationLib",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCAuthorisationHandler",
+        "printedName": "IONGLOCAuthorisationHandler",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "authorisationStatus",
+            "printedName": "authorisationStatus",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCAuthorisation",
+                "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib27IONGLOCAuthorisationHandlerP19authorisationStatusAA0C0Ovp",
+            "mangledName": "$s17IONGeolocationLib27IONGLOCAuthorisationHandlerP19authorisationStatusAA0C0Ovp",
+            "moduleName": "IONGeolocationLib",
+            "protocolReq": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCAuthorisation",
+                    "printedName": "IONGeolocationLib.IONGLOCAuthorisation",
+                    "usr": "s:17IONGeolocationLib20IONGLOCAuthorisationO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib27IONGLOCAuthorisationHandlerP19authorisationStatusAA0C0Ovg",
+                "mangledName": "$s17IONGeolocationLib27IONGLOCAuthorisationHandlerP19authorisationStatusAA0C0Ovg",
+                "moduleName": "IONGeolocationLib",
+                "genericSig": "<τ_0_0 where τ_0_0 : IONGeolocationLib.IONGLOCAuthorisationHandler>",
+                "sugared_genericSig": "<Self where Self : IONGeolocationLib.IONGLOCAuthorisationHandler>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "authorisationStatusPublisher",
+            "printedName": "authorisationStatusPublisher",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Publisher",
+                "printedName": "Combine.Published<IONGeolocationLib.IONGLOCAuthorisation>.Publisher",
+                "usr": "s:7Combine9PublishedV9PublisherV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib27IONGLOCAuthorisationHandlerP28authorisationStatusPublisher7Combine9PublishedV0G0VyAA0C0O_Gvp",
+            "mangledName": "$s17IONGeolocationLib27IONGLOCAuthorisationHandlerP28authorisationStatusPublisher7Combine9PublishedV0G0VyAA0C0O_Gvp",
+            "moduleName": "IONGeolocationLib",
+            "protocolReq": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Publisher",
+                    "printedName": "Combine.Published<IONGeolocationLib.IONGLOCAuthorisation>.Publisher",
+                    "usr": "s:7Combine9PublishedV9PublisherV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib27IONGLOCAuthorisationHandlerP28authorisationStatusPublisher7Combine9PublishedV0G0VyAA0C0O_Gvg",
+                "mangledName": "$s17IONGeolocationLib27IONGLOCAuthorisationHandlerP28authorisationStatusPublisher7Combine9PublishedV0G0VyAA0C0O_Gvg",
+                "moduleName": "IONGeolocationLib",
+                "genericSig": "<τ_0_0 where τ_0_0 : IONGeolocationLib.IONGLOCAuthorisationHandler>",
+                "sugared_genericSig": "<Self where Self : IONGeolocationLib.IONGLOCAuthorisationHandler>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "requestAuthorisation",
+            "printedName": "requestAuthorisation(withType:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCAuthorisationRequestType",
+                "printedName": "IONGeolocationLib.IONGLOCAuthorisationRequestType",
+                "usr": "s:17IONGeolocationLib31IONGLOCAuthorisationRequestTypeO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib27IONGLOCAuthorisationHandlerP20requestAuthorisation8withTypeyAA0c7RequestH0O_tF",
+            "mangledName": "$s17IONGeolocationLib27IONGLOCAuthorisationHandlerP20requestAuthorisation8withTypeyAA0c7RequestH0O_tF",
+            "moduleName": "IONGeolocationLib",
+            "genericSig": "<τ_0_0 where τ_0_0 : IONGeolocationLib.IONGLOCAuthorisationHandler>",
+            "sugared_genericSig": "<Self where Self : IONGeolocationLib.IONGLOCAuthorisationHandler>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:17IONGeolocationLib27IONGLOCAuthorisationHandlerP",
+        "mangledName": "$s17IONGeolocationLib27IONGLOCAuthorisationHandlerP",
+        "moduleName": "IONGeolocationLib",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCLocationError",
+        "printedName": "IONGLOCLocationError",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "locationUnavailable",
+            "printedName": "locationUnavailable",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(IONGeolocationLib.IONGLOCLocationError.Type) -> IONGeolocationLib.IONGLOCLocationError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCLocationError",
+                    "printedName": "IONGeolocationLib.IONGLOCLocationError",
+                    "usr": "s:17IONGeolocationLib20IONGLOCLocationErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "IONGeolocationLib.IONGLOCLocationError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCLocationError",
+                        "printedName": "IONGeolocationLib.IONGLOCLocationError",
+                        "usr": "s:17IONGeolocationLib20IONGLOCLocationErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:17IONGeolocationLib20IONGLOCLocationErrorO19locationUnavailableyA2CmF",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCLocationErrorO19locationUnavailableyA2CmF",
+            "moduleName": "IONGeolocationLib"
+          },
+          {
+            "kind": "Var",
+            "name": "other",
+            "printedName": "other",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(IONGeolocationLib.IONGLOCLocationError.Type) -> (any Swift.Error) -> IONGeolocationLib.IONGLOCLocationError",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(any Swift.Error) -> IONGeolocationLib.IONGLOCLocationError",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCLocationError",
+                        "printedName": "IONGeolocationLib.IONGLOCLocationError",
+                        "usr": "s:17IONGeolocationLib20IONGLOCLocationErrorO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Error",
+                        "printedName": "any Swift.Error",
+                        "usr": "s:s5ErrorP"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "IONGeolocationLib.IONGLOCLocationError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCLocationError",
+                        "printedName": "IONGeolocationLib.IONGLOCLocationError",
+                        "usr": "s:17IONGeolocationLib20IONGLOCLocationErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:17IONGeolocationLib20IONGLOCLocationErrorO5otheryACs0D0_pcACmF",
+            "mangledName": "$s17IONGeolocationLib20IONGLOCLocationErrorO5otheryACs0D0_pcACmF",
+            "moduleName": "IONGeolocationLib"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:17IONGeolocationLib20IONGLOCLocationErrorO",
+        "mangledName": "$s17IONGeolocationLib20IONGLOCLocationErrorO",
+        "moduleName": "IONGeolocationLib",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Error",
+            "printedName": "Error",
+            "usr": "s:s5ErrorP",
+            "mangledName": "$ss5ErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCLocationHandler",
+        "printedName": "IONGLOCLocationHandler",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "currentLocation",
+            "printedName": "currentLocation",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "IONGeolocationLib.IONGLOCPositionModel?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCPositionModel",
+                    "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                    "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib22IONGLOCLocationHandlerP15currentLocationAA20IONGLOCPositionModelVSgvp",
+            "mangledName": "$s17IONGeolocationLib22IONGLOCLocationHandlerP15currentLocationAA20IONGLOCPositionModelVSgvp",
+            "moduleName": "IONGeolocationLib",
+            "protocolReq": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "IONGeolocationLib.IONGLOCPositionModel?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCPositionModel",
+                        "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                        "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib22IONGLOCLocationHandlerP15currentLocationAA20IONGLOCPositionModelVSgvg",
+                "mangledName": "$s17IONGeolocationLib22IONGLOCLocationHandlerP15currentLocationAA20IONGLOCPositionModelVSgvg",
+                "moduleName": "IONGeolocationLib",
+                "genericSig": "<τ_0_0 where τ_0_0 : IONGeolocationLib.IONGLOCLocationHandler>",
+                "sugared_genericSig": "<Self where Self : IONGeolocationLib.IONGLOCLocationHandler>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "currentLocationPublisher",
+            "printedName": "currentLocationPublisher",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "AnyPublisher",
+                "printedName": "Combine.AnyPublisher<IONGeolocationLib.IONGLOCPositionModel, IONGeolocationLib.IONGLOCLocationError>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCPositionModel",
+                    "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                    "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "IONGLOCLocationError",
+                    "printedName": "IONGeolocationLib.IONGLOCLocationError",
+                    "usr": "s:17IONGeolocationLib20IONGLOCLocationErrorO"
+                  }
+                ],
+                "usr": "s:7Combine12AnyPublisherV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17IONGeolocationLib22IONGLOCLocationHandlerP24currentLocationPublisher7Combine03AnyG0VyAA20IONGLOCPositionModelVAA0C5ErrorOGvp",
+            "mangledName": "$s17IONGeolocationLib22IONGLOCLocationHandlerP24currentLocationPublisher7Combine03AnyG0VyAA20IONGLOCPositionModelVAA0C5ErrorOGvp",
+            "moduleName": "IONGeolocationLib",
+            "protocolReq": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AnyPublisher",
+                    "printedName": "Combine.AnyPublisher<IONGeolocationLib.IONGLOCPositionModel, IONGeolocationLib.IONGLOCLocationError>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCPositionModel",
+                        "printedName": "IONGeolocationLib.IONGLOCPositionModel",
+                        "usr": "s:17IONGeolocationLib20IONGLOCPositionModelV"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "IONGLOCLocationError",
+                        "printedName": "IONGeolocationLib.IONGLOCLocationError",
+                        "usr": "s:17IONGeolocationLib20IONGLOCLocationErrorO"
+                      }
+                    ],
+                    "usr": "s:7Combine12AnyPublisherV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17IONGeolocationLib22IONGLOCLocationHandlerP24currentLocationPublisher7Combine03AnyG0VyAA20IONGLOCPositionModelVAA0C5ErrorOGvg",
+                "mangledName": "$s17IONGeolocationLib22IONGLOCLocationHandlerP24currentLocationPublisher7Combine03AnyG0VyAA20IONGLOCPositionModelVAA0C5ErrorOGvg",
+                "moduleName": "IONGeolocationLib",
+                "genericSig": "<τ_0_0 where τ_0_0 : IONGeolocationLib.IONGLOCLocationHandler>",
+                "sugared_genericSig": "<Self where Self : IONGeolocationLib.IONGLOCLocationHandler>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "updateConfiguration",
+            "printedName": "updateConfiguration(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCConfigurationModel",
+                "printedName": "IONGeolocationLib.IONGLOCConfigurationModel",
+                "usr": "s:17IONGeolocationLib25IONGLOCConfigurationModelV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib22IONGLOCLocationHandlerP19updateConfigurationyyAA25IONGLOCConfigurationModelVF",
+            "mangledName": "$s17IONGeolocationLib22IONGLOCLocationHandlerP19updateConfigurationyyAA25IONGLOCConfigurationModelVF",
+            "moduleName": "IONGeolocationLib",
+            "genericSig": "<τ_0_0 where τ_0_0 : IONGeolocationLib.IONGLOCLocationHandler>",
+            "sugared_genericSig": "<Self where Self : IONGeolocationLib.IONGLOCLocationHandler>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:17IONGeolocationLib22IONGLOCLocationHandlerP",
+        "mangledName": "$s17IONGeolocationLib22IONGLOCLocationHandlerP",
+        "moduleName": "IONGeolocationLib",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCSingleLocationHandler",
+        "printedName": "IONGLOCSingleLocationHandler",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "requestSingleLocation",
+            "printedName": "requestSingleLocation()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib28IONGLOCSingleLocationHandlerP013requestSingleD0yyF",
+            "mangledName": "$s17IONGeolocationLib28IONGLOCSingleLocationHandlerP013requestSingleD0yyF",
+            "moduleName": "IONGeolocationLib",
+            "genericSig": "<τ_0_0 where τ_0_0 : IONGeolocationLib.IONGLOCSingleLocationHandler>",
+            "sugared_genericSig": "<Self where Self : IONGeolocationLib.IONGLOCSingleLocationHandler>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:17IONGeolocationLib28IONGLOCSingleLocationHandlerP",
+        "mangledName": "$s17IONGeolocationLib28IONGLOCSingleLocationHandlerP",
+        "moduleName": "IONGeolocationLib",
+        "genericSig": "<τ_0_0 : IONGeolocationLib.IONGLOCLocationHandler>",
+        "sugared_genericSig": "<Self : IONGeolocationLib.IONGLOCLocationHandler>",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "IONGLOCLocationHandler",
+            "printedName": "IONGLOCLocationHandler",
+            "usr": "s:17IONGeolocationLib22IONGLOCLocationHandlerP",
+            "mangledName": "$s17IONGeolocationLib22IONGLOCLocationHandlerP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCMonitorLocationHandler",
+        "printedName": "IONGLOCMonitorLocationHandler",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "startMonitoringLocation",
+            "printedName": "startMonitoringLocation()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib29IONGLOCMonitorLocationHandlerP015startMonitoringD0yyF",
+            "mangledName": "$s17IONGeolocationLib29IONGLOCMonitorLocationHandlerP015startMonitoringD0yyF",
+            "moduleName": "IONGeolocationLib",
+            "genericSig": "<τ_0_0 where τ_0_0 : IONGeolocationLib.IONGLOCMonitorLocationHandler>",
+            "sugared_genericSig": "<Self where Self : IONGeolocationLib.IONGLOCMonitorLocationHandler>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "stopMonitoringLocation",
+            "printedName": "stopMonitoringLocation()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17IONGeolocationLib29IONGLOCMonitorLocationHandlerP014stopMonitoringD0yyF",
+            "mangledName": "$s17IONGeolocationLib29IONGLOCMonitorLocationHandlerP014stopMonitoringD0yyF",
+            "moduleName": "IONGeolocationLib",
+            "genericSig": "<τ_0_0 where τ_0_0 : IONGeolocationLib.IONGLOCMonitorLocationHandler>",
+            "sugared_genericSig": "<Self where Self : IONGeolocationLib.IONGLOCMonitorLocationHandler>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:17IONGeolocationLib29IONGLOCMonitorLocationHandlerP",
+        "mangledName": "$s17IONGeolocationLib29IONGLOCMonitorLocationHandlerP",
+        "moduleName": "IONGeolocationLib",
+        "genericSig": "<τ_0_0 : IONGeolocationLib.IONGLOCLocationHandler>",
+        "sugared_genericSig": "<Self : IONGeolocationLib.IONGLOCLocationHandler>",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "IONGLOCLocationHandler",
+            "printedName": "IONGLOCLocationHandler",
+            "usr": "s:17IONGeolocationLib22IONGLOCLocationHandlerP",
+            "mangledName": "$s17IONGeolocationLib22IONGLOCLocationHandlerP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "IONGLOCConfigurationModel",
+        "printedName": "IONGLOCConfigurationModel",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(enableHighAccuracy:minimumUpdateDistanceInMeters:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "IONGLOCConfigurationModel",
+                "printedName": "IONGeolocationLib.IONGLOCConfigurationModel",
+                "usr": "s:17IONGeolocationLib25IONGLOCConfigurationModelV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.Double?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Double",
+                    "printedName": "Swift.Double",
+                    "usr": "s:Sd"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:17IONGeolocationLib25IONGLOCConfigurationModelV18enableHighAccuracy29minimumUpdateDistanceInMetersACSb_SdSgtcfc",
+            "mangledName": "$s17IONGeolocationLib25IONGLOCConfigurationModelV18enableHighAccuracy29minimumUpdateDistanceInMetersACSb_SdSgtcfc",
+            "moduleName": "IONGeolocationLib",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:17IONGeolocationLib25IONGLOCConfigurationModelV",
+        "mangledName": "$s17IONGeolocationLib25IONGLOCConfigurationModelV",
+        "moduleName": "IONGeolocationLib",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": []
+}

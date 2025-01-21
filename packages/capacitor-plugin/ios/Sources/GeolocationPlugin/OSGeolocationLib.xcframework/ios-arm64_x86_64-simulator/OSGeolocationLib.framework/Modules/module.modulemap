@@ -1,4 +1,0 @@
-framework module OSGeolocationLib {
-  header "OSGeolocationLib-Swift.h"
-  requires objc
-}

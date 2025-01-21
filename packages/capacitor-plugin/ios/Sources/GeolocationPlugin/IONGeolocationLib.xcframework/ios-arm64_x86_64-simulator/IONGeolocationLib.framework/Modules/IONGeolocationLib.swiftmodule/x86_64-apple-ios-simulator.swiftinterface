@@ -1,0 +1,142 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.0.3 effective-5.10 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)
+// swift-module-flags: -target x86_64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name IONGeolocationLib
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface
+import Combine
+import CoreLocation
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public enum IONGLOCAuthorisation {
+  case notDetermined
+  case restricted
+  case denied
+  case authorisedAlways
+  case authorisedWhenInUse
+  public static func == (a: IONGeolocationLib.IONGLOCAuthorisation, b: IONGeolocationLib.IONGLOCAuthorisation) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct IONGLOCPositionModel : Swift.Equatable {
+  public var altitude: Swift.Double {
+    get
+  }
+  public var course: Swift.Double {
+    get
+  }
+  public var horizontalAccuracy: Swift.Double {
+    get
+  }
+  public var latitude: Swift.Double {
+    get
+  }
+  public var longitude: Swift.Double {
+    get
+  }
+  public var speed: Swift.Double {
+    get
+  }
+  public var timestamp: Swift.Double {
+    get
+  }
+  public var verticalAccuracy: Swift.Double {
+    get
+  }
+  public static func == (a: IONGeolocationLib.IONGLOCPositionModel, b: IONGeolocationLib.IONGLOCPositionModel) -> Swift.Bool
+}
+extension IONGeolocationLib.IONGLOCPositionModel {
+  public static func create(from location: CoreLocation.CLLocation) -> IONGeolocationLib.IONGLOCPositionModel
+}
+public enum IONGLOCAuthorisationRequestType {
+  case whenInUse
+  case always
+  public static func == (a: IONGeolocationLib.IONGLOCAuthorisationRequestType, b: IONGeolocationLib.IONGLOCAuthorisationRequestType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public typealias IONGLOCService = IONGeolocationLib.IONGLOCAuthorisationHandler & IONGeolocationLib.IONGLOCMonitorLocationHandler & IONGeolocationLib.IONGLOCServicesChecker & IONGeolocationLib.IONGLOCSingleLocationHandler
+public struct IONGLOCServicesValidator : IONGeolocationLib.IONGLOCServicesChecker {
+  public init()
+  public func areLocationServicesEnabled() -> Swift.Bool
+}
+@objc public class IONGLOCManagerWrapper : ObjectiveC.NSObject, IONGeolocationLib.IONGLOCService {
+  @Combine.Published @_projectedValueProperty($authorisationStatus) public var authorisationStatus: IONGeolocationLib.IONGLOCAuthorisation {
+    get
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    set
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    _modify
+  }
+  public var $authorisationStatus: Combine.Published<IONGeolocationLib.IONGLOCAuthorisation>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  public var authorisationStatusPublisher: Combine.Published<IONGeolocationLib.IONGLOCAuthorisation>.Publisher {
+    get
+  }
+  @Combine.Published @_projectedValueProperty($currentLocation) public var currentLocation: IONGeolocationLib.IONGLOCPositionModel? {
+    get
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    set
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    _modify
+  }
+  public var $currentLocation: Combine.Published<IONGeolocationLib.IONGLOCPositionModel?>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  public var currentLocationPublisher: Combine.AnyPublisher<IONGeolocationLib.IONGLOCPositionModel, IONGeolocationLib.IONGLOCLocationError> {
+    get
+  }
+  public init(locationManager: CoreLocation.CLLocationManager = .init(), servicesChecker: any IONGeolocationLib.IONGLOCServicesChecker = IONGLOCServicesValidator())
+  public func requestAuthorisation(withType authorisationType: IONGeolocationLib.IONGLOCAuthorisationRequestType)
+  public func startMonitoringLocation()
+  public func stopMonitoringLocation()
+  public func requestSingleLocation()
+  public func updateConfiguration(_ configuration: IONGeolocationLib.IONGLOCConfigurationModel)
+  public func areLocationServicesEnabled() -> Swift.Bool
+  @objc deinit
+}
+extension IONGeolocationLib.IONGLOCManagerWrapper : CoreLocation.CLLocationManagerDelegate {
+  @objc dynamic public func locationManagerDidChangeAuthorization(_ manager: CoreLocation.CLLocationManager)
+  @objc dynamic public func locationManager(_ manager: CoreLocation.CLLocationManager, didUpdateLocations locations: [CoreLocation.CLLocation])
+  @objc dynamic public func locationManager(_ manager: CoreLocation.CLLocationManager, didFailWithError error: any Swift.Error)
+}
+public protocol IONGLOCServicesChecker {
+  func areLocationServicesEnabled() -> Swift.Bool
+}
+public protocol IONGLOCAuthorisationHandler {
+  var authorisationStatus: IONGeolocationLib.IONGLOCAuthorisation { get }
+  var authorisationStatusPublisher: Combine.Published<IONGeolocationLib.IONGLOCAuthorisation>.Publisher { get }
+  func requestAuthorisation(withType authorisationType: IONGeolocationLib.IONGLOCAuthorisationRequestType)
+}
+public enum IONGLOCLocationError : Swift.Error {
+  case locationUnavailable
+  case other(_: any Swift.Error)
+}
+public protocol IONGLOCLocationHandler {
+  var currentLocation: IONGeolocationLib.IONGLOCPositionModel? { get }
+  var currentLocationPublisher: Combine.AnyPublisher<IONGeolocationLib.IONGLOCPositionModel, IONGeolocationLib.IONGLOCLocationError> { get }
+  func updateConfiguration(_ configuration: IONGeolocationLib.IONGLOCConfigurationModel)
+}
+public protocol IONGLOCSingleLocationHandler : IONGeolocationLib.IONGLOCLocationHandler {
+  func requestSingleLocation()
+}
+public protocol IONGLOCMonitorLocationHandler : IONGeolocationLib.IONGLOCLocationHandler {
+  func startMonitoringLocation()
+  func stopMonitoringLocation()
+}
+public struct IONGLOCConfigurationModel {
+  public init(enableHighAccuracy: Swift.Bool, minimumUpdateDistanceInMeters: Swift.Double? = nil)
+}
+extension IONGeolocationLib.IONGLOCAuthorisation : Swift.Equatable {}
+extension IONGeolocationLib.IONGLOCAuthorisation : Swift.Hashable {}
+extension IONGeolocationLib.IONGLOCAuthorisationRequestType : Swift.Equatable {}
+extension IONGeolocationLib.IONGLOCAuthorisationRequestType : Swift.Hashable {}

@@ -1,4 +1,4 @@
-enum OSGeolocationMethod: String {
+enum GeolocationMethod: String {
     case getCurrentPosition
     case watchPosition
     case clearWatch
@@ -9,7 +9,7 @@ enum GeolocationError: Error {
     case permissionDenied
     case permissionRestricted
     case positionUnavailable
-    case inputArgumentsIssue(target: OSGeolocationMethod)
+    case inputArgumentsIssue(target: GeolocationMethod)
 
     func toCodeMessagePair() -> (String, String) {
         ("OS-PLUG-GLOC-\(String(format: "%04d", code))", description)

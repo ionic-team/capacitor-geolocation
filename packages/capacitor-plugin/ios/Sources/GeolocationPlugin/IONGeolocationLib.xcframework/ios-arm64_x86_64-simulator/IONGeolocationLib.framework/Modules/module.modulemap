@@ -1,0 +1,4 @@
+framework module IONGeolocationLib {
+  header "IONGeolocationLib-Swift.h"
+  requires objc
+}
