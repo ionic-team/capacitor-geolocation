@@ -19,10 +19,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ionic-team/capacitor-plugin-geolocation.git"
+    "url": "https://github.com/ionic-team/capacitor-geolocation.git"
   },
   "bugs": {
-    "url": "https://github.com/ionic-team/capacitor-plugin-geolocation/issues"
+    "url": "https://github.com/ionic-team/capacitor-geolocation/issues"
   },
   "keywords": [
     "capacitor",

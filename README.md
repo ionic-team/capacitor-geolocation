@@ -1,2 +1,2 @@
-# capacitor-plugin-geolocation
+# capacitor-geolocation
  
