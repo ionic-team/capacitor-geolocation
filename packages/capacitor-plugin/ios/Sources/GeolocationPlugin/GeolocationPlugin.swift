@@ -1,5 +1,5 @@
 import Capacitor
-import OSGeolocationLib
+import IONGeolocationLib
 
 import Combine
 
@@ -15,13 +15,13 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         .init(name: "requestPermissions", returnType: CAPPluginReturnPromise)
     ]
 
-    private var locationService: (any OSGLOCService)?
+    private var locationService: (any IONGLOCService)?
     private var cancellables = Set<AnyCancellable>()
     private var callbackManager: GeolocationCallbackManager?
     private var isInitialised: Bool = false
 
     public override func load() {
-        self.locationService = OSGLOCManagerWrapper()
+        self.locationService = IONGLOCManagerWrapper()
         self.callbackManager = .init(capacitorBridge: bridge)
     }
 
@@ -118,7 +118,7 @@ private extension GeolocationPlugin {
             .store(in: &cancellables)
     }
 
-    func requestLocationAuthorisation(type requestType: OSGLOCAuthorisationRequestType) {
+    func requestLocationAuthorisation(type requestType: IONGLOCAuthorisationRequestType) {
         DispatchQueue.global(qos: .background).async {
             self.checkIfLocationServicesAreEnabled()
             self.locationService?.requestAuthorisation(withType: requestType)
@@ -146,7 +146,7 @@ private extension GeolocationPlugin {
     }
 
     func handleLocationRequest(_ enableHighAccuracy: Bool, watchUUID: String? = nil, call: CAPPluginCall) {
-        let configurationModel = OSGLOCConfigurationModel(enableHighAccuracy: enableHighAccuracy)
+        let configurationModel = IONGLOCConfigurationModel(enableHighAccuracy: enableHighAccuracy)
         locationService?.updateConfiguration(configurationModel)
 
         if let watchUUID {

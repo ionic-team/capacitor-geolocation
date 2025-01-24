@@ -1,4 +1,4 @@
-enum OSGeolocationMethod: String {
+enum GeolocationMethod: String {
     case getCurrentPosition
     case watchPosition
     case clearWatch
@@ -9,25 +9,25 @@ enum GeolocationError: Error {
     case permissionDenied
     case permissionRestricted
     case positionUnavailable
-    case inputArgumentsIssue(target: OSGeolocationMethod)
+    case inputArgumentsIssue(target: GeolocationMethod)
 
     func toCodeMessagePair() -> (String, String) {
-        ("OS-PLUG-GLOC-\(String(format: "%04d", code))", description)
+        ("CAP-PLUGIN-GLOC-\(String(format: "%04d", code))", description)
     }
 }
 
 private extension GeolocationError {
     var code: Int {
         switch self {
-        case .positionUnavailable: 4
-        case .permissionDenied: 5
-        case .locationServicesDisabled: 11
-        case .permissionRestricted: 12
+        case .positionUnavailable: 2
+        case .permissionDenied: 3
+        case .locationServicesDisabled: 7
+        case .permissionRestricted: 8
         case .inputArgumentsIssue(let target):
             switch target {
-            case .getCurrentPosition: 13
-            case .watchPosition: 14
-            case .clearWatch: 15
+            case .getCurrentPosition: 4
+            case .watchPosition: 5
+            case .clearWatch: 6
             }
         }
     }
