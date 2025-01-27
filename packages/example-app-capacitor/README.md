@@ -5,8 +5,24 @@ and comes with a very minimal shell for building an app.
 
 ### Running this example
 
-To run the provided example, you can use `npm start` command.
+To run the provided example, first build the plugin: go to `../capacitor-plugin` and run
 
 ```bash
+cd ../capacitor-plugin
+npm install & npm run build
+```
+
+Then go back to this directory and build and run the app:
+
+```bash
+cd ../example-app-capacitor
+npm install & npm run build
 npm start
+```
+
+To run the mobile app, run the following commands in order:
+
+```bash
+npx cap sync
+npx cap run
 ```
