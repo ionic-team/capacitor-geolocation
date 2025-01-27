@@ -1,13 +1,43 @@
-# geolocation-capacitor
+# @capacitor/geolocation
 
-A simple plugin
+The Geolocation Plugin provides simple methods for getting and tracking the current position of the device using GPS, along with altitude, heading, and speed information if available.
+
+This repo is a revamp of the [geolocation plugin](https://github.com/ionic-team/capacitor-plugins/tree/main/geolocation). It uses native libraries for geolocation in mobile. These libraries are in separate repositories:
+
+- [ion-android-geolocation](https://github.com/ionic-team/ion-android-geolocation)
+- [ion-ios-geolocation](https://github.com/ionic-team/ion-ios-geolocation)
 
 ## Install
 
 ```bash
-npm install geolocation-capacitor
+npm install @capacitor/geolocation
 npx cap sync
 ```
+
+## iOS
+
+Apple requires privacy descriptions to be specified in `Info.plist` for location information:
+
+- `NSLocationAlwaysAndWhenInUseUsageDescription` (`Privacy - Location Always and When In Use Usage Description`)
+- `NSLocationWhenInUseUsageDescription` (`Privacy - Location When In Use Usage Description`)
+
+Read about [Configuring `Info.plist`](https://capacitorjs.com/docs/ios/configuration#configuring-infoplist) in the [iOS Guide](https://capacitorjs.com/docs/ios) for more information on setting iOS permissions in Xcode
+
+## Android
+
+This plugin requires the following permissions be added to your `AndroidManifest.xml`:
+
+```xml
+<!-- Geolocation Plugin -->
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-feature android:name="android.hardware.location.gps" />
+```
+
+The first two permissions ask for location data, both fine and coarse, and the last line is optional but necessary if your app _requires_ GPS to function. You may leave it out, though keep in mind that this may mean your app is installed on devices lacking GPS hardware.
+
+Read about [Setting Permissions](https://capacitorjs.com/docs/android/configuration#setting-permissions) in the [Android Guide](https://capacitorjs.com/docs/android) for more information on setting Android permissions.
+
 
 ## API
 
@@ -22,6 +52,8 @@ npx cap sync
 * [Type Aliases](#type-aliases)
 
 </docgen-index>
+
+* [Errors](#Errors)
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
@@ -106,6 +138,8 @@ requestPermissions(permissions?: GeolocationPluginPermissions | undefined) => Pr
 
 Request location permissions.  Will throw if system location services are disabled.
 
+Not available on web.
+
 | Param             | Type                                                                                  |
 | ----------------- | ------------------------------------------------------------------------------------- |
 | **`permissions`** | <code><a href="#geolocationpluginpermissions">GeolocationPluginPermissions</a></code> |
@@ -133,7 +167,7 @@ Request location permissions.  Will throw if system location services are disabl
 | Prop                        | Type                 | Description                                                                                                                                                                                                                                                                                                     | Default            | Since |
 | --------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----- |
 | **`enableHighAccuracy`**    | <code>boolean</code> | High accuracy mode (such as GPS, if available) On Android 12+ devices it will be ignored if users didn't grant ACCESS_FINE_LOCATION permissions (can be checked with location alias).                                                                                                                           | <code>false</code> | 1.0.0 |
-| **`timeout`**               | <code>number</code>  | The maximum wait time in milliseconds for location updates. In Android, since version 4.0.0 of the plugin, timeout gets ignored for getCurrentPosition.                                                                                                                                                         | <code>10000</code> | 1.0.0 |
+| **`timeout`**               | <code>number</code>  | The maximum wait time in milliseconds for location updates. In Android, since version 7.1.0 of the plugin, it is also used to determine the interval of location updates for `watchPosition`.                                                                                                                   | <code>10000</code> | 1.0.0 |
 | **`maximumAge`**            | <code>number</code>  | The maximum age in milliseconds of a possible cached position that is acceptable to return                                                                                                                                                                                                                      | <code>0</code>     | 1.0.0 |
 | **`minimumUpdateInterval`** | <code>number</code>  | The minumum update interval for location updates. If location updates are available faster than this interval then an update will only occur if the minimum update interval has expired since the last location update. This parameter is only available for Android. It has no effect on iOS or Web platforms. | <code>5000</code>  | 6.1.0 |
 
@@ -183,3 +217,27 @@ Request location permissions.  Will throw if system location services are disabl
 <code>'location' | 'coarseLocation'</code>
 
 </docgen-api>
+
+### Errors
+
+The plugin returns specific errors with specific codes on native Android and iOS. Web does not follow this standard for errors. 
+
+The following table list all the plugin errors:
+
+| Error code           | Platform(s)  | Message                                  |
+| -------------------- | ------------ | ---------------------------------------- |
+| CAP-PLUGIN-GLOC-0002 | Android, iOS | There was en error trying to obtain the location. |
+| CAP-PLUGIN-GLOC-0003 | Android, iOS | Location permission request was denied. |
+| CAP-PLUGIN-GLOC-0004 | iOS          | The 'getCurrentPosition' input parameters aren't valid. |
+| CAP-PLUGIN-GLOC-0005 | iOS          | The 'watchPosition' input parameters aren't valid. |
+| CAP-PLUGIN-GLOC-0006 | iOS          | The 'clearWatch' input parameters aren't valid. |
+| CAP-PLUGIN-GLOC-0007 | Android, iOS | Location services are not enabled. |
+| CAP-PLUGIN-GLOC-0008 | iOS          | Application's use of location services was restricted. |
+| CAP-PLUGIN-GLOC-0009 | Android      | Request to enable location was denied. |
+| CAP-PLUGIN-GLOC-0010 | Android      | Could not obtain location in time. Try with a higher timeout. |
+| CAP-PLUGIN-GLOC-0011 | Android      | Timeout needs to be a positive value. |
+| CAP-PLUGIN-GLOC-0012 | Android      | WatchId not found. |
+| CAP-PLUGIN-GLOC-0013 | Android      | WatchId needs to be provided. |
+| CAP-PLUGIN-GLOC-0014 | Android      | Google Play Services error user resolvable. |
+| CAP-PLUGIN-GLOC-0015 | Android      | Google Play Services error. |
+| CAP-PLUGIN-GLOC-0016 | Android      | Location settings error. |
