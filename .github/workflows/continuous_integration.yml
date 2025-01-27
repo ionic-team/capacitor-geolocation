@@ -50,7 +50,7 @@ jobs:
         run: npx cap sync
       - name: 'Build Android example app'
         working-directory: ./packages/example-app-capacitor/android
-        run: ./gradlew clean build
+        run: ./gradlew clean assembleDebug
       - name: 'Build iOS example app'
         working-directory: ./packages/example-app-capacitor/ios/App
         run: xcodebuild clean build -workspace App.xcworkspace -scheme App CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
