@@ -50,7 +50,7 @@ Read about [Setting Permissions](https://capacitorjs.com/docs/android/configurat
 
 </docgen-index>
 
-* [Errors](#Errors)
+For list of error codes, see [Errors](#Errors)
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
