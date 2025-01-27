@@ -2,18 +2,7 @@
 
 # @capacitor/geolocation
 
-The Geolocation Plugin provides simple methods for getting and tracking the current position of the device using GPS, along with altitude, heading, and speed information if available.
-
-This repo is a revamp of the [original geolocation plugin](https://github.com/ionic-team/capacitor-plugins/tree/main/geolocation), and the official plugin since [version 7.1.0](/CHANGELOG.md#4.0.0). 
-
-The plugin uses native libraries for accessing location in mobile. These libraries are housed in separate repositories:
-
-- [ion-android-geolocation](https://github.com/ionic-team/ion-android-geolocation)
-- [ion-ios-geolocation](https://github.com/ionic-team/ion-ios-geolocation)
-
-## Getting started
-
-See the [example app](/packages/example-app-capacitor/) for sample usages of this plugin.
+The Geolocation API provides simple methods for getting and tracking the current position of the device using GPS, along with altitude, heading, and speed information if available.
 
 ## Install
 
