@@ -49,6 +49,10 @@ Check formatting and code quality, autoformat/autofix if possible.
 
 This template is integrated with ESLint, Prettier, and SwiftLint. Using these tools is completely optional, but the [Capacitor Community](https://github.com/capacitor-community/) strives to have consistent code style and structure for easier cooperation.
 
+## Commits/PR's
+
+Commits and PR's should use the [conventional-commits](https://www.conventionalcommits.org/) format so the release process can version and create changelog correctly.
+
 ## Publishing
 
 Publishing is automated based on the branch committed to. When a commit or merge is made to a branch a release that corresponds with the branch will be created:
