@@ -3,25 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@7.0.0-rc.0...@capacitor/geolocation@7.0.0) (2025-01-20)
+
+**Note:** Version bump only for package @capacitor/geolocation
+
+# [7.0.0-rc.0](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@7.0.0-alpha.2...@capacitor/geolocation@7.0.0-rc.0) (2025-01-13)
+
+**Note:** Version bump only for package @capacitor/geolocation
+
 # [7.0.0-alpha.2](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@7.0.0-alpha.1...@capacitor/geolocation@7.0.0-alpha.2) (2024-12-19)
 
 **Note:** Version bump only for package @capacitor/geolocation
 
-# [7.0.0-alpha.1](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@6.1.0...@capacitor/geolocation@7.0.0-alpha.1) (2024-12-16)
+# [7.0.0-alpha.1](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@6.0.1...@capacitor/geolocation@7.0.0-alpha.1) (2024-12-16)
 
 ### Features
 
 - **geolocation:** add `minimumUpdateInterval` parameter for `startWatch` ([#2272](https://github.com/ionic-team/capacitor-plugins/issues/2272)) ([c6ddc53](https://github.com/ionic-team/capacitor-plugins/commit/c6ddc53efb7eb2b3fc04fc9f2dc9660c9db1a464))
-
-# [6.1.0](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@6.0.2...@capacitor/geolocation@6.1.0) (2024-12-06)
-
-### Features
-
-- **geolocation:** add `minimumUpdateInterval` parameter for `startWatch` ([#2272](https://github.com/ionic-team/capacitor-plugins/issues/2272)) ([2c6a499](https://github.com/ionic-team/capacitor-plugins/commit/2c6a4999a3876629799d607eea5ac2c317e73eb4))
-
-## [6.0.2](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@6.0.1...@capacitor/geolocation@6.0.2) (2024-11-19)
-
-**Note:** Version bump only for package @capacitor/geolocation
 
 ## [6.0.1](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@6.0.0...@capacitor/geolocation@6.0.1) (2024-08-08)
 
