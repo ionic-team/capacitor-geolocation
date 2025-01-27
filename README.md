@@ -7,6 +7,10 @@ This repo is a revamp of the [geolocation plugin](https://github.com/ionic-team/
 - [ion-android-geolocation](https://github.com/ionic-team/ion-android-geolocation)
 - [ion-ios-geolocation](https://github.com/ionic-team/ion-ios-geolocation)
 
+## Getting started
+
+See the [example app](/packages/example-app-capacitor/) for sample usages of this plugin.
+
 ## Install
 
 ```bash
