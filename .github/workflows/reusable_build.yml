@@ -1,0 +1,36 @@
+name: "Build Plugin"
+
+on: 
+  workflow_call:
+    secrets:
+      THE_GH_RELEASE_TOKEN:
+        required: false
+
+jobs:
+  build:
+    runs-on: 'ubuntu-24.04'
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.THE_GH_RELEASE_TOKEN || github.token }}
+
+      - name: 'Setup Tools'
+        uses: ./.github/actions/setup-tools
+
+      - name: 'Copy original README.md'
+        working-directory: ./packages/capacitor-plugin
+        run: cp README.md README.md.original
+
+      - name: 'Build Packages'
+        working-directory: ./packages/capacitor-plugin
+        run: npm run build
+
+      - name: 'Check README.md changes'
+        working-directory: ./packages/capacitor-plugin
+        run: |
+          if ! cmp --silent README.md README.md.original; then
+            echo "Detected README.md changes; Do 'npm run build' to update the docs."
+            exit 1
+          fi

@@ -1,0 +1,56 @@
+name: "Continuous Integrations"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  setup:
+    uses: ./.github/workflows/reusable_setup.yml
+
+  lint:
+    needs: 'setup'
+    uses: ./.github/workflows/reusable_lint.yml
+
+  build:
+    needs: 'setup'
+    uses: ./.github/workflows/reusable_build.yml
+
+  verify-plugin:
+    needs: ['setup', 'lint', 'build']
+    runs-on: 'macos-15'
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Setup Tools'
+        uses: ./.github/actions/setup-tools
+      - name: 'Verify iOS + Android + Web'
+        working-directory: ./packages/capacitor-plugin
+        run: npm run verify
+
+  build-example-app:
+    needs: ['verify-plugin']
+    runs-on: 'macos-15'
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Setup Tools'
+        uses: ./.github/actions/setup-tools
+      - name: 'Build plugin'
+        working-directory: ./packages/capacitor-plugin
+        run: npm run build
+      - name: 'Install example app dependencies'
+        working-directory: ./packages/example-app-capacitor
+        run: npm i
+      - name: 'Build Web example app'
+        working-directory: ./packages/example-app-capacitor
+        run: npm run build
+      - name: 'Sync example app native platforms'
+        working-directory: ./packages/example-app-capacitor
+        run: npx cap sync
+      - name: 'Build Android example app'
+        working-directory: ./packages/example-app-capacitor/android
+        run: ./gradlew clean assembleDebug
+      - name: 'Build iOS example app'
+        working-directory: ./packages/example-app-capacitor/ios/App
+        run: xcodebuild clean build -workspace App.xcworkspace -scheme App CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
