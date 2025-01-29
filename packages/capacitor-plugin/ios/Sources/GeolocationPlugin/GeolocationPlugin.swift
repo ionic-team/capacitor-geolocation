@@ -20,7 +20,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     private var callbackManager: GeolocationCallbackManager?
     private var isInitialised: Bool = false
 
-    public override func load() {
+    override public func load() {
         self.locationService = IONGLOCManagerWrapper()
         self.callbackManager = .init(capacitorBridge: bridge)
     }
@@ -53,7 +53,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         callbackManager?.sendSuccess(call)
     }
 
-    public override func checkPermissions(_ call: CAPPluginCall) {
+    override public func checkPermissions(_ call: CAPPluginCall) {
         checkIfLocationServicesAreEnabled()
 
         let status = switch locationService?.authorisationStatus {
@@ -69,7 +69,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         callbackManager?.sendSuccess(call, with: callResultData)
     }
 
-    public override func requestPermissions(_ call: CAPPluginCall) {
+    override public func requestPermissions(_ call: CAPPluginCall) {
         checkIfLocationServicesAreEnabled()
 
         if locationService?.authorisationStatus == .notDetermined {

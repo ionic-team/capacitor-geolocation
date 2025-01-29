@@ -69,7 +69,7 @@ export interface GeolocationPlugin {
 
   /**
    * Request location permissions.  Will throw if system location services are disabled.
-   * 
+   *
    * Not available on web.
    *
    * @since 1.0.0
@@ -163,7 +163,7 @@ export interface PositionOptions {
   /**
    * The maximum wait time in milliseconds for location updates.
    *
-   * In Android, since version 7.1.0 of the plugin, it is also used to determine the 
+   * In Android, since version 7.1.0 of the plugin, it is also used to determine the
    * interval of location updates for `watchPosition`.
    *
    * @default 10000
