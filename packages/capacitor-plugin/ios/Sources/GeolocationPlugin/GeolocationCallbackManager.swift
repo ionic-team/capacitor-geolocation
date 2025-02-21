@@ -33,6 +33,9 @@ final class GeolocationCallbackManager {
             .init(ids: Array(watchCallbacks.values), type: .watch)
         ]
     }
+    private var requestPermissionsCallbackGroup: GeolocationCallbackGroup? {
+        allCallbackGroups.first { $0.type == .requestPermissions }
+    }
 
     init(capacitorBridge: CAPBridgeProtocol?) {
         self.capacitorBridge = capacitorBridge
@@ -86,11 +89,11 @@ final class GeolocationCallbackManager {
     }
 
     func sendRequestPermissionsSuccess(_ permissionsResult: String) {
-        let data = [
-            Constants.AuthorisationStatus.ResultKey.location: permissionsResult,
-            Constants.AuthorisationStatus.ResultKey.coarseLocation: permissionsResult
-        ]
-        if let group = allCallbackGroups.first(where: { $0.type == .requestPermissions }) {
+        if let group = requestPermissionsCallbackGroup {
+            let data = [
+                Constants.AuthorisationStatus.ResultKey.location: permissionsResult,
+                Constants.AuthorisationStatus.ResultKey.coarseLocation: permissionsResult
+            ]
             send(.success(data), to: group)
         }
     }

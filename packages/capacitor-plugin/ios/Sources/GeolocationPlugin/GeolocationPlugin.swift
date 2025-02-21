@@ -129,11 +129,8 @@ private extension GeolocationPlugin {
     func checkIfLocationServicesAreEnabled(_ call: CAPPluginCall? = nil) -> Bool {
         let enabled = locationService?.areLocationServicesEnabled() ?? false
         if !enabled {
-            if let call = call {
-                callbackManager?.sendError(call, error: .locationServicesDisabled)
-            } else {
-                callbackManager?.sendError(.locationServicesDisabled)
-            }
+            call.map { callbackManager?.sendError($0, error: .locationServicesDisabled) }
+                ?? callbackManager?.sendError(.locationServicesDisabled)
         }
         return enabled
     }
