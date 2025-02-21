@@ -2,6 +2,7 @@ import Capacitor
 import IONGeolocationLib
 
 private enum GeolocationCallbackType {
+    case requestPermissions
     case location
     case watch
 
@@ -10,7 +11,7 @@ private enum GeolocationCallbackType {
     }
 
     var shouldClearAfterSending: Bool {
-        self == .location
+        self == .location || self == .requestPermissions
     }
 }
 
@@ -20,12 +21,14 @@ private struct GeolocationCallbackGroup {
 }
 
 final class GeolocationCallbackManager {
+    private(set) var requestPermissionsCallbacks: [CAPPluginCall]
     private(set) var locationCallbacks: [CAPPluginCall]
     private(set) var watchCallbacks: [String: CAPPluginCall]
     private let capacitorBridge: CAPBridgeProtocol?
 
     private var allCallbackGroups: [GeolocationCallbackGroup] {
         [
+            .init(ids: requestPermissionsCallbacks, type: .requestPermissions),
             .init(ids: locationCallbacks, type: .location),
             .init(ids: Array(watchCallbacks.values), type: .watch)
         ]
@@ -33,8 +36,14 @@ final class GeolocationCallbackManager {
 
     init(capacitorBridge: CAPBridgeProtocol?) {
         self.capacitorBridge = capacitorBridge
+        self.requestPermissionsCallbacks = []
         self.locationCallbacks = []
         self.watchCallbacks = [:]
+    }
+
+    func addRequestPermissionsCallback(capacitorCall call: CAPPluginCall) {
+        capacitorBridge?.saveCall(call)
+        requestPermissionsCallbacks.append(call)
     }
 
     func addLocationCallback(capacitorCall call: CAPPluginCall) {
@@ -45,6 +54,13 @@ final class GeolocationCallbackManager {
     func addWatchCallback(_ watchId: String, capacitorCall call: CAPPluginCall) {
         capacitorBridge?.saveCall(call)
         watchCallbacks[watchId] = call
+    }
+
+    func clearRequestPermissionsCallbacks() {
+        requestPermissionsCallbacks.forEach {
+            capacitorBridge?.releaseCall($0)
+        }
+        requestPermissionsCallbacks.removeAll()
     }
 
     func clearWatchCallbackIfExists(_ watchId: String) {
@@ -69,8 +85,23 @@ final class GeolocationCallbackManager {
         call.resolve(data)
     }
 
+    func sendRequestPermissionsSuccess(_ permissionsResult: String) {
+        let data = [
+            Constants.AuthorisationStatus.ResultKey.location: permissionsResult,
+            Constants.AuthorisationStatus.ResultKey.coarseLocation: permissionsResult
+        ]
+        if let group = allCallbackGroups.first(where: { $0.type == .requestPermissions }) {
+            send(.success(data), to: group)
+        }
+    }
+
     func sendSuccess(with position: IONGLOCPositionModel) {
         createPluginResult(status: .success(position.toJSObject()))
+    }
+
+    func sendError(_ call: CAPPluginCall, error: GeolocationError) {
+        let errorModel = error.toCodeMessagePair()
+        call.reject(errorModel.1, errorModel.0)
     }
 
     func sendError(_ error: GeolocationError) {
@@ -87,6 +118,7 @@ private enum CallResultStatus {
 }
 
 private extension GeolocationCallbackManager {
+
     func createPluginResult(status: CallResultStatus) {
         allCallbackGroups.forEach {
             send(status, to: $0)
@@ -112,6 +144,8 @@ private extension GeolocationCallbackManager {
     func clearCallbacks(for type: GeolocationCallbackType) {
         if case .location = type {
             clearLocationCallbacks()
+        } else if case .requestPermissions = type {
+            clearRequestPermissionsCallbacks()
         }
     }
 }

@@ -53,8 +53,8 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         callbackManager?.sendSuccess(call)
     }
 
-    override public func checkPermissions(_ call: CAPPluginCall) {
-        checkIfLocationServicesAreEnabled()
+    @objc override public func checkPermissions(_ call: CAPPluginCall) {
+        guard checkIfLocationServicesAreEnabled(call) else { return }
 
         let status = switch locationService?.authorisationStatus {
         case .restricted, .denied: Constants.AuthorisationStatus.Status.denied
@@ -69,11 +69,12 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         callbackManager?.sendSuccess(call, with: callResultData)
     }
 
-    override public func requestPermissions(_ call: CAPPluginCall) {
-        checkIfLocationServicesAreEnabled()
+    @objc override public func requestPermissions(_ call: CAPPluginCall) {
+        guard checkIfLocationServicesAreEnabled(call) else { return }
 
         if locationService?.authorisationStatus == .notDetermined {
             shouldSetupBindings()
+            callbackManager?.addRequestPermissionsCallback(capacitorCall: call)
         } else {
             checkPermissions(call)
         }
@@ -94,13 +95,13 @@ private extension GeolocationPlugin {
 
                 switch status {
                 case .denied:
-                    self.callbackManager?.sendError(.permissionDenied)
+                    self.onLocationPermissionNotGranted(error: .permissionDenied)
                 case .notDetermined:
                     self.requestLocationAuthorisation(type: .whenInUse)
                 case .restricted:
-                    self.callbackManager?.sendError(.permissionRestricted)
+                    self.onLocationPermissionNotGranted(error: .permissionRestricted)
                 case .authorisedAlways, .authorisedWhenInUse:
-                    self.requestLocation()
+                    self.onLocationPermissionGranted()
                 @unknown default: break
                 }
             })
@@ -120,23 +121,44 @@ private extension GeolocationPlugin {
 
     func requestLocationAuthorisation(type requestType: IONGLOCAuthorisationRequestType) {
         DispatchQueue.global(qos: .background).async {
-            self.checkIfLocationServicesAreEnabled()
+            guard self.checkIfLocationServicesAreEnabled() else { return }
             self.locationService?.requestAuthorisation(withType: requestType)
         }
     }
 
-    func checkIfLocationServicesAreEnabled() {
-        guard locationService?.areLocationServicesEnabled() ?? false else {
-            callbackManager?.sendError(.locationServicesDisabled)
-            return
+    func checkIfLocationServicesAreEnabled(_ call: CAPPluginCall? = nil) -> Bool {
+        let enabled = locationService?.areLocationServicesEnabled() ?? false
+        if !enabled {
+            if let call = call {
+                callbackManager?.sendError(call, error: .locationServicesDisabled)
+            } else {
+                callbackManager?.sendError(.locationServicesDisabled)
+            }
+        }
+        return enabled
+    }
+
+    func onLocationPermissionNotGranted(error: GeolocationError) {
+        let shouldNotifyRequestPermissionsResult = callbackManager?.requestPermissionsCallbacks.isEmpty == false
+        let shouldNotifyPermissionError = callbackManager?.locationCallbacks.isEmpty == false ||  callbackManager?.watchCallbacks.isEmpty == false
+
+        if shouldNotifyRequestPermissionsResult {
+            self.callbackManager?.sendRequestPermissionsSuccess(Constants.AuthorisationStatus.Status.denied)
+        }
+        if shouldNotifyPermissionError {
+            self.callbackManager?.sendError(error)
         }
     }
 
-    func requestLocation() {
-        // should request if callbacks exist and are not empty
+    func onLocationPermissionGranted() {
+        let shouldNotifyPermissionGranted = callbackManager?.requestPermissionsCallbacks.isEmpty == false
+        // should request location if callbacks below exist and are not empty
         let shouldRequestCurrentPosition = callbackManager?.locationCallbacks.isEmpty == false
         let shouldRequestLocationMonitoring = callbackManager?.watchCallbacks.isEmpty == false
 
+        if shouldNotifyPermissionGranted {
+            callbackManager?.sendRequestPermissionsSuccess(Constants.AuthorisationStatus.Status.granted)
+        }
         if shouldRequestCurrentPosition {
             locationService?.requestSingleLocation()
         }
@@ -156,7 +178,7 @@ private extension GeolocationPlugin {
         }
 
         switch locationService?.authorisationStatus {
-        case .authorisedAlways, .authorisedWhenInUse: requestLocation()
+        case .authorisedAlways, .authorisedWhenInUse: onLocationPermissionGranted()
         case .denied: callbackManager?.sendError(.permissionDenied)
         case .restricted: callbackManager?.sendError(.permissionRestricted)
         default: break
