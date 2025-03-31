@@ -64,6 +64,12 @@ window.customElements.define(
         <button id="check-permission" class="button">Check permission</button>
         <button id="request-permission" class="button">Request permission</button>
         <br><br>
+        <label for="timeoutInput">timeout: </label>
+        <input type="number" id="timeoutInput" name="timeoutInput"><br>
+        <label for="ageInput">maximumAge: </label>
+        <input type="number" id="ageInput" name="ageInput"><br>
+        <input type="checkbox" id="highaccuracyCheck" name="highaccuracyCheck" checked="true"">
+        <label for="highaccuracyCheck">enableHighAccuracy</label><br><br>
         <button id="current-location" class="button">Get Current (single) position</button>
         <br><br>
         <button id="watch-location" class="button">Watch position (updates)</button>
@@ -101,8 +107,9 @@ window.customElements.define(
 
       self.shadowRoot.querySelector('#current-location').addEventListener('click', async function (e) {
         try {
+          let options = createLocationOptions();
           const currentLocation = await Geolocation.getCurrentPosition(
-            { enableHighAccuracy: true }
+            options
           );
           const locationString = locationToString(currentLocation, '')
           alert(locationString)
@@ -115,8 +122,9 @@ window.customElements.define(
         let watchId = ""
         try {
           let shouldAppendWatchId = true
+          let options = createLocationOptions()
           watchId = await Geolocation.watchPosition(
-            { enableHighAccuracy: true },
+            options,
             (position, err) => {
               if (err) {
                 alert(`Error getting current position:\n\t code=${err.code}\n\t message=\"${err.message}\"`)
@@ -152,6 +160,20 @@ window.customElements.define(
         const wacthesList = self.shadowRoot.querySelector('#watch-position-updates-list');
         wacthesList.innerHTML = '';
       });
+
+      function createLocationOptions() {
+        const enableHighAccuracyValue = self.shadowRoot.getElementById('highaccuracyCheck').checked;
+        let options = { enableHighAccuracy: enableHighAccuracyValue }
+        const timeoutValue = self.shadowRoot.getElementById('timeoutInput').value;
+        if (timeoutValue) {
+          options.timeout = Number(timeoutValue);
+        }
+        const ageValue = self.shadowRoot.getElementById('ageInput').value;
+        if (ageValue) {
+          options.maximumAge = Number(ageValue);
+        }
+        return options
+      }
 
       function onWatchAdded(watchId) {
         // Append the watchId as a button to the list
