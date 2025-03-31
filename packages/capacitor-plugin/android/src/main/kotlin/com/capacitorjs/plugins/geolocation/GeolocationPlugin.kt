@@ -326,13 +326,16 @@ class GeolocationPlugin : Plugin() {
      * @return IONGLOCLocationOptions object
      */
     private fun createOptions(call: PluginCall): IONGLOCLocationOptions {
-        val timeout = call.getLong("timeout", 10000) ?: 10000
-        val maximumAge = call.getLong("maximumAge", 0) ?: 0
+        val timeout = call.getNumber("timeout", 10000)
+        val maximumAge = call.getNumber("maximumAge", 0)
         val enableHighAccuracy = call.getBoolean("enableHighAccuracy", false) ?: false
-        val minimumUpdateInterval = call.getLong("minimumUpdateInterval", 5000) ?: 5000
+        val minimumUpdateInterval = call.getNumber("minimumUpdateInterval", 5000)
 
         val locationOptions = IONGLOCLocationOptions(timeout, maximumAge, enableHighAccuracy, minimumUpdateInterval)
 
         return locationOptions
     }
+
+    private fun PluginCall.getNumber(name: String, defaultValue: Long): Long =
+        getLong(name) ?: getInt(name)?.toLong() ?: defaultValue
 }
