@@ -110,6 +110,15 @@ final class GeolocationCallbackManager {
     func sendError(_ error: GeolocationError) {
         createPluginResult(status: .error(error.toCodeMessagePair()))
     }
+
+    func sendLocationCallbacksError(_ error: GeolocationError) {
+        // Send error only to single location request callbacks, not watch callbacks
+        let errorModel = error.toCodeMessagePair()
+        locationCallbacks.forEach { call in
+            call.reject(errorModel.1, errorModel.0)
+        }
+        clearLocationCallbacks()
+    }
 }
 
 private enum CallResultStatus {
