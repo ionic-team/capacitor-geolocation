@@ -36,17 +36,15 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc private func appDidBecomeActive() {
-        if let hasWatchCallbacks = callbackManager?.watchCallbacks.isEmpty, !hasWatchCallbacks {
+        if let watchCallbacksEmpty = callbackManager?.watchCallbacks.isEmpty, !watchCallbacksEmpty {
             print("App became active. Restarting location monitoring for watch callbacks.")
             locationCancellable?.cancel()
             locationCancellable = nil
             locationInitialized = false
             
             locationService?.stopMonitoringLocation()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.locationService?.startMonitoringLocation()
-                self.bindLocationPublisher()
-            }
+            locationService?.startMonitoringLocation()
+            bindLocationPublisher()
         }
     }
 
