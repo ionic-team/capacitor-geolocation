@@ -1,5 +1,6 @@
 import Capacitor
 import IONGeolocationLib
+import UIKit
 
 import Combine
 
@@ -17,6 +18,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
 
     private var locationService: (any IONGLOCService)?
     private var cancellables = Set<AnyCancellable>()
+    private var locationCancellable: AnyCancellable?
     private var callbackManager: GeolocationCallbackManager?
     private var statusInitialized = false
     private var locationInitialized: Bool = false
@@ -24,6 +26,30 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     override public func load() {
         self.locationService = IONGLOCManagerWrapper()
         self.callbackManager = .init(capacitorBridge: bridge)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+    }
+
+    @objc private func appDidBecomeActive() {
+        if let watchCallbacksEmpty = callbackManager?.watchCallbacks.isEmpty, !watchCallbacksEmpty {
+            print("App became active. Restarting location monitoring for watch callbacks.")
+            locationCancellable?.cancel()
+            locationCancellable = nil
+            locationInitialized = false
+            
+            locationService?.stopMonitoringLocation()
+            locationService?.startMonitoringLocation()
+            bindLocationPublisher()
+        }
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     @objc func getCurrentPosition(_ call: CAPPluginCall) {
@@ -49,6 +75,9 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
 
         if (callbackManager?.watchCallbacks.isEmpty) ?? false {
             locationService?.stopMonitoringLocation()
+            locationCancellable?.cancel()
+            locationCancellable = nil
+            locationInitialized = false
         }
 
         callbackManager?.sendSuccess(call)
@@ -113,18 +142,24 @@ private extension GeolocationPlugin {
     func bindLocationPublisher() {
         guard !locationInitialized else { return }
         locationInitialized = true
-        locationService?.currentLocationPublisher
-            .sink(receiveCompletion: { [weak self] completion in
-                if case .failure(let error) = completion {
-                    // publisher should be re-observed in the next plugin call
-                    self?.locationInitialized = false
-                    print("An error was found while retrieving the location: \(error)")
+        locationCancellable = locationService?.currentLocationPublisher
+            .catch { [weak self] error -> AnyPublisher<IONGLOCPositionModel, Never> in
+                print("An error was found while retrieving the location: \(error)")
+                
+                if case IONGLOCLocationError.locationUnavailable = error {
+                    print("Location unavailable (likely due to backgrounding). Keeping watch callbacks alive.")
                     self?.callbackManager?.sendError(.positionUnavailable)
+                    return Empty<IONGLOCPositionModel, Never>()
+                        .eraseToAnyPublisher()
+                } else {
+                    self?.callbackManager?.sendError(.positionUnavailable)
+                    return Empty<IONGLOCPositionModel, Never>()
+                        .eraseToAnyPublisher()
                 }
-            }, receiveValue: { [weak self] position in
+            }
+            .sink(receiveValue: { [weak self] position in
                 self?.callbackManager?.sendSuccess(with: position)
             })
-            .store(in: &cancellables)
     }
 
     func requestLocationAuthorisation(type requestType: IONGLOCAuthorisationRequestType) {
