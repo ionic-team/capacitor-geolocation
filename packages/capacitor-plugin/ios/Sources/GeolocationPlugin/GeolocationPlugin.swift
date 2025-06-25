@@ -148,8 +148,7 @@ private extension GeolocationPlugin {
                 
                 if case IONGLOCLocationError.locationUnavailable = error {
                     print("Location unavailable (likely due to backgrounding). Keeping watch callbacks alive.")
-                    // Send error only to getCurrentPosition, keep watchPosition alive
-                    self?.callbackManager?.sendLocationCallbacksError(.positionUnavailable)
+                    self?.callbackManager?.sendError(.positionUnavailable)
                     return Empty<IONGLOCPositionModel, Never>()
                         .eraseToAnyPublisher()
                 } else {
