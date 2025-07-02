@@ -7,7 +7,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Fixes
 
-- **ios:** handle location watch callbacks recovery after backgrounding
+- **ios:** handle location watch callbacks recovery after backgrounding. More info [here](https://github.com/ionic-team/capacitor-geolocation/issues/19).
 - Set dependency on @capacitor/synapse to 1.0.3 to fix ssr environments 
 
 # [7.1.2](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@7.1.2...@capacitor/geolocation@7.1.1) (2025-02-21)
