@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.1.4](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@7.1.4...@capacitor/geolocation@7.1.3) (2025-06-26)
+
+### Fixes
+
+- **ios:** Swift package name to be consistent with previous versions ([#34](https://github.com/ionic-team/capacitor-geolocation/pull/34))
+- **android** update Gradle and Kotlin configurations for compatibility with latest @capacitor/android ([#28](https://github.com/ionic-team/capacitor-geolocation/pull/28))
+
+### Docs
+
+- **ios** Add note about background usage description ([#29](https://github.com/ionic-team/capacitor-geolocation/pull/29))
+
 # [7.1.3](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@7.1.3...@capacitor/geolocation@7.1.2) (2025-06-26)
 
 ### Fixes
