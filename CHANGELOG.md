@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [7.1.4](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@7.1.4...@capacitor/geolocation@v7.1.3) (2025-07-15)
+# [7.1.4](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.3...7.1.4) (2025-07-15)
 
 ### Fixes
 
@@ -14,21 +14,21 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **ios** Add note about background usage description ([#29](https://github.com/ionic-team/capacitor-geolocation/pull/29))
 
-# [7.1.3](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@7.1.3...@capacitor/geolocation@7.1.2) (2025-06-26)
+# [7.1.3](https://github.com/ionic-team/capacitor-geolocation/compare/7.1.2...v7.1.3) (2025-06-26)
 
 ### Fixes
 
 - **ios:** handle location watch callbacks recovery after backgrounding. More info [here](https://github.com/ionic-team/capacitor-geolocation/issues/19).
 - Set dependency on @capacitor/synapse to 1.0.3 to fix ssr environments 
 
-# [7.1.2](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@7.1.2...@capacitor/geolocation@7.1.1) (2025-02-21)
+# [7.1.2](https://github.com/ionic-team/capacitor-geolocation/compare/7.1.1...7.1.2) (2025-02-21)
 
 ### Fixes
 
 - **ios:** watchPosition after an error occurs
 - **android** properly parsing number parameters
 
-# [7.1.1](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@7.1.1...@capacitor/geolocation@7.1.0) (2025-02-21)
+# [7.1.1](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.0...7.1.1) (2025-02-21)
 
 ### Fixes
 
