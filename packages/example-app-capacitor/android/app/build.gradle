@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     namespace "com.capacitorjs.exampleucapp.plugins.geolocation"
-    compileSdk rootProject.ext.compileSdkVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.capacitorjs.exampleucapp.plugins.geolocation"
         minSdkVersion rootProject.ext.minSdkVersion
