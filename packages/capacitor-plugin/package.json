@@ -46,7 +46,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@capacitor/synapse": "^1.0.3"
+    "@capacitor/synapse": "^1.0.4"
   },
   "devDependencies": {
     "@capacitor/android": "next",
