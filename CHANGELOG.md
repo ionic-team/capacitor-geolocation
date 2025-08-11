@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+
+# [7.1.5](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.4...7.1.5) (2025-08-11)
+
+### 2025-08-11
+- Fix(ios): fixes an issue where the plugin stops receiving location updates after calling the clearWatch method.
+- Chore(iOS): update native library IONGeolocationLib to version 1.0.1
+
 # [7.1.4](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.3...7.1.4) (2025-07-15)
 
 ### Fixes
