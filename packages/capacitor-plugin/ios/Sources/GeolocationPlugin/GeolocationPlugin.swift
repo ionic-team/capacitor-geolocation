@@ -208,6 +208,7 @@ private extension GeolocationPlugin {
     }
 
     func handleLocationRequest(_ enableHighAccuracy: Bool, watchUUID: String? = nil, call: CAPPluginCall) {
+        bindLocationPublisher()
         let configurationModel = IONGLOCConfigurationModel(enableHighAccuracy: enableHighAccuracy)
         locationService?.updateConfiguration(configurationModel)
 
