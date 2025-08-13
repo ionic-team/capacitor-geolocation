@@ -28,9 +28,18 @@ module.exports = {
       }
     ],
     [
+      "@semantic-release/exec",
+      {
+        // This is necessary because @semantic-release/git won't commit files in parent directory
+        //  see  https://github.com/semantic-release/git/issues/485
+        prepareCmd:
+          "git add ../../CHANGELOG.md",
+      },
+    ],
+    [
       '@semantic-release/git',
       {
-        assets: ['../../CHANGELOG.md', 'package.json'],
+        assets: ['package.json'],
         message: 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
       }
     ]
