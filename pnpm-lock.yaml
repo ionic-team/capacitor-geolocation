@@ -21,7 +21,7 @@ importers:
   packages/capacitor-plugin:
     dependencies:
       '@capacitor/synapse':
-        specifier: ^1.0.3
+        specifier: ^1.0.4
         version: 1.0.4
     devDependencies:
       '@capacitor/android':
