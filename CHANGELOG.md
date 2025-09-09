@@ -1,3 +1,20 @@
+# [8.0.0-next.1](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.5...v8.0.0-next.1) (2025-09-09)
+
+
+### Bug Fixes
+
+* peerDependency for pnpm compatibility ([a94839d](https://github.com/ionic-team/capacitor-geolocation/commit/a94839d1c51d7db2bdc39d123121920f8d0b883b))
+
+
+### Features
+
+* Capacitor 8 support ([6ead26a](https://github.com/ionic-team/capacitor-geolocation/commit/6ead26a06dbfa727551214a0a58469d5195d8657))
+
+
+### BREAKING CHANGES
+
+* Capacitor major version update requires major version update on the plugin.
+
 ## [7.1.5](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.4...v7.1.5) (2025-08-12)
 
 ### Fixes
