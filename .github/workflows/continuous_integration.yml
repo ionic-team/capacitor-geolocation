@@ -16,7 +16,7 @@ jobs:
     needs: 'setup'
     uses: ./.github/workflows/reusable_build.yml
 
-  verify-plugin:
+  verify-plugin-android:
     needs: ['setup', 'lint', 'build']
     runs-on: 'macos-15'
     timeout-minutes: 30
@@ -24,33 +24,46 @@ jobs:
       - uses: actions/checkout@v4
       - name: 'Setup Tools'
         uses: ./.github/actions/setup-tools
-      - name: 'Verify iOS + Android + Web'
+      - name: 'Verify Android'
         working-directory: ./packages/capacitor-plugin
-        run: npm run verify
+        run: npm run verify:android
 
-  build-example-app:
-    needs: ['verify-plugin']
+  verify-plugin-ios:
+    needs: ['setup', 'lint', 'build']
     runs-on: 'macos-15'
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - name: 'Setup Tools'
         uses: ./.github/actions/setup-tools
-      - name: 'Build plugin'
+      - name: 'Verify iOS'
         working-directory: ./packages/capacitor-plugin
-        run: npm run build
-      - name: 'Install example app dependencies'
-        working-directory: ./packages/example-app-capacitor
-        run: npm i
-      - name: 'Build Web example app'
-        working-directory: ./packages/example-app-capacitor
-        run: npm run build
-      - name: 'Sync example app native platforms'
-        working-directory: ./packages/example-app-capacitor
-        run: npx cap sync
+        run: npm run verify:ios
+
+  build-example-app-android:
+    needs: ['verify-plugin-ios', 'verify-plugin-android']
+    runs-on: 'macos-15'
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Setup Tools'
+        uses: ./.github/actions/setup-tools
+      - name: 'Prepare example app'
+        uses: ./.github/actions/prepare-example-app
       - name: 'Build Android example app'
         working-directory: ./packages/example-app-capacitor/android
         run: ./gradlew clean assembleDebug
+    
+  build-example-app-ios:
+    needs: ['verify-plugin-ios', 'verify-plugin-android']
+    runs-on: 'macos-15'
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Setup Tools'
+        uses: ./.github/actions/setup-tools
+      - name: 'Prepare example app'
+        uses: ./.github/actions/prepare-example-app
       - name: 'Build iOS example app'
         working-directory: ./packages/example-app-capacitor/ios/App
         run: xcodebuild clean build -workspace App.xcworkspace -scheme App CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
