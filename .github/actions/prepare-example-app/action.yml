@@ -1,0 +1,22 @@
+name: 'Prepare Example app'
+description: 'Does necessary pre-work for the example app to compile natively'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Build plugin'
+      working-directory: ./packages/capacitor-plugin
+      shell: bash
+      run: npm run build
+    - name: 'Install example app dependencies'
+      working-directory: ./packages/example-app-capacitor
+      shell: bash
+      run: npm i
+    - name: 'Build Web example app'
+      working-directory: ./packages/example-app-capacitor
+      shell: bash
+      run: npm run build
+    - name: 'Sync example app native platforms'
+      working-directory: ./packages/example-app-capacitor
+      shell: bash
+      run: npx cap sync
