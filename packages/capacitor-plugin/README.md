@@ -245,3 +245,4 @@ The following table list all the plugin errors:
 | OS-PLUG-GLOC-0014 | Android      | Google Play Services error user resolvable. |
 | OS-PLUG-GLOC-0015 | Android      | Google Play Services error. |
 | OS-PLUG-GLOC-0016 | Android      | Location settings error. |
+| OS-PLUG-GLOC-0017 | Android      | Unable to retrieve location because device has both Network and Location turned off. |
