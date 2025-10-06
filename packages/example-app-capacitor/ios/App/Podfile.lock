@@ -4,7 +4,7 @@ PODS:
   - CapacitorCamera (8.0.0-alpha.1):
     - Capacitor
   - CapacitorCordova (8.0.0-alpha.2)
-  - CapacitorGeolocation (7.1.5):
+  - CapacitorGeolocation (8.0.0-next.2):
     - Capacitor
     - IONGeolocationLib (= 1.0.1)
   - CapacitorSplashScreen (8.0.0-alpha.1):
@@ -38,7 +38,7 @@ SPEC CHECKSUMS:
   Capacitor: f88db94b173c6d2c97003248197f749674d42dc8
   CapacitorCamera: f072b76519f1a5981becb6caa3ab10c79622ae66
   CapacitorCordova: 9b60d7dd7f5035cefe9b5f7f3edf11ccd93b6ae6
-  CapacitorGeolocation: ea967ba560d9e9fd721ea588e9667203a6b1b67c
+  CapacitorGeolocation: ed8dbf1b8b4f3bc415c1407333199c383cefa960
   CapacitorSplashScreen: 6a9a07f9b1313faad49dde7bb8f12b7c4fcc3acf
   IONGeolocationLib: 20f9d0248a0b5264511fb57a37e25dd2badf797a
 
