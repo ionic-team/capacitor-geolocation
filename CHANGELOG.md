@@ -1,3 +1,10 @@
+# [8.0.0-next.3](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.2...v8.0.0-next.3) (2025-10-06)
+
+
+### Features
+
+* **android:** Fallback option for no network or Play Services ([#53](https://github.com/ionic-team/capacitor-geolocation/issues/53)) ([09277b7](https://github.com/ionic-team/capacitor-geolocation/commit/09277b7cf458b1625db444f4eb0a40bd7c7b3265))
+
 # [8.0.0-next.2](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.1...v8.0.0-next.2) (2025-10-03)
 
 
