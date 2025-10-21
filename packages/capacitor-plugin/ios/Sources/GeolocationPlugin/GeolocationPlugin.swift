@@ -1,5 +1,6 @@
 import Capacitor
-//import IONGeolocationLib
+
+// import IONGeolocationLib
 import UIKit
 
 import Combine
@@ -19,6 +20,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     private var locationService: (any IONGLOCService)?
     private var cancellables = Set<AnyCancellable>()
     private var locationCancellable: AnyCancellable?
+    private var timeoutCancellable: AnyCancellable?
     private var callbackManager: GeolocationCallbackManager?
     private var statusInitialized = false
     private var locationInitialized: Bool = false
@@ -27,7 +29,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     override public func load() {
         self.locationService = IONGLOCManagerWrapper()
         self.callbackManager = .init(capacitorBridge: bridge)
-        
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(appDidBecomeActive),
@@ -44,7 +46,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
             timeoutCancellable?.cancel()
             timeoutCancellable = nil
             locationInitialized = false
-            
+
             locationService?.stopMonitoringLocation()
             locationService?.startMonitoringLocation()
             bindLocationPublisher()
