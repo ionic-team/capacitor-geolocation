@@ -1,5 +1,5 @@
 import Capacitor
-import IONGeolocationLib
+//import IONGeolocationLib
 import UIKit
 
 import Combine
@@ -22,6 +22,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     private var callbackManager: GeolocationCallbackManager?
     private var statusInitialized = false
     private var locationInitialized: Bool = false
+    private var timeout : Int?
 
     override public func load() {
         self.locationService = IONGLOCManagerWrapper()
@@ -40,6 +41,8 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
             print("App became active. Restarting location monitoring for watch callbacks.")
             locationCancellable?.cancel()
             locationCancellable = nil
+            timeoutCancellable?.cancel()
+            timeoutCancellable = nil
             locationInitialized = false
             
             locationService?.stopMonitoringLocation()
@@ -55,6 +58,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc func getCurrentPosition(_ call: CAPPluginCall) {
         shouldSetupBindings()
         let enableHighAccuracy = call.getBool(Constants.Arguments.enableHighAccuracy, false)
+        self.timeout = call.getInt("timeout")
         handleLocationRequest(enableHighAccuracy, call: call)
     }
 
@@ -62,6 +66,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         shouldSetupBindings()
         let enableHighAccuracy = call.getBool(Constants.Arguments.enableHighAccuracy, false)
         let watchUUID = call.callbackId
+        self.timeout = call.getInt("timeout")
         handleLocationRequest(enableHighAccuracy, watchUUID: watchUUID, call: call)
     }
 
@@ -77,6 +82,8 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
             locationService?.stopMonitoringLocation()
             locationCancellable?.cancel()
             locationCancellable = nil
+            timeoutCancellable?.cancel()
+            timeoutCancellable = nil
             locationInitialized = false
         }
 
@@ -145,7 +152,7 @@ private extension GeolocationPlugin {
         locationCancellable = locationService?.currentLocationPublisher
             .catch { [weak self] error -> AnyPublisher<IONGLOCPositionModel, Never> in
                 print("An error was found while retrieving the location: \(error)")
-                
+
                 if case IONGLOCLocationError.locationUnavailable = error {
                     print("Location unavailable (likely due to backgrounding). Keeping watch callbacks alive.")
                     self?.callbackManager?.sendError(.positionUnavailable)
@@ -159,6 +166,15 @@ private extension GeolocationPlugin {
             }
             .sink(receiveValue: { [weak self] position in
                 self?.callbackManager?.sendSuccess(with: position)
+            })
+
+        timeoutCancellable = locationService?.locationTimeoutPublisher
+            .sink(receiveValue: { [weak self] error in
+                if case .timeout = error {
+                    self?.callbackManager?.sendError(.timeout)
+                } else {
+                    self?.callbackManager?.sendError(.positionUnavailable)
+                }
             })
     }
 
@@ -200,10 +216,10 @@ private extension GeolocationPlugin {
             callbackManager?.sendRequestPermissionsSuccess(Constants.AuthorisationStatus.Status.granted)
         }
         if shouldRequestCurrentPosition {
-            locationService?.requestSingleLocation()
+            locationService?.requestSingleLocation(timeout: self.timeout)
         }
         if shouldRequestLocationMonitoring {
-            locationService?.startMonitoringLocation()
+            locationService?.startMonitoringLocation(timeout: self.timeout)
         }
     }
 

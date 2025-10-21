@@ -4,12 +4,10 @@ PODS:
   - CapacitorCamera (7.0.2):
     - Capacitor
   - CapacitorCordova (7.4.2)
-  - CapacitorGeolocation (7.1.4):
+  - CapacitorGeolocation (7.1.5):
     - Capacitor
-    - IONGeolocationLib (= 1.0.1)
   - CapacitorSplashScreen (7.0.2):
     - Capacitor
-  - IONGeolocationLib (1.0.1)
 
 DEPENDENCIES:
   - "Capacitor (from `../../../../node_modules/.pnpm/@capacitor+ios@7.4.2_@capacitor+core@7.4.2/node_modules/@capacitor/ios`)"
@@ -17,10 +15,6 @@ DEPENDENCIES:
   - "CapacitorCordova (from `../../../../node_modules/.pnpm/@capacitor+ios@7.4.2_@capacitor+core@7.4.2/node_modules/@capacitor/ios`)"
   - "CapacitorGeolocation (from `../../../../node_modules/.pnpm/@capacitor+geolocation@file+packages+capacitor-plugin_@capacitor+core@7.4.2/node_modules/@capacitor/geolocation`)"
   - "CapacitorSplashScreen (from `../../../../node_modules/.pnpm/@capacitor+splash-screen@7.0.2_@capacitor+core@7.4.2/node_modules/@capacitor/splash-screen`)"
-
-SPEC REPOS:
-  trunk:
-    - IONGeolocationLib
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -38,9 +32,8 @@ SPEC CHECKSUMS:
   Capacitor: 156d98aba46ec01dde72c4bbb92fa626837cad29
   CapacitorCamera: 6e18d54c8ab30d7dc7b8cd93d96f9b4f57e9202a
   CapacitorCordova: 5e58d04631bc5094894ac106e2bf1da18a9e6151
-  CapacitorGeolocation: fb1fd604f96918e822fab47d9fb545860a941df1
+  CapacitorGeolocation: cf985d0d8481430a209f2f40660facf16a9c0a51
   CapacitorSplashScreen: 8d6c8cb0542a8e81585c593815db8785ed8ce454
-  IONGeolocationLib: 20f9d0248a0b5264511fb57a37e25dd2badf797a
 
 PODFILE CHECKSUM: d60ef4857cc8bc4b24105bcdc2fa78eadbb6373b
 
