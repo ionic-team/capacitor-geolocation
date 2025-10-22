@@ -1,8 +1,6 @@
 import Capacitor
-
 // import IONGeolocationLib
 import UIKit
-
 import Combine
 
 @objc(GeolocationPlugin)
