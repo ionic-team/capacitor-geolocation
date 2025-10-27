@@ -216,10 +216,10 @@ private extension GeolocationPlugin {
             callbackManager?.sendRequestPermissionsSuccess(Constants.AuthorisationStatus.Status.granted)
         }
         if shouldRequestCurrentPosition {
-            locationService?.requestSingleLocation(timeout: self.timeout)
+            locationService?.requestSingleLocation(options: IONGLOCRequestOptionsModel(timeout: self.timeout))
         }
         if shouldRequestLocationMonitoring {
-            locationService?.startMonitoringLocation(timeout: self.timeout)
+            locationService?.startMonitoringLocation(options: IONGLOCRequestOptionsModel(timeout: self.timeout))
         }
     }
 
