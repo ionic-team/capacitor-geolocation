@@ -25,11 +25,11 @@ public protocol IONGLOCLocationHandler {
 }
 
 public protocol IONGLOCSingleLocationHandler: IONGLOCLocationHandler {
-    func requestSingleLocation(timeout: Int?)
+    func requestSingleLocation(options: IONGLOCRequestOptionsModel)
 }
 
 public protocol IONGLOCMonitorLocationHandler: IONGLOCLocationHandler {
-    func startMonitoringLocation(timeout: Int?)
+    func startMonitoringLocation(options: IONGLOCRequestOptionsModel)
     func startMonitoringLocation()
     func stopMonitoringLocation()
 }

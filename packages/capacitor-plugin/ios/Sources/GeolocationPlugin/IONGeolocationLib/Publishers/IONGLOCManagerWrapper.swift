@@ -53,10 +53,9 @@ public class IONGLOCManagerWrapper: NSObject, IONGLOCService {
         authorisationType.requestAuthorization(using: locationManager)
     }
   
-    public func startMonitoringLocation(timeout: Int? = nil) {
-        let timeoutValue = timeout ?? 5000
+    public func startMonitoringLocation(options: IONGLOCRequestOptionsModel) {
         isMonitoringLocation = true
-        self.startTimer(timeout: timeoutValue)
+        self.startTimer(timeout: options.timeout)
         locationManager.startUpdatingLocation()
     }
     
@@ -70,10 +69,7 @@ public class IONGLOCManagerWrapper: NSObject, IONGLOCService {
         locationManager.stopUpdatingLocation()
     }
     
-    public func requestSingleLocation(timeout: Int? = nil) {
-        // Fallback to default timeout (5000) when the parameter is nil,
-        // since optional defaults in Swift don't apply when nil is explicitly passed.
-        let timeoutValue = timeout ?? 5000
+    public func requestSingleLocation(options: IONGLOCRequestOptionsModel) {
         // If monitoring is active meaning the location service is already running
         // and calling .requestLocation() will not trigger a new location update,
         // we can just return the current location.
@@ -81,7 +77,7 @@ public class IONGLOCManagerWrapper: NSObject, IONGLOCService {
             currentLocationForceSubject.send(location)
             return
         }
-        self.startTimer(timeout: timeoutValue)
+        self.startTimer(timeout: options.timeout)
         self.locationManager.requestLocation()
     }
     
