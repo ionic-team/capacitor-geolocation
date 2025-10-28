@@ -40,6 +40,11 @@ public class IONGLOCManagerWrapper: NSObject, IONGLOCService {
     
     private var isMonitoringLocation = false
 
+    // Flag used to indicate that the location request has timed out.
+    // When `true`, the wrapper ignores any location updates received from CLLocationManager.
+    // This prevents "stale" or "ghost" events from being sent to subscribers after the timeout has occurred.
+    private var timeoutTriggered = false
+
     public init(locationManager: CLLocationManager = .init(), servicesChecker: IONGLOCServicesChecker = IONGLOCServicesValidator()) {
         self.locationManager = locationManager
         self.servicesChecker = servicesChecker
@@ -52,14 +57,19 @@ public class IONGLOCManagerWrapper: NSObject, IONGLOCService {
     public func requestAuthorisation(withType authorisationType: IONGLOCAuthorisationRequestType) {
         authorisationType.requestAuthorization(using: locationManager)
     }
-  
+    
     public func startMonitoringLocation(options: IONGLOCRequestOptionsModel) {
+        timeoutTriggered = false
         isMonitoringLocation = true
-        self.startTimer(timeout: options.timeout)
         locationManager.startUpdatingLocation()
+        self.startTimer(timeout: options.timeout)
     }
     
     public func startMonitoringLocation() {
+        guard !timeoutTriggered else {
+            return
+        }
+        
         isMonitoringLocation = true
         locationManager.startUpdatingLocation()
     }
@@ -70,6 +80,7 @@ public class IONGLOCManagerWrapper: NSObject, IONGLOCService {
     }
     
     public func requestSingleLocation(options: IONGLOCRequestOptionsModel) {
+        timeoutTriggered = false
         // If monitoring is active meaning the location service is already running
         // and calling .requestLocation() will not trigger a new location update,
         // we can just return the current location.
@@ -77,8 +88,9 @@ public class IONGLOCManagerWrapper: NSObject, IONGLOCService {
             currentLocationForceSubject.send(location)
             return
         }
-        self.startTimer(timeout: options.timeout)
+        
         self.locationManager.requestLocation()
+        self.startTimer(timeout: options.timeout)
     }
     
     private func startTimer(timeout: Int) {
@@ -88,7 +100,14 @@ public class IONGLOCManagerWrapper: NSObject, IONGLOCService {
             .delay(for: .milliseconds(timeout), scheduler: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
+                self.timeoutTriggered = true
                 self.locationTimeoutSubject.send(.timeout)
+                
+                if self.isMonitoringLocation {
+                    self.isMonitoringLocation = false
+                    self.stopMonitoringLocation()
+                }
+                
                 self.timeoutCancellable?.cancel()
                 self.timeoutCancellable = nil
             }
@@ -110,8 +129,12 @@ extension IONGLOCManagerWrapper: CLLocationManagerDelegate {
     public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         authorisationStatus = manager.currentAuthorisationValue
     }
-
+    
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard !timeoutTriggered else {
+            return
+        }
+     
         timeoutCancellable?.cancel()
         timeoutCancellable = nil
         guard let latestLocation = locations.last else {
@@ -120,7 +143,7 @@ extension IONGLOCManagerWrapper: CLLocationManagerDelegate {
         }
         currentLocation = IONGLOCPositionModel.create(from: latestLocation)
     }
-
+    
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
         timeoutCancellable?.cancel()
         timeoutCancellable = nil
