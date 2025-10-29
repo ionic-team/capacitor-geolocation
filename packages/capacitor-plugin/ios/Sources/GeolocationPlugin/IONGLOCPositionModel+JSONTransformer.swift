@@ -1,5 +1,5 @@
 import Capacitor
-//import IONGeolocationLib
+import IONGeolocationLib
 
 extension IONGLOCPositionModel {
     func toJSObject() -> JSObject {

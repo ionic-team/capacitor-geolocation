@@ -1,5 +1,5 @@
 import Capacitor
-//import IONGeolocationLib
+import IONGeolocationLib
 
 private enum GeolocationCallbackType {
     case requestPermissions

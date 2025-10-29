@@ -1,5 +1,5 @@
 import Capacitor
-// import IONGeolocationLib
+import IONGeolocationLib
 import UIKit
 import Combine
 
