@@ -1,8 +1,40 @@
 ## [Unreleased]
 
+
 ### Chores
 
 - **ios:** update native library IONGeolocationLib to version 2.0.0
+
+# [8.0.0-next.3](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.2...v8.0.0-next.3) (2025-10-06)
+
+
+### Features
+
+* **android:** Fallback option for no network or Play Services ([#53](https://github.com/ionic-team/capacitor-geolocation/issues/53)) ([09277b7](https://github.com/ionic-team/capacitor-geolocation/commit/09277b7cf458b1625db444f4eb0a40bd7c7b3265))
+
+# [8.0.0-next.2](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.1...v8.0.0-next.2) (2025-10-03)
+
+
+### Bug Fixes
+
+* **ios:** Simplify SPM usage for native library ([#52](https://github.com/ionic-team/capacitor-geolocation/issues/52)) ([ad53dc6](https://github.com/ionic-team/capacitor-geolocation/commit/ad53dc654369db9c1c2ae57cefca798fc5283dc8))
+
+# [8.0.0-next.1](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.5...v8.0.0-next.1) (2025-09-09)
+
+
+### Bug Fixes
+
+* peerDependency for pnpm compatibility ([a94839d](https://github.com/ionic-team/capacitor-geolocation/commit/a94839d1c51d7db2bdc39d123121920f8d0b883b))
+
+
+### Features
+
+* Capacitor 8 support ([6ead26a](https://github.com/ionic-team/capacitor-geolocation/commit/6ead26a06dbfa727551214a0a58469d5195d8657))
+
+
+### BREAKING CHANGES
+
+* Capacitor major version update requires major version update on the plugin.
 
 ## [7.1.5](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.4...v7.1.5) (2025-08-12)
 
