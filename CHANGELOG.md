@@ -1,10 +1,3 @@
-## [Unreleased]
-
-
-### Chores
-
-- **ios:** update native library IONGeolocationLib to version 2.0.0
-
 # [8.0.0-next.3](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.2...v8.0.0-next.3) (2025-10-06)
 
 
