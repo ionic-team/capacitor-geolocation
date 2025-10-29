@@ -50,11 +50,6 @@ jobs:
         uses: ./.github/actions/setup-tools
       - name: 'Prepare example app'
         uses: ./.github/actions/prepare-example-app
-
-      - name: 'Clean Gradle cache'
-        run: rm -rf ~/.gradle/caches
-
-
       - name: 'Build Android example app'
         working-directory: ./packages/example-app-capacitor/android
         run: ./gradlew clean assembleDebug
