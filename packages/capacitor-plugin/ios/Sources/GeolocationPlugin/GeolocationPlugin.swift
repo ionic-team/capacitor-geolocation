@@ -58,7 +58,6 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc func getCurrentPosition(_ call: CAPPluginCall) {
         shouldSetupBindings()
         let enableHighAccuracy = call.getBool(Constants.Arguments.enableHighAccuracy, false)
-        self.timeout = call.getInt(Constants.Arguments.timeout)
         handleLocationRequest(enableHighAccuracy, call: call)
     }
 
@@ -66,7 +65,6 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         shouldSetupBindings()
         let enableHighAccuracy = call.getBool(Constants.Arguments.enableHighAccuracy, false)
         let watchUUID = call.callbackId
-        self.timeout = call.getInt(Constants.Arguments.timeout)
         handleLocationRequest(enableHighAccuracy, watchUUID: watchUUID, call: call)
     }
 
@@ -216,10 +214,10 @@ private extension GeolocationPlugin {
             callbackManager?.sendRequestPermissionsSuccess(Constants.AuthorisationStatus.Status.granted)
         }
         if shouldRequestCurrentPosition {
-            locationService?.requestSingleLocation(options: IONGLOCRequestOptionsModel(timeout: self.timeout))
+            locationService?.requestSingleLocation(options: IONGLOCRequestOptionsModel(timeout: callbackManager?.timeout))
         }
         if shouldRequestLocationMonitoring {
-            locationService?.startMonitoringLocation(options: IONGLOCRequestOptionsModel(timeout: self.timeout))
+            locationService?.startMonitoringLocation(options: IONGLOCRequestOptionsModel(timeout: callbackManager?.timeout))
         }
     }
 
