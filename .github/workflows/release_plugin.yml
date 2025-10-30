@@ -11,7 +11,7 @@ permissions:
     contents: write
     issues: write
     deployments: write
-    id-token: write # to enable use of OIDC for npm provenance
+    id-token: write # to enable use of OIDC for npm provenance and trusted publishing
 
 jobs:
   setup:
@@ -47,5 +47,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
           GH_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: npx semantic-release
