@@ -58,7 +58,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc func getCurrentPosition(_ call: CAPPluginCall) {
         shouldSetupBindings()
         let enableHighAccuracy = call.getBool(Constants.Arguments.enableHighAccuracy, false)
-        self.timeout = call.getInt("timeout")
+        self.timeout = call.getInt(Constants.Arguments.timeout)
         handleLocationRequest(enableHighAccuracy, call: call)
     }
 
@@ -66,7 +66,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         shouldSetupBindings()
         let enableHighAccuracy = call.getBool(Constants.Arguments.enableHighAccuracy, false)
         let watchUUID = call.callbackId
-        self.timeout = call.getInt("timeout")
+        self.timeout = call.getInt(Constants.Arguments.timeout)
         handleLocationRequest(enableHighAccuracy, watchUUID: watchUUID, call: call)
     }
 
