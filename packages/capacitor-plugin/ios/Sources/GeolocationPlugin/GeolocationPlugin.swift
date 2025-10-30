@@ -22,7 +22,6 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     private var callbackManager: GeolocationCallbackManager?
     private var statusInitialized = false
     private var locationInitialized: Bool = false
-    private var timeout : Int?
 
     override public func load() {
         self.locationService = IONGLOCManagerWrapper()
