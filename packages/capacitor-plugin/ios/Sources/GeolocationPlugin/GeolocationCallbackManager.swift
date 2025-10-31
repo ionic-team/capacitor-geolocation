@@ -114,6 +114,10 @@ final class GeolocationCallbackManager {
 
     func sendError(_ error: GeolocationError) {
         createPluginResult(status: .error(error.toCodeMessagePair()))
+
+        if case .timeout = error {
+            watchCallbacks.keys.forEach { clearWatchCallbackIfExists($0) }
+        }
     }
 }
 
