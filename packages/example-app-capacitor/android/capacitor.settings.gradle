@@ -9,4 +9,4 @@ include ':capacitor-splash-screen'
 project(':capacitor-splash-screen').projectDir = new File('../../../node_modules/.pnpm/@capacitor+splash-screen@8.0.0-alpha.1_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/splash-screen/android')
 
 include ':capacitor-geolocation'
-project(':capacitor-geolocation').projectDir = new File('../../../node_modules/.pnpm/@capacitor+geolocation@file+packages+capacitor-plugin_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/geolocation/android')
+project(':capacitor-geolocation').projectDir = new File('../../capacitor-plugin/android')

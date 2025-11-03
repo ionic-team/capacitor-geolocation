@@ -15,7 +15,7 @@ DEPENDENCIES:
   - "Capacitor (from `../../../../node_modules/.pnpm/@capacitor+ios@8.0.0-alpha.3_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/ios`)"
   - "CapacitorCamera (from `../../../../node_modules/.pnpm/@capacitor+camera@8.0.0-alpha.1_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/camera`)"
   - "CapacitorCordova (from `../../../../node_modules/.pnpm/@capacitor+ios@8.0.0-alpha.3_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/ios`)"
-  - "CapacitorGeolocation (from `../../../../node_modules/.pnpm/@capacitor+geolocation@file+packages+capacitor-plugin_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/geolocation`)"
+  - CapacitorGeolocation (from `../../../capacitor-plugin`)
   - "CapacitorSplashScreen (from `../../../../node_modules/.pnpm/@capacitor+splash-screen@8.0.0-alpha.1_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/splash-screen`)"
 
 SPEC REPOS:
@@ -30,7 +30,7 @@ EXTERNAL SOURCES:
   CapacitorCordova:
     :path: "../../../../node_modules/.pnpm/@capacitor+ios@8.0.0-alpha.3_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/ios"
   CapacitorGeolocation:
-    :path: "../../../../node_modules/.pnpm/@capacitor+geolocation@file+packages+capacitor-plugin_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/geolocation"
+    :path: "../../../capacitor-plugin"
   CapacitorSplashScreen:
     :path: "../../../../node_modules/.pnpm/@capacitor+splash-screen@8.0.0-alpha.1_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/splash-screen"
 
@@ -42,6 +42,6 @@ SPEC CHECKSUMS:
   CapacitorSplashScreen: 6a9a07f9b1313faad49dde7bb8f12b7c4fcc3acf
   IONGeolocationLib: a5e40b54edc2ee9902036eda5aaa41ddf07bb68d
 
-PODFILE CHECKSUM: cfc24a34ecf7abf2e5e2d68864e48f68e7e94bb9
+PODFILE CHECKSUM: 9f3aa02b123df21b0390efa217179df8854cdaff
 
 COCOAPODS: 1.16.2

@@ -13,7 +13,7 @@ def capacitor_pods
   pod 'CapacitorCordova', :path => '../../../../node_modules/.pnpm/@capacitor+ios@8.0.0-alpha.3_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/ios'
   pod 'CapacitorCamera', :path => '../../../../node_modules/.pnpm/@capacitor+camera@8.0.0-alpha.1_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/camera'
   pod 'CapacitorSplashScreen', :path => '../../../../node_modules/.pnpm/@capacitor+splash-screen@8.0.0-alpha.1_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/splash-screen'
-  pod 'CapacitorGeolocation', :path => '../../../../node_modules/.pnpm/@capacitor+geolocation@file+packages+capacitor-plugin_@capacitor+core@8.0.0-alpha.3/node_modules/@capacitor/geolocation'
+  pod 'CapacitorGeolocation', :path => '../../../capacitor-plugin'
 end
 
 target 'App' do
