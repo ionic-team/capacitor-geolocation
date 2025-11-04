@@ -10,6 +10,7 @@ enum GeolocationError: Error {
     case permissionRestricted
     case positionUnavailable
     case inputArgumentsIssue(target: GeolocationMethod)
+    case timeout
 
     func toCodeMessagePair() -> (String, String) {
         ("OS-PLUG-GLOC-\(String(format: "%04d", code))", description)
@@ -29,16 +30,18 @@ private extension GeolocationError {
             case .watchPosition: 5
             case .clearWatch: 6
             }
+        case .timeout: 10
         }
     }
 
     var description: String {
         switch self {
-        case .positionUnavailable: "There was en error trying to obtain the location."
+        case .positionUnavailable: "There was an error trying to obtain the location."
         case .permissionDenied: "Location permission request was denied."
         case .locationServicesDisabled: "Location services are not enabled."
         case .permissionRestricted: "Application's use of location services was restricted."
         case .inputArgumentsIssue(let target): "The '\(target.rawValue)' input parameters aren't valid."
+        case .timeout: "Could not obtain location in time. Try with a higher timeout."
         }
     }
 }
