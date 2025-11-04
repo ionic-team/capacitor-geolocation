@@ -1,3 +1,10 @@
+# [8.0.0-next.4](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.3...v8.0.0-next.4) (2025-11-04)
+
+
+### Bug Fixes
+
+* **ios:** added timeout implementation for both getCurrentPosition and watchPosition ([#55](https://github.com/ionic-team/capacitor-geolocation/issues/55)) ([4c22ac3](https://github.com/ionic-team/capacitor-geolocation/commit/4c22ac3c6facd4b628a38a668d66a7ea2f3ad44c))
+
 # [8.0.0-next.3](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.2...v8.0.0-next.3) (2025-10-06)
 
 
