@@ -1,3 +1,10 @@
+# [8.0.0-next.5](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.4...v8.0.0-next.5) (2025-11-10)
+
+
+### Bug Fixes
+
+* **android:** use 'propName = value' assignment syntax in build.gradle files ([08f311a](https://github.com/ionic-team/capacitor-geolocation/commit/08f311a1f785f04eab8eec87a60cd5147488388b))
+
 # [8.0.0-next.4](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.3...v8.0.0-next.4) (2025-11-04)
 
 
