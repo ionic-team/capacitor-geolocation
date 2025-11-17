@@ -1,3 +1,9 @@
+# [8.0.0-next.6](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.5...v8.0.0-next.6) (2025-11-17)
+
+
+* **android:** Update gradle dependencies to latest versions
+* **ios:** Minor updates to Package.swift
+
 # [8.0.0-next.5](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.4...v8.0.0-next.5) (2025-11-10)
 
 
