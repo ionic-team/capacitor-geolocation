@@ -163,9 +163,6 @@ export interface PositionOptions {
   /**
    * The maximum wait time in milliseconds for location updates.
    *
-   * In Android, since version 7.1.0 of the plugin, it is also used to determine the
-   * interval of location updates for `watchPosition`.
-   *
    * @default 10000
    * @since 1.0.0
    */
@@ -193,14 +190,14 @@ export interface PositionOptions {
   minimumUpdateInterval?: number;
 
   /**
-   * This option applies to Android only.
-   *
    * Whether to fall back to the Android framework's `LocationManager` in case Google Play Service's location settings checks fail.
    * This can happen for multiple reasons - e.g. device has no Play Services or device has no network connection (Airplane Mode)
    * If set to `false`, failures are propagated to the caller.
    * Note that `LocationManager` may not be as effective as Google Play Services implementation.
    * If the device's in airplane mode, only the GPS provider is used, which may take longer to return a location, depending on GPS signal.
    * This means that to receive location in such circumstances, you may need to provide a higher timeout.
+   * 
+   * This parameter is only available for Android. It has no effect on iOS or Web platforms.
    *
    * @default true
    * @since 8.0.0
