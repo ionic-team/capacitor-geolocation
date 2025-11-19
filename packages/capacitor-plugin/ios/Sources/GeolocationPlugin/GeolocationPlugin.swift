@@ -26,7 +26,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     override public func load() {
         self.locationService = IONGLOCManagerWrapper()
         self.callbackManager = .init(capacitorBridge: bridge)
-        
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(appDidBecomeActive),
@@ -41,7 +41,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
             locationCancellable?.cancel()
             locationCancellable = nil
             locationInitialized = false
-            
+
             locationService?.stopMonitoringLocation()
             locationService?.startMonitoringLocation()
             bindLocationPublisher()
@@ -145,7 +145,7 @@ private extension GeolocationPlugin {
         locationCancellable = locationService?.currentLocationPublisher
             .catch { [weak self] error -> AnyPublisher<IONGLOCPositionModel, Never> in
                 print("An error was found while retrieving the location: \(error)")
-                
+
                 if case IONGLOCLocationError.locationUnavailable = error {
                     print("Location unavailable (likely due to backgrounding). Keeping watch callbacks alive.")
                     self?.callbackManager?.sendError(.positionUnavailable)
