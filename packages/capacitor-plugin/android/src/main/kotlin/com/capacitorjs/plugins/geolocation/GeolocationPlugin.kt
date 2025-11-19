@@ -330,13 +330,22 @@ class GeolocationPlugin : Plugin() {
         val enableHighAccuracy = call.getBoolean("enableHighAccuracy", false) ?: false
         val minimumUpdateInterval = call.getNumber("minimumUpdateInterval", 5000)
         val enableLocationFallback = call.getBoolean("enableLocationFallback", true) ?: true
+        val interval = call.getNumber("interval", -1).let {
+            // using "< 0" and not "<= 0" because 0 is a valid value for interval
+            if (it < 0) {
+                timeout
+            } else {
+                it
+            }
+        }
 
         val locationOptions = IONGLOCLocationOptions(
             timeout,
             maximumAge,
             enableHighAccuracy,
             enableLocationFallback,
-            minimumUpdateInterval
+            interval = interval,
+            minUpdateInterval = minimumUpdateInterval
         )
 
         return locationOptions

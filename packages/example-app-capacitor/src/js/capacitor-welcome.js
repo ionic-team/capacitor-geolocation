@@ -69,7 +69,9 @@ window.customElements.define(
         <label for="ageInput">maximumAge: </label>
         <input type="number" id="ageInput" name="ageInput"><br>
         <input type="checkbox" id="highaccuracyCheck" name="highaccuracyCheck" checked="true"">
-        <label for="highaccuracyCheck">enableHighAccuracy</label><br><br>
+        <label for="highaccuracyCheck">enableHighAccuracy</label><br>
+        <label for="intervalInput">interval (only watchPosition on Android):</label>
+        <input type="number" id="intervalInput" name="intervalInput"><br><br><br>
         <button id="current-location" class="button">Get Current (single) position</button>
         <br><br>
         <button id="watch-location" class="button">Watch position (updates)</button>
@@ -171,6 +173,10 @@ window.customElements.define(
         const ageValue = self.shadowRoot.getElementById('ageInput').value;
         if (ageValue) {
           options.maximumAge = Number(ageValue);
+        }
+        const intervalValue = self.shadowRoot.getElementById('intervalInput').value;
+        if (intervalValue) {
+          options.interval = Number(intervalValue);
         }
         return options
       }

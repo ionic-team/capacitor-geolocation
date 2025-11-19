@@ -177,7 +177,7 @@ export interface PositionOptions {
   maximumAge?: number;
 
   /**
-   * The minumum update interval for location updates.
+   * The minumum update interval for `watchPosition`. Not to be confused with `interval`.
    *
    * If location updates are available faster than this interval then an update
    * will only occur if the minimum update interval has expired since the last location update.
@@ -188,6 +188,24 @@ export interface PositionOptions {
    * @since 6.1.0
    */
   minimumUpdateInterval?: number;
+
+  /**
+   * Desired interval in milliseconds to receive location updates in `watchPosition`.
+   * 
+   * For very low values of `interval` (a couple seconds or less),
+   * the platform may not guarantee timely location updates - they may take longer than specified.
+   * The platform may also be able to provide location updates faster than `interval`.
+   * You may use `minimumUpdateInterval` to control that behavior.
+   * 
+   * For backwards compatiblity with version 7.1.x, if no value is passed,
+   * the default value of this parameter is that of `timeout`.
+   * 
+   * This parameter is only available for Android. It has no effect on iOS or Web platforms.
+   * 
+   * @default `timeout`
+   * @since 8.0.0
+   */
+  interval?: number
 
   /**
    * Whether to fall back to the Android framework's `LocationManager` in case Google Play Service's location settings checks fail.
