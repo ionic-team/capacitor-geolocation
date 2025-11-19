@@ -191,21 +191,21 @@ export interface PositionOptions {
 
   /**
    * Desired interval in milliseconds to receive location updates in `watchPosition`.
-   * 
+   *
    * For very low values of `interval` (a couple seconds or less),
    * the platform may not guarantee timely location updates - they may take longer than specified.
    * The platform may also be able to provide location updates faster than `interval`.
    * You may use `minimumUpdateInterval` to control that behavior.
-   * 
+   *
    * For backwards compatiblity with version 7.1.x, if no value is passed,
    * the default value of this parameter is that of `timeout`.
-   * 
+   *
    * This parameter is only available for Android. It has no effect on iOS or Web platforms.
-   * 
+   *
    * @default `timeout`
    * @since 8.0.0
    */
-  interval?: number
+  interval?: number;
 
   /**
    * Whether to fall back to the Android framework's `LocationManager` in case Google Play Service's location settings checks fail.
@@ -214,7 +214,7 @@ export interface PositionOptions {
    * Note that `LocationManager` may not be as effective as Google Play Services implementation.
    * If the device's in airplane mode, only the GPS provider is used, which may take longer to return a location, depending on GPS signal.
    * This means that to receive location in such circumstances, you may need to provide a higher timeout.
-   * 
+   *
    * This parameter is only available for Android. It has no effect on iOS or Web platforms.
    *
    * @default true
