@@ -4,7 +4,7 @@ PODS:
   - CapacitorCamera (8.0.0-beta.0):
     - Capacitor
   - CapacitorCordova (8.0.0-beta.0)
-  - CapacitorGeolocation (8.0.0-next.4):
+  - CapacitorGeolocation (8.0.0-next.6):
     - Capacitor
     - IONGeolocationLib (= 2.0.0)
   - CapacitorSplashScreen (8.0.0-beta.0):
@@ -12,11 +12,11 @@ PODS:
   - IONGeolocationLib (2.0.0)
 
 DEPENDENCIES:
-  - "Capacitor (from `../../../../node_modules/.pnpm/@capacitor+ios@8.0.0-beta.0_@capacitor+core@8.0.0-beta.0/node_modules/@capacitor/ios`)"
-  - "CapacitorCamera (from `../../../../node_modules/.pnpm/@capacitor+camera@8.0.0-beta.0_@capacitor+core@8.0.0-beta.0/node_modules/@capacitor/camera`)"
-  - "CapacitorCordova (from `../../../../node_modules/.pnpm/@capacitor+ios@8.0.0-beta.0_@capacitor+core@8.0.0-beta.0/node_modules/@capacitor/ios`)"
+  - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorCamera (from `../../node_modules/@capacitor/camera`)"
+  - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - CapacitorGeolocation (from `../../../capacitor-plugin`)
-  - "CapacitorSplashScreen (from `../../../../node_modules/.pnpm/@capacitor+splash-screen@8.0.0-beta.0_@capacitor+core@8.0.0-beta.0/node_modules/@capacitor/splash-screen`)"
+  - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
 
 SPEC REPOS:
   trunk:
@@ -24,24 +24,24 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Capacitor:
-    :path: "../../../../node_modules/.pnpm/@capacitor+ios@8.0.0-beta.0_@capacitor+core@8.0.0-beta.0/node_modules/@capacitor/ios"
+    :path: "../../node_modules/@capacitor/ios"
   CapacitorCamera:
-    :path: "../../../../node_modules/.pnpm/@capacitor+camera@8.0.0-beta.0_@capacitor+core@8.0.0-beta.0/node_modules/@capacitor/camera"
+    :path: "../../node_modules/@capacitor/camera"
   CapacitorCordova:
-    :path: "../../../../node_modules/.pnpm/@capacitor+ios@8.0.0-beta.0_@capacitor+core@8.0.0-beta.0/node_modules/@capacitor/ios"
+    :path: "../../node_modules/@capacitor/ios"
   CapacitorGeolocation:
     :path: "../../../capacitor-plugin"
   CapacitorSplashScreen:
-    :path: "../../../../node_modules/.pnpm/@capacitor+splash-screen@8.0.0-beta.0_@capacitor+core@8.0.0-beta.0/node_modules/@capacitor/splash-screen"
+    :path: "../../node_modules/@capacitor/splash-screen"
 
 SPEC CHECKSUMS:
   Capacitor: cdbe01d8f7b542b2750fb51e88051e764b3cbc4e
   CapacitorCamera: 7ff9e46889cbd3bba2ed0a4192d40f91bd1b5f05
   CapacitorCordova: 65a0b71358d76bdeb799f45cd0214d68fbe2fd56
-  CapacitorGeolocation: 84ebb7fa6b58caa2aff107127207c117ca5fc127
+  CapacitorGeolocation: 2d15b1ce71f090d753386501684e925729ca4ec9
   CapacitorSplashScreen: ab1ec150884e35c67c7709c907b3db3a376b9956
   IONGeolocationLib: a5e40b54edc2ee9902036eda5aaa41ddf07bb68d
 
-PODFILE CHECKSUM: d601fad7d2519e5533fb5e4c1f6678c8e59ddafc
+PODFILE CHECKSUM: cf46a54d1d28c8fb35d1568ff0ce73557f961549
 
 COCOAPODS: 1.16.2

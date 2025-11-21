@@ -163,9 +163,6 @@ export interface PositionOptions {
   /**
    * The maximum wait time in milliseconds for location updates.
    *
-   * In Android, since version 7.1.0 of the plugin, it is also used to determine the
-   * interval of location updates for `watchPosition`.
-   *
    * @default 10000
    * @since 1.0.0
    */
@@ -180,7 +177,7 @@ export interface PositionOptions {
   maximumAge?: number;
 
   /**
-   * The minumum update interval for location updates.
+   * The minumum update interval for `watchPosition`. Not to be confused with `interval`.
    *
    * If location updates are available faster than this interval then an update
    * will only occur if the minimum update interval has expired since the last location update.
@@ -193,14 +190,32 @@ export interface PositionOptions {
   minimumUpdateInterval?: number;
 
   /**
-   * This option applies to Android only.
+   * Desired interval in milliseconds to receive location updates in `watchPosition`.
    *
+   * For very low values of `interval` (a couple seconds or less),
+   * the platform may not guarantee timely location updates - they may take longer than specified.
+   * The platform may also be able to provide location updates faster than `interval`.
+   * You may use `minimumUpdateInterval` to control that behavior.
+   *
+   * For backwards compatiblity with version 7.1.x, if no value is passed,
+   * the default value of this parameter is that of `timeout`.
+   *
+   * This parameter is only available for Android. It has no effect on iOS or Web platforms.
+   *
+   * @default `timeout`
+   * @since 8.0.0
+   */
+  interval?: number;
+
+  /**
    * Whether to fall back to the Android framework's `LocationManager` in case Google Play Service's location settings checks fail.
    * This can happen for multiple reasons - e.g. device has no Play Services or device has no network connection (Airplane Mode)
    * If set to `false`, failures are propagated to the caller.
    * Note that `LocationManager` may not be as effective as Google Play Services implementation.
    * If the device's in airplane mode, only the GPS provider is used, which may take longer to return a location, depending on GPS signal.
    * This means that to receive location in such circumstances, you may need to provide a higher timeout.
+   *
+   * This parameter is only available for Android. It has no effect on iOS or Web platforms.
    *
    * @default true
    * @since 8.0.0
