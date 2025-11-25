@@ -54,11 +54,7 @@ class GeolocationPlugin : Plugin() {
             }
         }
 
-        this.controller = IONGLOCController(
-            LocationServices.getFusedLocationProviderClient(context),
-            activityLauncher
-        )
-
+        this.controller = IONGLOCController(context, activityLauncher)
     }
 
     override fun handleOnDestroy() {
@@ -82,7 +78,7 @@ class GeolocationPlugin : Plugin() {
      * @param onLocationEnabled lambda function to use in case location services are enabled
      */
     private fun checkLocationState(call: PluginCall, onLocationEnabled: () -> Unit) {
-        if (controller.areLocationServicesEnabled(context)) {
+        if (controller.areLocationServicesEnabled()) {
             onLocationEnabled()
         } else {
             call.sendError(GeolocationErrors.LOCATION_DISABLED)
@@ -279,6 +275,9 @@ class GeolocationPlugin : Plugin() {
             is IONGLOCException.IONGLOCSettingsException -> {
                 call.sendError(GeolocationErrors.LOCATION_SETTINGS_ERROR)
             }
+            is IONGLOCException.IONGLOCLocationAndNetworkDisabledException -> {
+                call.sendError(GeolocationErrors.NETWORK_LOCATION_DISABLED_ERROR)
+            }
             is IONGLOCException.IONGLOCInvalidTimeoutException -> {
                 call.sendError(GeolocationErrors.INVALID_TIMEOUT)
             }
@@ -330,8 +329,24 @@ class GeolocationPlugin : Plugin() {
         val maximumAge = call.getNumber("maximumAge", 0)
         val enableHighAccuracy = call.getBoolean("enableHighAccuracy", false) ?: false
         val minimumUpdateInterval = call.getNumber("minimumUpdateInterval", 5000)
+        val enableLocationFallback = call.getBoolean("enableLocationFallback", true) ?: true
+        val interval = call.getNumber("interval", -1).let {
+            // using "< 0" and not "<= 0" because 0 is a valid value for interval
+            if (it < 0) {
+                timeout
+            } else {
+                it
+            }
+        }
 
-        val locationOptions = IONGLOCLocationOptions(timeout, maximumAge, enableHighAccuracy, minimumUpdateInterval)
+        val locationOptions = IONGLOCLocationOptions(
+            timeout,
+            maximumAge,
+            enableHighAccuracy,
+            enableLocationFallback,
+            interval = interval,
+            minUpdateInterval = minimumUpdateInterval
+        )
 
         return locationOptions
     }

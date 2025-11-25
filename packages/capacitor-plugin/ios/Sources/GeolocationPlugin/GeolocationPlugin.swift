@@ -1,7 +1,6 @@
 import Capacitor
 import IONGeolocationLib
 import UIKit
-
 import Combine
 
 @objc(GeolocationPlugin)
@@ -19,6 +18,7 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
     private var locationService: (any IONGLOCService)?
     private var cancellables = Set<AnyCancellable>()
     private var locationCancellable: AnyCancellable?
+    private var timeoutCancellable: AnyCancellable?
     private var callbackManager: GeolocationCallbackManager?
     private var statusInitialized = false
     private var locationInitialized: Bool = false
@@ -40,6 +40,8 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
             print("App became active. Restarting location monitoring for watch callbacks.")
             locationCancellable?.cancel()
             locationCancellable = nil
+            timeoutCancellable?.cancel()
+            timeoutCancellable = nil
             locationInitialized = false
 
             locationService?.stopMonitoringLocation()
@@ -77,6 +79,8 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
             locationService?.stopMonitoringLocation()
             locationCancellable?.cancel()
             locationCancellable = nil
+            timeoutCancellable?.cancel()
+            timeoutCancellable = nil
             locationInitialized = false
         }
 
@@ -160,6 +164,15 @@ private extension GeolocationPlugin {
             .sink(receiveValue: { [weak self] position in
                 self?.callbackManager?.sendSuccess(with: position)
             })
+
+        timeoutCancellable = locationService?.locationTimeoutPublisher
+            .sink(receiveValue: { [weak self] error in
+                if case .timeout = error {
+                    self?.callbackManager?.sendError(.timeout)
+                } else {
+                    self?.callbackManager?.sendError(.positionUnavailable)
+                }
+            })
     }
 
     func requestLocationAuthorisation(type requestType: IONGLOCAuthorisationRequestType) {
@@ -200,10 +213,10 @@ private extension GeolocationPlugin {
             callbackManager?.sendRequestPermissionsSuccess(Constants.AuthorisationStatus.Status.granted)
         }
         if shouldRequestCurrentPosition {
-            locationService?.requestSingleLocation()
+            locationService?.requestSingleLocation(options: IONGLOCRequestOptionsModel(timeout: callbackManager?.timeout))
         }
         if shouldRequestLocationMonitoring {
-            locationService?.startMonitoringLocation()
+            locationService?.startMonitoringLocation(options: IONGLOCRequestOptionsModel(timeout: callbackManager?.timeout))
         }
     }
 
