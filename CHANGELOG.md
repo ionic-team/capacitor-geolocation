@@ -1,3 +1,10 @@
+## [7.1.6](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.5...v7.1.6) (2025-11-25)
+
+
+### Bug Fixes
+
+* **ios:** Simplify SPM usage for native library ([#52](https://github.com/ionic-team/capacitor-geolocation/issues/52)) ([ad53dc6](https://github.com/ionic-team/capacitor-geolocation/commit/ad53dc654369db9c1c2ae57cefca798fc5283dc8))
+
 ## [7.1.5](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.4...v7.1.5) (2025-08-12)
 
 ### Fixes
