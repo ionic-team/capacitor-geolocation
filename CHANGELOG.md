@@ -17,7 +17,7 @@
 
 ### BREAKING CHANGES
 
-* **android:** The `timeout` property now gets applied to all requests on Android on iOS, as opposed to just web and `getCurrentPosition` on Android. This aligns with what is documented in the plugin. If you are experiencing timeouts when requesting location in your app, consider using a higher `timeout` value. For `watchPosition` on Android, you may use the `interval` parameter introduced in version 8.0.0.
+* The `timeout` property now gets applied to all requests on Android on iOS, as opposed to just web and `getCurrentPosition` on Android. This aligns with what is documented in the plugin. If you are experiencing timeouts when requesting location in your app, consider using a higher `timeout` value. For `watchPosition` on Android, you may use the `interval` parameter introduced in version 8.0.0.
 * Capacitor major version update requires major version update on the plugin.
 
 # [8.0.0-next.6](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0-next.5...v8.0.0-next.6) (2025-11-26)
