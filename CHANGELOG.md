@@ -1,3 +1,10 @@
+## [7.1.7](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.6...v7.1.7) (2025-12-16)
+
+
+### Bug Fixes
+
+* Use latest-7 fox 7.x ([#66](https://github.com/ionic-team/capacitor-geolocation/issues/66)) ([356c9dc](https://github.com/ionic-team/capacitor-geolocation/commit/356c9dcd6c3f88dc6f8bcc433782fea798006406))
+
 ## [7.1.6](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.5...v7.1.6) (2025-11-25)
 
 
