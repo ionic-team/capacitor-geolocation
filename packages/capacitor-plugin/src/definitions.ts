@@ -177,7 +177,7 @@ export interface PositionOptions {
   maximumAge?: number;
 
   /**
-   * The minumum update interval for `watchPosition`. Not to be confused with `interval`.
+   * The minimum update interval for `watchPosition`. Not to be confused with `interval`.
    *
    * If location updates are available faster than this interval then an update
    * will only occur if the minimum update interval has expired since the last location update.
