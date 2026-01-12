@@ -2,6 +2,7 @@ enum Constants {
     enum Arguments {
         static let enableHighAccuracy = "enableHighAccuracy"
         static let id = "id"
+        static let timeout = "timeout"
     }
 
     enum AuthorisationStatus {

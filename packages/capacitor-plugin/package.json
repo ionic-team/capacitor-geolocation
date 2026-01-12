@@ -1,6 +1,6 @@
 {
   "name": "@capacitor/geolocation",
-  "version": "7.1.5",
+  "version": "8.0.0",
   "description": "The Geolocation API provides simple methods for getting and tracking the current position of the device using GPS, along with altitude, heading, and speed information if available.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -46,33 +46,33 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@capacitor/synapse": "^1.0.3"
+    "@capacitor/synapse": "^1.0.4"
   },
   "devDependencies": {
-    "@capacitor/android": "next",
-    "@capacitor/core": "next",
-    "@capacitor/docgen": "^0.2.2",
-    "@capacitor/ios": "next",
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/docgen": "^0.3.0",
+    "@capacitor/ios": "^8.0.0",
     "@ionic/eslint-config": "^0.4.0",
     "@ionic/prettier-config": "^4.0.0",
     "@ionic/swiftlint-config": "^2.0.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^12.0.0",
-    "@semantic-release/npm": "^13.1.1",
-    "@types/node": "^20.14.8",
-    "eslint": "^8.57.0",
-    "prettier": "^3.3.3",
-    "prettier-plugin-java": "^2.6.4",
-    "rimraf": "^6.0.1",
-    "rollup": "^2.78.1",
-    "semantic-release": "^25.0.1",
+    "@semantic-release/github": "^12.0.2",
+    "@semantic-release/npm": "^13.1.2",
+    "@types/node": "^24.10.1",
+    "eslint": "^8.57.1",
+    "prettier": "^3.6.2",
+    "prettier-plugin-java": "^2.7.7",
+    "rimraf": "^6.1.2",
+    "rollup": "^4.53.3",
+    "semantic-release": "^25.0.2",
     "swiftlint": "^2.0.0",
-    "typescript": "~5.4.5"
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "@capacitor/core": ">=7.0.0"
+    "@capacitor/core": ">=8.0.0"
   },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",

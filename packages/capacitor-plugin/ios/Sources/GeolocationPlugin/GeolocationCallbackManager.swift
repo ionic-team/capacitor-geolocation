@@ -24,6 +24,7 @@ final class GeolocationCallbackManager {
     private(set) var requestPermissionsCallbacks: [CAPPluginCall]
     private(set) var locationCallbacks: [CAPPluginCall]
     private(set) var watchCallbacks: [String: CAPPluginCall]
+    private(set) var timeout: Int?
     private let capacitorBridge: CAPBridgeProtocol?
 
     private var allCallbackGroups: [GeolocationCallbackGroup] {
@@ -52,11 +53,15 @@ final class GeolocationCallbackManager {
     func addLocationCallback(capacitorCall call: CAPPluginCall) {
         capacitorBridge?.saveCall(call)
         locationCallbacks.append(call)
+        let timeout = call.getInt(Constants.Arguments.timeout)
+        self.timeout = timeout
     }
 
     func addWatchCallback(_ watchId: String, capacitorCall call: CAPPluginCall) {
         capacitorBridge?.saveCall(call)
         watchCallbacks[watchId] = call
+        let timeout = call.getInt(Constants.Arguments.timeout)
+        self.timeout = timeout
     }
 
     func clearRequestPermissionsCallbacks() {
@@ -109,6 +114,10 @@ final class GeolocationCallbackManager {
 
     func sendError(_ error: GeolocationError) {
         createPluginResult(status: .error(error.toCodeMessagePair()))
+
+        if case .timeout = error {
+            watchCallbacks.keys.forEach { clearWatchCallbackIfExists($0) }
+        }
     }
 }
 
