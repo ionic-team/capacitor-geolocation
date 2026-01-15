@@ -48,3 +48,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
           GH_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
         run: npx semantic-release
+
+  publish-pod:
+    needs: release
+    uses: ./.github/workflows/publish_pod.yml
+    secrets:
+      COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+      CAP_GH_RELEASE_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
+
