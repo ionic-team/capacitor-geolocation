@@ -1,0 +1,82 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+def LIB_VERSION = System.getenv('PLUGIN_VERSION')
+def PLUGIN_NAME = System.getenv('PLUGIN_NAME')
+def PLUGIN_REPO = System.getenv('PLUGIN_REPO')
+def PLUGIN_SCM = System.getenv('PLUGIN_SCM')
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    if (project.plugins.findPlugin("com.android.library")) {
+        from android.sourceSets.main.java.srcDirs
+        from android.sourceSets.main.kotlin.srcDirs
+    } else {
+        from sourceSets.main.java.srcDirs
+        from sourceSets.main.kotlin.srcDirs
+    }
+}
+
+artifacts {
+    archives androidSourcesJar
+}
+
+group = 'com.capacitorjs'
+version = LIB_VERSION
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                // Coordinates
+                groupId 'com.capacitorjs'
+                artifactId PLUGIN_NAME
+                version LIB_VERSION
+
+                // Two artifacts, the `aar` (or `jar`) and the sources
+                if (project.plugins.findPlugin("com.android.library")) {
+                    from components.release
+                } else {
+                    artifact("$buildDir/libs/${project.getName()}-${version}.jar")
+                }
+
+                artifact androidSourcesJar
+
+                // POM Data
+                pom {
+                    name = PLUGIN_NAME
+                    description = 'Capacitor Android ' + PLUGIN_NAME + ' plugin native library'
+                    url = PLUGIN_REPO
+                    licenses {
+                        license {
+                            name = 'MIT'
+                            url = PLUGIN_REPO + '/blob/main' + '/LICENSE'
+                        }
+                    }
+                    developers {
+                        developer {
+                            name = 'Ionic'
+                            email = 'hi@ionic.io'
+                        }
+                    }
+
+                    // Version Control Info
+                    scm {
+                        connection = 'scm:git:' + PLUGIN_SCM + '.git'
+                        developerConnection = 'scm:git:ssh://' + PLUGIN_SCM + '.git'
+                        url = PLUGIN_REPO + '/tree/main'
+                    }
+                }
+            }
+        }
+    }
+}
+
+signing {
+    useInMemoryPgpKeys(
+            rootProject.ext["signing.keyId"],
+            rootProject.ext["signing.key"],
+            rootProject.ext["signing.password"],
+    )
+    sign publishing.publications
+}
