@@ -21,10 +21,10 @@ let package = Package(
                 .product(name: "Cordova", package: "capacitor-swift-pm"),
                 .product(name: "IONGeolocationLib", package: "ion-ios-geolocation")
             ],
-            path: "ios/Sources/GeolocationPlugin"),
+            path: "packages/capacitor-plugin/ios/Sources/GeolocationPlugin"),
         .testTarget(
             name: "GeolocationPluginTests",
             dependencies: ["GeolocationPlugin"],
-            path: "ios/Tests/GeolocationTests")
+            path: "packages/capacitor-plugin/ios/Tests/GeolocationTests")
     ]
 )
