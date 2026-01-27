@@ -44,7 +44,9 @@
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build",
-    "publish:cocoapod": "pod trunk push ./CapacitorGeolocation.podspec --allow-warnings"
+    "publish:cocoapod": "pod trunk push ./CapacitorGeolocation.podspec --allow-warnings",
+    "prepack": "cp ../../Package.swift Package.swift && node -e 'const fs=require(\"fs\");let s=fs.readFileSync(\"Package.swift\",\"utf8\").split(\"packages/capacitor-plugin/\").join(\"\");fs.writeFileSync(\"Package.swift\",s);'",
+    "postpack": "rm -f Package.swift"
   },
   "dependencies": {
     "@capacitor/synapse": "^1.0.4"
