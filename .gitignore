@@ -1,1 +1,6 @@
+# node files
 node_modules
+
+# iOS files
+Package.resolved
+.build
