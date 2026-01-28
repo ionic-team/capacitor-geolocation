@@ -35,4 +35,3 @@ jobs:
           npm run publish:cocoapod
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-        working-directory: ./packages/capacitor-plugin

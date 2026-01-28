@@ -19,5 +19,4 @@ jobs:
         uses: ./.github/actions/setup-tools
 
       - name: 'Lint Packages'
-        working-directory: ./packages/capacitor-plugin
         run: npm run lint
