@@ -74,4 +74,4 @@ else
 fi
 printf %"s\n" "Publishing plugin with dependency on Capacitor version $CAPACITOR_VERSION"
 
-publish_plugin_android './packages/capacitor-plugin'
+publish_plugin_android '.'

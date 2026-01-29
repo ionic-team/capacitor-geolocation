@@ -8,12 +8,7 @@ module.exports = {
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
-    [
-      "@semantic-release/changelog",
-      {
-        "changelogFile": "../../CHANGELOG.md"
-      }
-    ],
+    '@semantic-release/changelog',
     '@semantic-release/npm',
     [
       '@semantic-release/github',
@@ -23,23 +18,14 @@ module.exports = {
         releasedLabels: false,
         addReleases: 'bottom',
         releaseNotes: {
-          changelogFile: '../../CHANGELOG.md'
+          changelogFile: 'CHANGELOG.md'
         }
       }
     ],
     [
-      "@semantic-release/exec",
-      {
-        // This is necessary because @semantic-release/git won't commit files in parent directory
-        //  see  https://github.com/semantic-release/git/issues/485
-        prepareCmd:
-          "git add ../../CHANGELOG.md",
-      },
-    ],
-    [
       '@semantic-release/git',
       {
-        assets: ['package.json'],
+        assets: ['package.json', 'CHANGELOG.md'],
         message: 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
       }
     ]

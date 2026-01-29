@@ -6,7 +6,7 @@ ext["centralTokenUsername"] = ''
 ext["centralTokenPassword"] = ''
 ext["sonatypeStagingProfileId"] = ''
 
-File globalSecretPropsFile = file('../../../scripts/android/local.properties')
+File globalSecretPropsFile = file('../scripts/android/local.properties')
 File secretPropsFile = project.rootProject.file('local.properties')
 if (globalSecretPropsFile.exists()) {
     // Read global local.properties file first if it exists (scripts/android/local.properties)

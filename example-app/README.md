@@ -5,17 +5,16 @@ and comes with a very minimal shell for building an app.
 
 ### Running this example
 
-To run the provided example, first build the plugin: go to `../capacitor-plugin` and run
+To run the provided example, first build the plugin: go to root and run
 
 ```bash
-cd ../capacitor-plugin
 npm install & npm run build
 ```
 
 Then go back to this directory and build and run the app:
 
 ```bash
-cd ../example-app-capacitor
+cd example-app
 npm install & npm run build
 npm start
 ```

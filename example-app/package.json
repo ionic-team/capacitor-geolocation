@@ -18,7 +18,7 @@
     "@capacitor/core": "^8.0.0",
     "@capacitor/ios": "^8.0.0",
     "@capacitor/splash-screen": "^7.0.0 || ^8.0.0",
-    "@capacitor/geolocation": "file:../capacitor-plugin"
+    "@capacitor/geolocation": "file:../"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.0.0",
