@@ -14,7 +14,7 @@ npm install & npm run build
 Then go back to this directory and build and run the app:
 
 ```bash
-cd example-app-capacitor
+cd example-app
 npm install & npm run build
 npm start
 ```

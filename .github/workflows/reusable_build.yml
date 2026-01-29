@@ -24,3 +24,10 @@ jobs:
 
       - name: 'Build Packages'
         run: npm run build
+
+      - name: 'Check README.md changes'
+        run: |
+          if ! cmp --silent README.md README.md.original; then
+            echo "Detected README.md changes; Do 'npm run build' to update the docs."
+            exit 1
+          fi
