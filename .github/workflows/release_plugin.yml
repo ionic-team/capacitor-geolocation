@@ -43,7 +43,6 @@ jobs:
       - name: 'Setup Tools'
         uses: ./.github/actions/setup-tools
       - name: Release
-        working-directory: ./packages/capacitor-plugin
         env:
           GITHUB_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
           GH_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}

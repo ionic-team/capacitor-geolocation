@@ -13,6 +13,5 @@ runs:
       shell: bash
       run: npm install -g npm@latest
     - name: Install dependencies
-      working-directory: ./packages/capacitor-plugin
       shell: bash
       run: npm i

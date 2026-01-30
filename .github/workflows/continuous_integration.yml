@@ -25,7 +25,6 @@ jobs:
       - name: 'Setup Tools'
         uses: ./.github/actions/setup-tools
       - name: 'Verify Android'
-        working-directory: ./packages/capacitor-plugin
         run: npm run verify:android
 
   verify-plugin-ios:
@@ -37,7 +36,6 @@ jobs:
       - name: 'Setup Tools'
         uses: ./.github/actions/setup-tools
       - name: 'Verify iOS'
-        working-directory: ./packages/capacitor-plugin
         run: npm run verify:ios
 
   build-example-app-android:
@@ -51,7 +49,7 @@ jobs:
       - name: 'Prepare example app'
         uses: ./.github/actions/prepare-example-app
       - name: 'Build Android example app'
-        working-directory: ./packages/example-app-capacitor/android
+        working-directory: ./example-app/android
         run: ./gradlew clean assembleDebug
     
   build-example-app-ios:
@@ -65,5 +63,5 @@ jobs:
       - name: 'Prepare example app'
         uses: ./.github/actions/prepare-example-app
       - name: 'Build iOS example app'
-        working-directory: ./packages/example-app-capacitor/ios/App
+        working-directory: ./example-app/ios/App
         run: xcodebuild clean build -workspace App.xcworkspace -scheme App CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO

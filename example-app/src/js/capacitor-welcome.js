@@ -100,61 +100,56 @@ window.customElements.define(
 
       self.shadowRoot.querySelector('#check-permission').addEventListener('click', async function (e) {
         const permissionStatus = await Geolocation.checkPermissions();
-        alert(`Permissions are:\nlocation = ${permissionStatus.location}`)
+        alert(`Permissions are:\nlocation = ${permissionStatus.location}`);
       });
       self.shadowRoot.querySelector('#request-permission').addEventListener('click', async function (e) {
         const permissionStatus = await Geolocation.requestPermissions();
-        alert(`Permissions are:\nlocation = ${permissionStatus.location}`)
+        alert(`Permissions are:\nlocation = ${permissionStatus.location}`);
       });
 
       self.shadowRoot.querySelector('#current-location').addEventListener('click', async function (e) {
         try {
           let options = createLocationOptions();
-          const currentLocation = await Geolocation.getCurrentPosition(
-            options
-          );
-          const locationString = locationToString(currentLocation, '')
-          alert(locationString)
+          const currentLocation = await Geolocation.getCurrentPosition(options);
+          const locationString = locationToString(currentLocation, '');
+          alert(locationString);
         } catch (exception) {
-          alert(`Error getting current position:\n\t code=${exception.code}\n\t message=\"${exception.message}\"`)
+          alert(`Error getting current position:\n\t code=${exception.code}\n\t message=\"${exception.message}\"`);
         }
       });
 
       self.shadowRoot.querySelector('#watch-location').addEventListener('click', async function (e) {
-        let watchId = ""
+        let watchId = '';
         try {
-          let shouldAppendWatchId = true
-          let options = createLocationOptions()
-          watchId = await Geolocation.watchPosition(
-            options,
-            (position, err) => {
-              if (err) {
-                alert(`Error getting current position:\n\t code=${err.code}\n\t message=\"${err.message}\"`)
-              } else {
-                const locationString = locationToString(position, watchId)
-                if (shouldAppendWatchId && watchId) {
-                  shouldAppendWatchId = false
-                  onWatchAdded(watchId);
-                }
-                const positionUpdatesList = self.shadowRoot.querySelector('#watch-position-updates-list');
-                const newListItem = document.createElement('li');
-                newListItem.textContent = locationString;
-                 // 'pre-wrap' to make \n's count as line breaks
-                newListItem.style.whiteSpace = 'pre-wrap'; 
-                newListItem.style.padding = '10px';
-                newListItem.style.borderBottom = '1px solid #ddd';
-                // add to top of list
-                if (positionUpdatesList.firstChild) {
-                  positionUpdatesList.insertBefore(newListItem, positionUpdatesList.firstChild);
-                } else {
-                  positionUpdatesList.appendChild(newListItem);
-                }
-                console.log(locationString)
+          let shouldAppendWatchId = true;
+          let options = createLocationOptions();
+          watchId = await Geolocation.watchPosition(options, (position, err) => {
+            if (err) {
+              alert(`Error getting current position:\n\t code=${err.code}\n\t message=\"${err.message}\"`);
+            } else {
+              const locationString = locationToString(position, watchId);
+              if (shouldAppendWatchId && watchId) {
+                shouldAppendWatchId = false;
+                onWatchAdded(watchId);
               }
-            },
-          );
+              const positionUpdatesList = self.shadowRoot.querySelector('#watch-position-updates-list');
+              const newListItem = document.createElement('li');
+              newListItem.textContent = locationString;
+              // 'pre-wrap' to make \n's count as line breaks
+              newListItem.style.whiteSpace = 'pre-wrap';
+              newListItem.style.padding = '10px';
+              newListItem.style.borderBottom = '1px solid #ddd';
+              // add to top of list
+              if (positionUpdatesList.firstChild) {
+                positionUpdatesList.insertBefore(newListItem, positionUpdatesList.firstChild);
+              } else {
+                positionUpdatesList.appendChild(newListItem);
+              }
+              console.log(locationString);
+            }
+          });
         } catch (exception) {
-          alert(`Error getting current position:\n\t code=${exception.code}\n\t message=\"${exception.message}\"`)
+          alert(`Error getting current position:\n\t code=${exception.code}\n\t message=\"${exception.message}\"`);
         }
       });
 
@@ -165,7 +160,7 @@ window.customElements.define(
 
       function createLocationOptions() {
         const enableHighAccuracyValue = self.shadowRoot.getElementById('highaccuracyCheck').checked;
-        let options = { enableHighAccuracy: enableHighAccuracyValue }
+        let options = { enableHighAccuracy: enableHighAccuracyValue };
         const timeoutValue = self.shadowRoot.getElementById('timeoutInput').value;
         if (timeoutValue) {
           options.timeout = Number(timeoutValue);
@@ -178,7 +173,7 @@ window.customElements.define(
         if (intervalValue) {
           options.interval = Number(intervalValue);
         }
-        return options
+        return options;
       }
 
       function onWatchAdded(watchId) {
@@ -190,10 +185,10 @@ window.customElements.define(
         watchIdButton.classList.add('watch-id-button');
         watchIdButton.style.cursor = 'pointer';
 
-        watchIdButton.addEventListener('click',  async function (e) {
+        watchIdButton.addEventListener('click', async function (e) {
           // for simplicity, watch is always removed visually, regardless of clearWatch result
           newListItem.remove();
-          await Geolocation.clearWatch({id: watchId});
+          await Geolocation.clearWatch({ id: watchId });
         });
 
         newListItem.appendChild(watchIdButton);
@@ -202,28 +197,28 @@ window.customElements.define(
 
       function locationToString(location, watchId) {
         if (location == null || location == undefined) {
-          return ""
+          return '';
         }
-        let stringRepresentation = 'Position'
+        let stringRepresentation = 'Position';
         if (watchId) {
-          stringRepresentation += ` for watch ${watchId}:\n`
+          stringRepresentation += ` for watch ${watchId}:\n`;
         } else {
-          stringRepresentation += ':\n'
+          stringRepresentation += ':\n';
         }
-        const timeRepresentation = location.timestamp ? new Date(location.timestamp).toISOString() : '-'
-        stringRepresentation += `- Time: ${timeRepresentation}\n`
-        stringRepresentation += `- Latitute: ${location?.coords.latitude}\n- Longitude: ${location?.coords.longitude}\n`
+        const timeRepresentation = location.timestamp ? new Date(location.timestamp).toISOString() : '-';
+        stringRepresentation += `- Time: ${timeRepresentation}\n`;
+        stringRepresentation += `- Latitute: ${location?.coords.latitude}\n- Longitude: ${location?.coords.longitude}\n`;
         if (location?.coords.altitude || location?.coords.heading || location?.coords.speed) {
-          stringRepresentation += `- Altitude: ${location?.coords.altitude}\n- Heading: ${location?.coords.heading}\n- Speed: ${location?.coords.speed}\n`
+          stringRepresentation += `- Altitude: ${location?.coords.altitude}\n- Heading: ${location?.coords.heading}\n- Speed: ${location?.coords.speed}\n`;
         }
-        stringRepresentation += `- Accuracy: ${location?.coords.accuracy}\n`
+        stringRepresentation += `- Accuracy: ${location?.coords.accuracy}\n`;
         if (location?.coords.altitudeAccuracy) {
-          stringRepresentation += `- Altitude accuracy: ${location?.coords.altitudeAccuracy}\n`
+          stringRepresentation += `- Altitude accuracy: ${location?.coords.altitudeAccuracy}\n`;
         }
-        return stringRepresentation
+        return stringRepresentation;
       }
     }
-  }
+  },
 );
 
 window.customElements.define(
@@ -252,5 +247,5 @@ window.customElements.define(
     <slot></slot>
     `;
     }
-  }
+  },
 );
