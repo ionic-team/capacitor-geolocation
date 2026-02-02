@@ -255,6 +255,10 @@ class GeolocationPlugin : Plugin() {
             locationResult.altitudeAccuracy?.let { put("altitudeAccuracy", it) }
             put("speed", locationResult.speed)
             put("heading", locationResult.heading)
+            locationResult.magneticHeading?.let { put("magneticHeading", it) }
+            locationResult.trueHeading?.let { put("trueHeading", it) }
+            locationResult.headingAccuracy?.let { put("headingAccuracy", it) }
+            locationResult.course?.let { put("course", it) }
         }
         return JSObject().apply {
             put("timestamp", locationResult.timestamp)

@@ -1,3 +1,12 @@
+# [8.1.0](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0...v8.1.0) (2026-02-02)
+
+### Features
+
+* **heading:** Added support for accurate heading information across all platforms.
+* **heading:** The `heading` property on iOS, Android, and Web now prioritizes actual compass bearing (true/magnetic heading) when available, falling back to direction of travel (course).
+* **coords:** Added `magneticHeading`, `trueHeading`, `headingAccuracy`, and `course` to `Position.coords`.
+* **web:** Improved heading support using `DeviceOrientation` APIs.
+
 # [8.0.0](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.6...v8.0.0) (2025-12-08)
 
 

@@ -140,11 +140,43 @@ export interface Position {
     speed: number | null;
 
     /**
-     * The heading the user is facing (if available)
+     * The heading the user is facing (if available).
+     *
+     * Historically, this field returned the direction of travel (course) on iOS and Android.
+     * It now prioritizes the compass heading (true or magnetic) if available, falling back
+     * to the direction of travel (course).
      *
      * @since 1.0.0
      */
     heading: number | null;
+
+    /**
+     * The heading (measured in degrees) relative to magnetic north.
+     *
+     * @since 8.1.0
+     */
+    magneticHeading: number | null | undefined;
+
+    /**
+     * The heading (measured in degrees) relative to true north.
+     *
+     * @since 8.1.0
+     */
+    trueHeading: number | null | undefined;
+
+    /**
+     * The maximum deviation (measured in degrees) between the reported heading and the true geomagnetic heading.
+     *
+     * @since 8.1.0
+     */
+    headingAccuracy: number | null | undefined;
+
+    /**
+     * The direction in which the device is travelling, measured in degrees and relative to due north.
+     *
+     * @since 8.1.0
+     */
+    course: number | null | undefined;
   };
 }
 
