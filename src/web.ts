@@ -53,11 +53,11 @@ export class GeolocationWeb extends WebPlugin implements GeolocationPlugin {
     }
   }
 
-  private augmentPosition(pos: globalThis.GeolocationPosition): Position {
+  private augmentPosition(pos: globalThis.GeolocationPosition, isWatch = false): Position {
     const coords = pos.coords;
-    const orientation = this.latestOrientation;
+    const orientation = isWatch ? this.latestOrientation : null;
 
-    const heading = orientation?.trueHeading ?? orientation?.magneticHeading ?? coords.heading ?? null;
+    const heading = orientation?.trueHeading ?? orientation?.magneticHeading ?? (isWatch ? coords.heading : null) ?? null;
 
     return {
       timestamp: pos.timestamp,
@@ -72,7 +72,7 @@ export class GeolocationWeb extends WebPlugin implements GeolocationPlugin {
         magneticHeading: orientation?.magneticHeading ?? null,
         trueHeading: orientation?.trueHeading ?? null,
         headingAccuracy: orientation?.headingAccuracy ?? null,
-        course: coords.heading ?? null,
+        course: (isWatch ? coords.heading : null) ?? null,
       },
     };
   }
@@ -81,7 +81,7 @@ export class GeolocationWeb extends WebPlugin implements GeolocationPlugin {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         pos => {
-          resolve(this.augmentPosition(pos));
+          resolve(this.augmentPosition(pos, false));
         },
         err => {
           reject(err);
@@ -99,7 +99,7 @@ export class GeolocationWeb extends WebPlugin implements GeolocationPlugin {
   async watchPosition(options: PositionOptions, callback: WatchPositionCallback): Promise<CallbackID> {
     const id = navigator.geolocation.watchPosition(
       pos => {
-        callback(this.augmentPosition(pos));
+        callback(this.augmentPosition(pos, true));
       },
       err => {
         callback(null, err);

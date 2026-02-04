@@ -254,11 +254,11 @@ class GeolocationPlugin : Plugin() {
             put("altitude", locationResult.altitude)
             locationResult.altitudeAccuracy?.let { put("altitudeAccuracy", it) }
             put("speed", locationResult.speed)
-            put("heading", locationResult.heading)
-            locationResult.magneticHeading?.let { put("magneticHeading", it) }
-            locationResult.trueHeading?.let { put("trueHeading", it) }
-            locationResult.headingAccuracy?.let { put("headingAccuracy", it) }
-            locationResult.course?.let { put("course", it) }
+            put("heading", if (locationResult.heading != -1f) locationResult.heading else null)
+            put("magneticHeading", locationResult.magneticHeading)
+            put("trueHeading", locationResult.trueHeading)
+            put("headingAccuracy", locationResult.headingAccuracy)
+            put("course", locationResult.course)
         }
         return JSObject().apply {
             put("timestamp", locationResult.timestamp)

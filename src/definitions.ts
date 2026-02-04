@@ -153,12 +153,16 @@ export interface Position {
     /**
      * The heading (measured in degrees) relative to magnetic north.
      *
+     * Only available when using `watchPosition`.
+     *
      * @since 8.1.0
      */
     magneticHeading: number | null | undefined;
 
     /**
      * The heading (measured in degrees) relative to true north.
+     *
+     * Only available when using `watchPosition`.
      *
      * @since 8.1.0
      */
@@ -167,12 +171,16 @@ export interface Position {
     /**
      * The maximum deviation (measured in degrees) between the reported heading and the true geomagnetic heading.
      *
+     * Only available when using `watchPosition`.
+     *
      * @since 8.1.0
      */
     headingAccuracy: number | null | undefined;
 
     /**
      * The direction in which the device is travelling, measured in degrees and relative to due north.
+     *
+     * Only available when using `watchPosition`.
      *
      * @since 8.1.0
      */

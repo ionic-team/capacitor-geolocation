@@ -2,8 +2,8 @@
 
 ### Features
 
-* **heading:** Added support for accurate heading information across all platforms.
-* **heading:** The `heading` property on iOS, Android, and Web now prioritizes actual compass bearing (true/magnetic heading) when available, falling back to direction of travel (course).
+* **heading:** Added support for accurate heading information across all platforms (available for `watchPosition` only).
+* **heading:** The `heading` property on iOS, Android, and Web now prioritizes actual compass bearing (true/magnetic heading) when available during active watches, falling back to direction of travel (course).
 * **coords:** Added `magneticHeading`, `trueHeading`, `headingAccuracy`, and `course` to `Position.coords`.
 * **web:** Improved heading support using `DeviceOrientation` APIs.
 
