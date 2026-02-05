@@ -73,7 +73,7 @@ repositories {
 
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
     if (System.getenv("CAP_PLUGIN_PUBLISH") == "true") {
         implementation "com.capacitorjs:core:$capacitorVersion"
@@ -81,7 +81,7 @@ dependencies {
         implementation project(':capacitor-android')
     }
 
-    implementation("io.ionic.libs:iongeolocation-android:2.1.0")
+//    implementation("io.ionic.libs:iongeolocation-android:2.2.0")
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
 
     implementation 'com.google.code.gson:gson:2.13.2'

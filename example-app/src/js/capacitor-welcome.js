@@ -207,13 +207,46 @@ window.customElements.define(
         }
         const timeRepresentation = location.timestamp ? new Date(location.timestamp).toISOString() : '-';
         stringRepresentation += `- Time: ${timeRepresentation}\n`;
-        stringRepresentation += `- Latitute: ${location?.coords.latitude}\n- Longitude: ${location?.coords.longitude}\n`;
-        if (location?.coords.altitude || location?.coords.heading || location?.coords.speed) {
-          stringRepresentation += `- Altitude: ${location?.coords.altitude}\n- Heading: ${location?.coords.heading}\n- Speed: ${location?.coords.speed}\n`;
-        }
+        stringRepresentation += `- Latitude: ${location?.coords.latitude}\n- Longitude: ${location?.coords.longitude}\n`;
         stringRepresentation += `- Accuracy: ${location?.coords.accuracy}\n`;
-        if (location?.coords.altitudeAccuracy) {
-          stringRepresentation += `- Altitude accuracy: ${location?.coords.altitudeAccuracy}\n`;
+        stringRepresentation += `- Altitude: ${location?.coords.altitude}\n`;
+        stringRepresentation += `- Altitude accuracy: ${location?.coords.altitudeAccuracy}\n`;
+        stringRepresentation += `- Speed: ${location?.coords.speed}\n`;
+
+        if (
+          location?.coords.heading !== null &&
+          location?.coords.heading !== undefined &&
+          location?.coords.heading !== -1
+        ) {
+          stringRepresentation += `- Heading: ${location.coords.heading}\n`;
+        }
+        if (
+          location?.coords.magneticHeading !== null &&
+          location?.coords.magneticHeading !== undefined &&
+          location?.coords.magneticHeading !== -1
+        ) {
+          stringRepresentation += `- Magnetic Heading: ${location.coords.magneticHeading}\n`;
+        }
+        if (
+          location?.coords.trueHeading !== null &&
+          location?.coords.trueHeading !== undefined &&
+          location?.coords.trueHeading !== -1
+        ) {
+          stringRepresentation += `- True Heading: ${location.coords.trueHeading}\n`;
+        }
+        if (
+          location?.coords.headingAccuracy !== null &&
+          location?.coords.headingAccuracy !== undefined &&
+          location?.coords.headingAccuracy !== -1
+        ) {
+          stringRepresentation += `- Heading Accuracy: ${location.coords.headingAccuracy}\n`;
+        }
+        if (
+          location?.coords.course !== null &&
+          location?.coords.course !== undefined &&
+          location?.coords.course !== -1
+        ) {
+          stringRepresentation += `- Course: ${location.coords.course}\n`;
         }
         return stringRepresentation;
       }
