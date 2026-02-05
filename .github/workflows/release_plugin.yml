@@ -55,7 +55,7 @@ jobs:
       COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
       CAP_GH_RELEASE_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
 
-    publish-android:
+  publish-android:
     needs: release
     uses: ./.github/workflows/publish_maven_central.yml
     secrets:
