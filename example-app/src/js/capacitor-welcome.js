@@ -213,19 +213,39 @@ window.customElements.define(
         stringRepresentation += `- Altitude accuracy: ${location?.coords.altitudeAccuracy}\n`;
         stringRepresentation += `- Speed: ${location?.coords.speed}\n`;
 
-        if (location?.coords.heading !== null && location?.coords.heading !== undefined && location?.coords.heading !== -1) {
+        if (
+          location?.coords.heading !== null &&
+          location?.coords.heading !== undefined &&
+          location?.coords.heading !== -1
+        ) {
           stringRepresentation += `- Heading: ${location.coords.heading}\n`;
         }
-        if (location?.coords.magneticHeading !== null && location?.coords.magneticHeading !== undefined && location?.coords.magneticHeading !== -1) {
+        if (
+          location?.coords.magneticHeading !== null &&
+          location?.coords.magneticHeading !== undefined &&
+          location?.coords.magneticHeading !== -1
+        ) {
           stringRepresentation += `- Magnetic Heading: ${location.coords.magneticHeading}\n`;
         }
-        if (location?.coords.trueHeading !== null && location?.coords.trueHeading !== undefined && location?.coords.trueHeading !== -1) {
+        if (
+          location?.coords.trueHeading !== null &&
+          location?.coords.trueHeading !== undefined &&
+          location?.coords.trueHeading !== -1
+        ) {
           stringRepresentation += `- True Heading: ${location.coords.trueHeading}\n`;
         }
-        if (location?.coords.headingAccuracy !== null && location?.coords.headingAccuracy !== undefined && location?.coords.headingAccuracy !== -1) {
+        if (
+          location?.coords.headingAccuracy !== null &&
+          location?.coords.headingAccuracy !== undefined &&
+          location?.coords.headingAccuracy !== -1
+        ) {
           stringRepresentation += `- Heading Accuracy: ${location.coords.headingAccuracy}\n`;
         }
-        if (location?.coords.course !== null && location?.coords.course !== undefined && location?.coords.course !== -1) {
+        if (
+          location?.coords.course !== null &&
+          location?.coords.course !== undefined &&
+          location?.coords.course !== -1
+        ) {
           stringRepresentation += `- Course: ${location.coords.course}\n`;
         }
         return stringRepresentation;

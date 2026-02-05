@@ -57,7 +57,8 @@ export class GeolocationWeb extends WebPlugin implements GeolocationPlugin {
     const coords = pos.coords;
     const orientation = isWatch ? this.latestOrientation : null;
 
-    const heading = orientation?.trueHeading ?? orientation?.magneticHeading ?? (isWatch ? coords.heading : null) ?? null;
+    const heading =
+      orientation?.trueHeading ?? orientation?.magneticHeading ?? (isWatch ? coords.heading : null) ?? null;
 
     return {
       timestamp: pos.timestamp,
@@ -80,10 +81,10 @@ export class GeolocationWeb extends WebPlugin implements GeolocationPlugin {
   async getCurrentPosition(options?: PositionOptions): Promise<Position> {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
-        pos => {
+        (pos) => {
           resolve(this.augmentPosition(pos, false));
         },
-        err => {
+        (err) => {
           reject(err);
         },
         {
@@ -98,10 +99,10 @@ export class GeolocationWeb extends WebPlugin implements GeolocationPlugin {
 
   async watchPosition(options: PositionOptions, callback: WatchPositionCallback): Promise<CallbackID> {
     const id = navigator.geolocation.watchPosition(
-      pos => {
+      (pos) => {
         callback(this.augmentPosition(pos, true));
       },
-      err => {
+      (err) => {
         callback(null, err);
       },
       {
