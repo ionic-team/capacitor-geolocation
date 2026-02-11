@@ -1,3 +1,17 @@
+# [8.1.0](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0...v8.1.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* **android:** AGP 9.0 no longer supporting `proguard-android.txt` ([#74](https://github.com/ionic-team/capacitor-geolocation/issues/74)) ([32961e1](https://github.com/ionic-team/capacitor-geolocation/commit/32961e1eb53106ba9004a9a1d0abb4b500a90dc8))
+
+
+### Features
+
+* **ci:** add Maven Central publishing workflow and Android publishing scripts ([#72](https://github.com/ionic-team/capacitor-geolocation/issues/72)) ([281d64f](https://github.com/ionic-team/capacitor-geolocation/commit/281d64fd038fbdfea15aa7a484ee0fb33370e35b))
+* **ci:** add publish-pod job to invoke CocoaPods publish workflow ([#70](https://github.com/ionic-team/capacitor-geolocation/issues/70)) ([e2387f4](https://github.com/ionic-team/capacitor-geolocation/commit/e2387f43c060ee5f1e5e7210fe9c3ef13237f2a4))
+* **ci:** add publish-pod job to invoke CocoaPods publish workflow ([#71](https://github.com/ionic-team/capacitor-geolocation/issues/71)) ([f9a4eca](https://github.com/ionic-team/capacitor-geolocation/commit/f9a4ecae97b944f739736ecc04f90b4c372232a5))
+
 # [8.0.0](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.6...v8.0.0) (2025-12-08)
 
 
