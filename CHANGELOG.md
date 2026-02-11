@@ -1,3 +1,10 @@
+## [7.1.8](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.7...v7.1.8) (2026-02-11)
+
+
+### Bug Fixes
+
+* **android:** AGP 9.0 no longer supporting `proguard-android.txt` ([#74](https://github.com/ionic-team/capacitor-geolocation/issues/74)) ([3c2a656](https://github.com/ionic-team/capacitor-geolocation/commit/3c2a656437245b0b12f054c0d692c7f59eee68c5))
+
 ## [7.1.7](https://github.com/ionic-team/capacitor-geolocation/compare/v7.1.6...v7.1.7) (2025-12-16)
 
 
