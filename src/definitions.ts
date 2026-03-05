@@ -155,7 +155,7 @@ export interface Position {
      *
      * Only available when using `watchPosition`.
      *
-     * @since 8.1.0
+     * @since 8.2.0
      */
     magneticHeading: number | null | undefined;
 
@@ -164,7 +164,7 @@ export interface Position {
      *
      * Only available when using `watchPosition`.
      *
-     * @since 8.1.0
+     * @since 8.2.0
      */
     trueHeading: number | null | undefined;
 
@@ -173,7 +173,7 @@ export interface Position {
      *
      * Only available when using `watchPosition`.
      *
-     * @since 8.1.0
+     * @since 8.2.0
      */
     headingAccuracy: number | null | undefined;
 
@@ -182,7 +182,7 @@ export interface Position {
      *
      * Only available when using `watchPosition`.
      *
-     * @since 8.1.0
+     * @since 8.2.0
      */
     course: number | null | undefined;
   };
