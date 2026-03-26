@@ -33,5 +33,9 @@ enum Constants {
         static let speed: String = "speed"
         static let timestamp: String = "timestamp"
         static let altitudeAccuracy: String = "altitudeAccuracy"
+        static let magneticHeading: String = "magneticHeading"
+        static let trueHeading: String = "trueHeading"
+        static let headingAccuracy: String = "headingAccuracy"
+        static let course: String = "course"
     }
 }
