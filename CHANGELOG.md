@@ -1,3 +1,10 @@
+# [8.2.0](https://github.com/ionic-team/capacitor-geolocation/compare/v8.1.0...v8.2.0) (2026-03-31)
+
+
+### Features
+
+* add support for heading ([#78](https://github.com/ionic-team/capacitor-geolocation/issues/78)) ([ed20f3e](https://github.com/ionic-team/capacitor-geolocation/commit/ed20f3e3b77c9178b5ba2372a9d98c1759dae65d))
+
 # [8.1.0](https://github.com/ionic-team/capacitor-geolocation/compare/v8.0.0...v8.1.0) (2026-02-11)
 
 
