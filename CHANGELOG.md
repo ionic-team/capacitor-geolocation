@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.0.0](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@8.0.0...@capacitor/geolocation@7.1.2) (2026-06-03)
+
+### Breaking Changes
+
+- Minimum iOS version updated from 14.0 to 15.0
+- Minimum Android SDK updated from 23 to 24
+- Updated peer dependency to `@capacitor/core >= 8.0.0`
+
+### Chores
+
+- Migrate to Capacitor 8
+- Update Android Gradle Plugin to 8.13.0
+- Update Kotlin to 2.2.20
+- Update Android compileSdk/targetSdk to 36
+- Update Gradle wrapper to 8.14.3
+- Update Swift version to 5.9
+- Update capacitor-swift-pm to 8.0.0
+
 # [7.1.2](https://github.com/ionic-team/capacitor-plugins/compare/@capacitor/geolocation@7.1.2...@capacitor/geolocation@7.1.1) (2025-02-21)
 
 ### Fixes
