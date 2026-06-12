@@ -73,4 +73,9 @@ object GeolocationErrors {
         code = formatErrorCode(17),
         message = "Unable to retrieve location because device has both Network and Location turned off."
     )
+
+    val LOCATION_MANIFEST_PERMISSIONS_MISSING = ErrorInfo(
+        code = formatErrorCode(18),
+        message = "Location permissions are not declared in manifest. Make sure at least ACCESS_COARSE_LOCATION is declared in AndroidManifest.xml, and optionally ACCESS_FINE_LOCATION if you require precise location access."
+    )
 }

@@ -116,7 +116,10 @@ class GeolocationPlugin : Plugin() {
         callbackName: String,
         onPermissionGranted: () -> Unit
     ) {
-        val alias = getAlias(call)
+        val alias = getAlias(call) ?: run {
+            call.sendError(GeolocationErrors.LOCATION_MANIFEST_PERMISSIONS_MISSING)
+            return
+        }
         if (getPermissionState(alias) != PermissionState.GRANTED) {
             requestPermissionForAlias(alias, call, callbackName)
         } else {
@@ -178,19 +181,21 @@ class GeolocationPlugin : Plugin() {
     }
 
     /**
-     * Gets the appropriate permission alias
+     * Gets the appropriate permission alias, based on the Android version, 
+     *  the permissions declared in the manifest 
+     *  and the enableHighAccuracy option provided by the caller.
      * @param call the plugin call
-     * @return String with correct alias
+     * @return String with correct alias or null if no permissions can be requested
      */
-    private fun getAlias(call: PluginCall): String {
-        var alias = LOCATION_ALIAS
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val enableHighAccuracy = call.getBoolean("enableHighAccuracy") ?: false
-            if (!enableHighAccuracy) {
-                alias = COARSE_LOCATION_ALIAS
-            }
+    private fun getAlias(call: PluginCall): String? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            return LOCATION_ALIAS
         }
-        return alias
+        val hasFine = isPermissionDeclared(LOCATION_ALIAS)
+        val hasCoarse = isPermissionDeclared(COARSE_LOCATION_ALIAS)
+        if (!hasFine && !hasCoarse) return null
+        val enableHighAccuracy = call.getBoolean("enableHighAccuracy") ?: false
+        return if (hasFine && enableHighAccuracy) LOCATION_ALIAS else COARSE_LOCATION_ALIAS
     }
 
     /**
