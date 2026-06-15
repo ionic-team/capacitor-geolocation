@@ -11,7 +11,6 @@ import com.getcapacitor.PluginMethod
 import com.getcapacitor.annotation.CapacitorPlugin
 import com.getcapacitor.annotation.Permission
 import com.getcapacitor.annotation.PermissionCallback
-import com.google.android.gms.location.LocationServices
 import io.ionic.libs.iongeolocationlib.controller.IONGLOCController
 import io.ionic.libs.iongeolocationlib.model.IONGLOCException
 import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationOptions
@@ -321,7 +320,7 @@ class GeolocationPlugin : Plugin() {
     }
 
     /**
-     * Extension function to return a unsuccessful plugin result
+     * Extension function to return an unsuccessful plugin result
      * @param error error class representing the error to return, containing a code and message
      */
     private fun PluginCall.sendError(error: GeolocationErrors.ErrorInfo) {
