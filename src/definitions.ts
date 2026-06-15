@@ -237,7 +237,7 @@ export interface PositionOptions {
    * The platform may also be able to provide location updates faster than `interval`.
    * You may use `minimumUpdateInterval` to control that behavior.
    *
-   * For backwards compatiblity with version 7.1.x, if no value is passed,
+   * For backwards compatibility with version 7.1.x, if no value is passed,
    * the default value of this parameter is that of `timeout`.
    *
    * This parameter is only available for Android. It has no effect on iOS or Web platforms.
