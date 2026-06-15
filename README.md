@@ -247,3 +247,4 @@ The following table list all the plugin errors:
 | OS-PLUG-GLOC-0015 | Android      | Google Play Services error. |
 | OS-PLUG-GLOC-0016 | Android      | Location settings error. |
 | OS-PLUG-GLOC-0017 | Android      | Unable to retrieve location because device has both Network and Location turned off. |
+| OS-PLUG-GLOC-0018 | Android      | Location permissions are not declared in manifest. Make sure at least ACCESS_COARSE_LOCATION is declared in AndroidManifest.xml, and optionally ACCESS_FINE_LOCATION if you require precise location access. |
