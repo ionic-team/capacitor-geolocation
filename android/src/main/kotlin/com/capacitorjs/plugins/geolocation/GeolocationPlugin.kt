@@ -187,14 +187,13 @@ class GeolocationPlugin : Plugin() {
      * @return String with correct alias or null if no permissions can be requested
      */
     private fun getAlias(call: PluginCall): String? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-            return LOCATION_ALIAS
-        }
         val hasFine = isPermissionDeclared(LOCATION_ALIAS)
         val hasCoarse = isPermissionDeclared(COARSE_LOCATION_ALIAS)
         if (!hasFine && !hasCoarse) return null
         val enableHighAccuracy = call.getBoolean("enableHighAccuracy") ?: false
-        return if (hasFine && enableHighAccuracy) LOCATION_ALIAS else COARSE_LOCATION_ALIAS
+        val shouldRequestFine =
+            hasFine && (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || enableHighAccuracy)
+        return if (shouldRequestFine) LOCATION_ALIAS else COARSE_LOCATION_ALIAS
     }
 
     /**
