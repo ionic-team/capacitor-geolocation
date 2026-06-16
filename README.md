@@ -16,13 +16,16 @@ Apple requires privacy descriptions to be specified in `Info.plist` for location
 - `NSLocationAlwaysAndWhenInUseUsageDescription` (`Privacy - Location Always and When In Use Usage Description`)
 - `NSLocationWhenInUseUsageDescription` (`Privacy - Location When In Use Usage Description`)
 
-> [!NOTE]
-> This Capacitor plugin does not support background geolocation directly. However, it relies on
-> [`ion-ios-geolocation`](https://github.com/ionic-team/ion-ios-geolocation), which can report
-> location in the background. As a result, Apple requires you to include a
-> `NSLocationAlwaysAndWhenInUseUsageDescription` entry in your `Info.plist`. Since this permission
-> prompt won’t appear to users, you can safely use the same description string as for
-> `NSLocationWhenInUseUsageDescription`.
+:::info[Background Location Usage Strings]
+
+This Capacitor plugin does not support background geolocation directly. However, it relies on
+[`ion-ios-geolocation`](https://github.com/ionic-team/ion-ios-geolocation), which can report
+location in the background. As a result, Apple requires you to include a
+`NSLocationAlwaysAndWhenInUseUsageDescription` entry in your `Info.plist`. Since this permission
+prompt won’t appear to users, you can safely use the same description string as for
+`NSLocationWhenInUseUsageDescription`.
+
+:::info
 
 Read about [Configuring `Info.plist`](https://capacitorjs.com/docs/ios/configuration#configuring-infoplist) in the [iOS Guide](https://capacitorjs.com/docs/ios) for more information on setting iOS permissions in Xcode
 
@@ -38,6 +41,12 @@ This plugin requires the following permissions be added to your `AndroidManifest
 ```
 
 The first two permissions ask for location data, both fine and coarse, and the last line is optional but necessary if your app _requires_ GPS to function. You may leave it out, though keep in mind that this may mean your app is installed on devices lacking GPS hardware.
+
+:::note
+
+If you only require approximate location (variable accuracy but usually around 2 kilometers), you may just declare `ACCESS_COARSE_LOCATION` and `<uses-feature`, and use `enableHighAccuracy=false` when requesting location
+
+:::note
 
 Read about [Setting Permissions](https://capacitorjs.com/docs/android/configuration#setting-permissions) in the [Android Guide](https://capacitorjs.com/docs/android) for more information on setting Android permissions.
 
@@ -247,3 +256,4 @@ The following table list all the plugin errors:
 | OS-PLUG-GLOC-0015 | Android      | Google Play Services error. |
 | OS-PLUG-GLOC-0016 | Android      | Location settings error. |
 | OS-PLUG-GLOC-0017 | Android      | Unable to retrieve location because device has both Network and Location turned off. |
+| OS-PLUG-GLOC-0018 | Android      | Location permissions are not declared in manifest. Make sure at least ACCESS_COARSE_LOCATION is declared in AndroidManifest.xml, and optionally ACCESS_FINE_LOCATION if you require precise location access. |

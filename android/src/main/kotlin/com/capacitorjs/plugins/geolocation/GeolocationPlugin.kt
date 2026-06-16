@@ -11,7 +11,6 @@ import com.getcapacitor.PluginMethod
 import com.getcapacitor.annotation.CapacitorPlugin
 import com.getcapacitor.annotation.Permission
 import com.getcapacitor.annotation.PermissionCallback
-import com.google.android.gms.location.LocationServices
 import io.ionic.libs.iongeolocationlib.controller.IONGLOCController
 import io.ionic.libs.iongeolocationlib.model.IONGLOCException
 import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationOptions
@@ -116,7 +115,10 @@ class GeolocationPlugin : Plugin() {
         callbackName: String,
         onPermissionGranted: () -> Unit
     ) {
-        val alias = getAlias(call)
+        val alias = getAlias(call) ?: run {
+            call.sendError(GeolocationErrors.LOCATION_MANIFEST_PERMISSIONS_MISSING)
+            return
+        }
         if (getPermissionState(alias) != PermissionState.GRANTED) {
             requestPermissionForAlias(alias, call, callbackName)
         } else {
@@ -178,19 +180,20 @@ class GeolocationPlugin : Plugin() {
     }
 
     /**
-     * Gets the appropriate permission alias
+     * Gets the appropriate permission alias, based on the Android version, 
+     *  the permissions declared in the manifest 
+     *  and the enableHighAccuracy option provided by the caller.
      * @param call the plugin call
-     * @return String with correct alias
+     * @return String with correct alias or null if no permissions can be requested
      */
-    private fun getAlias(call: PluginCall): String {
-        var alias = LOCATION_ALIAS
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val enableHighAccuracy = call.getBoolean("enableHighAccuracy") ?: false
-            if (!enableHighAccuracy) {
-                alias = COARSE_LOCATION_ALIAS
-            }
-        }
-        return alias
+    private fun getAlias(call: PluginCall): String? {
+        val hasFine = isPermissionDeclared(LOCATION_ALIAS)
+        val hasCoarse = isPermissionDeclared(COARSE_LOCATION_ALIAS)
+        if (!hasFine && !hasCoarse) return null
+        val enableHighAccuracy = call.getBoolean("enableHighAccuracy") ?: false
+        val shouldRequestFine =
+            hasFine && (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || enableHighAccuracy)
+        return if (shouldRequestFine) LOCATION_ALIAS else COARSE_LOCATION_ALIAS
     }
 
     /**
@@ -316,7 +319,7 @@ class GeolocationPlugin : Plugin() {
     }
 
     /**
-     * Extension function to return a unsuccessful plugin result
+     * Extension function to return an unsuccessful plugin result
      * @param error error class representing the error to return, containing a code and message
      */
     private fun PluginCall.sendError(error: GeolocationErrors.ErrorInfo) {

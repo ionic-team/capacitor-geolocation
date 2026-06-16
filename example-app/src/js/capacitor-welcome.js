@@ -1,3 +1,4 @@
+import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Geolocation } from '@capacitor/geolocation';
 
@@ -63,6 +64,7 @@ window.customElements.define(
         <p>Below are the several features for the capacitor geolocation plugin. You may be prompted to grant location permission to the application.</p>
         <button id="check-permission" class="button">Check permission</button>
         <button id="request-permission" class="button">Request permission</button>
+        <button id="request-coarse-permission" class="button" style="display: none;">Request coarse permission</button>
         <br><br>
         <label for="timeoutInput">timeout: </label>
         <input type="number" id="timeoutInput" name="timeoutInput"><br>
@@ -98,13 +100,30 @@ window.customElements.define(
     connectedCallback() {
       const self = this;
 
+      const isAndroid = Capacitor.getPlatform() === 'android';
+
+      if (isAndroid) {
+        self.shadowRoot.querySelector('#request-coarse-permission').style.display = 'inline-block';
+      }
+
+      function permissionStatusToString(permissionStatus) {
+        if (isAndroid) {
+          return `Permissions are:\nlocation (fine+coarse) = ${permissionStatus.location}\ncoarseLocation = ${permissionStatus.coarseLocation}`;
+        }
+        return `Permissions are:\nlocation = ${permissionStatus.location}`;
+      }
+
       self.shadowRoot.querySelector('#check-permission').addEventListener('click', async function (e) {
         const permissionStatus = await Geolocation.checkPermissions();
-        alert(`Permissions are:\nlocation = ${permissionStatus.location}`);
+        alert(permissionStatusToString(permissionStatus));
       });
       self.shadowRoot.querySelector('#request-permission').addEventListener('click', async function (e) {
         const permissionStatus = await Geolocation.requestPermissions();
-        alert(`Permissions are:\nlocation = ${permissionStatus.location}`);
+        alert(permissionStatusToString(permissionStatus));
+      });
+      self.shadowRoot.querySelector('#request-coarse-permission').addEventListener('click', async function (e) {
+        const permissionStatus = await Geolocation.requestPermissions({ permissions: ['coarseLocation'] });
+        alert(permissionStatusToString(permissionStatus));
       });
 
       self.shadowRoot.querySelector('#current-location').addEventListener('click', async function (e) {
