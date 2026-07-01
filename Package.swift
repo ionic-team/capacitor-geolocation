@@ -18,7 +18,6 @@ let package = Package(
             name: "GeolocationPlugin",
             dependencies: [
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
-                .product(name: "Cordova", package: "capacitor-swift-pm"),
                 .product(name: "IONGeolocationLib", package: "ion-ios-geolocation")
             ],
             path: "ios/Sources/GeolocationPlugin"),
