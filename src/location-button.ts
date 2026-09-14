@@ -426,7 +426,6 @@ export function registerLocationButtonElement(geolocationPlugin: GeolocationPlug
               methods: {
                 applyLayout: 'nativeIslandsApplyLayout',
                 applyScrollOffsets: 'nativeIslandsApplyScrollOffsets',
-                prepareScrollPresentation: 'nativeIslandsPrepareScrollPresentation',
                 command: 'nativeIslandsCommand',
                 reset: 'nativeIslandsReset',
               },
