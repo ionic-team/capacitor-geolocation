@@ -81,7 +81,13 @@ class GeolocationPlugin : Plugin() {
                 results[Manifest.permission.ACCESS_FINE_LOCATION] == true,
             )
         }
-        IONGLOCLocationButtonRegistry.register(activity, controller, locationButtonPermissionRequester)
+        IONGLOCLocationButtonRegistry.register(
+            activity,
+            controller,
+            locationButtonPermissionRequester,
+            ::mapButtonErrorCode,
+            ::mapButtonPosition,
+        )
     }
 
     private fun requestLocationButtonPermission(callback: (Boolean) -> Unit) {
@@ -504,39 +510,65 @@ class GeolocationPlugin : Plugin() {
     }
 
     /**
+     * Maps a Location Button `fetchPosition()` success into the same nested `{ timestamp, coords }`
+     * shape [getJSObjectForLocation] already produces for the regular API — reused here rather than
+     * duplicating the field list. Passed to [IONGLOCLocationButtonRegistry.register].
+     *
+     * `coords` is kept as the real `JSObject` [getJSObjectForLocation] builds, not flattened into a
+     * plain `Map` — `NativeIslandsController`'s event-forwarding `eventSink` only does a shallow
+     * `Map<String, Any?> -> JSONObject` conversion (one `put()` per top-level key); a nested plain
+     * `Map` value would fall through to `Object.toString()` when later JSON-stringified and arrive
+     * in JS as a garbled string instead of a nested object, while a nested `JSONObject` value is
+     * already a type that stringifies correctly.
+     * @param location IONGLOCLocationResult to map
+     */
+    private fun mapButtonPosition(location: IONGLOCLocationResult): Map<String, Any?> {
+        val position = getJSObjectForLocation(location)
+        return mapOf(
+            "timestamp" to position.get("timestamp"),
+            "coords" to position.get("coords"),
+        )
+    }
+
+    /**
      * Helper function to handle error cases
      * @param exception Throwable to handle as an error
      * @param call the plugin call
      */
     private fun onLocationError(exception: Throwable?, call: PluginCall) {
-        when (exception) {
-            is IONGLOCException.IONGLOCRequestDeniedException -> {
-                call.sendError(GeolocationErrors.LOCATION_ENABLE_REQUEST_DENIED)
-            }
-            is IONGLOCException.IONGLOCSettingsException -> {
-                call.sendError(GeolocationErrors.LOCATION_SETTINGS_ERROR)
-            }
-            is IONGLOCException.IONGLOCLocationAndNetworkDisabledException -> {
-                call.sendError(GeolocationErrors.NETWORK_LOCATION_DISABLED_ERROR)
-            }
-            is IONGLOCException.IONGLOCInvalidTimeoutException -> {
-                call.sendError(GeolocationErrors.INVALID_TIMEOUT)
-            }
-            is IONGLOCException.IONGLOCGoogleServicesException -> {
-                if (exception.resolvable) {
-                    call.sendError(GeolocationErrors.GOOGLE_SERVICES_RESOLVABLE)
-                } else {
-                    call.sendError(GeolocationErrors.GOOGLE_SERVICES_ERROR)
-                }
-            }
-            is IONGLOCException.IONGLOCLocationRetrievalTimeoutException -> {
-                call.sendError(GeolocationErrors.GET_LOCATION_TIMEOUT)
-            }
-            else -> {
-                call.sendError(GeolocationErrors.POSITION_UNAVAILABLE)
-            }
-        }
+        val errorInfo = (exception as? IONGLOCException)?.let { mapToErrorInfo(it) }
+            ?: GeolocationErrors.POSITION_UNAVAILABLE
+        call.sendError(errorInfo)
     }
+
+    /**
+     * Maps a known [IONGLOCException] to its corresponding [GeolocationErrors.ErrorInfo].
+     * Shared by [onLocationError] (regular API) and [mapButtonErrorCode] (Location Button).
+     * @param exception the exception to map
+     */
+    private fun mapToErrorInfo(exception: IONGLOCException): GeolocationErrors.ErrorInfo = when (exception) {
+        is IONGLOCException.IONGLOCRequestDeniedException -> GeolocationErrors.LOCATION_ENABLE_REQUEST_DENIED
+        is IONGLOCException.IONGLOCSettingsException -> GeolocationErrors.LOCATION_SETTINGS_ERROR
+        is IONGLOCException.IONGLOCLocationAndNetworkDisabledException ->
+            GeolocationErrors.NETWORK_LOCATION_DISABLED_ERROR
+        is IONGLOCException.IONGLOCInvalidTimeoutException -> GeolocationErrors.INVALID_TIMEOUT
+        is IONGLOCException.IONGLOCGoogleServicesException ->
+            if (exception.resolvable) {
+                GeolocationErrors.GOOGLE_SERVICES_RESOLVABLE
+            } else {
+                GeolocationErrors.GOOGLE_SERVICES_ERROR
+            }
+        is IONGLOCException.IONGLOCLocationRetrievalTimeoutException -> GeolocationErrors.GET_LOCATION_TIMEOUT
+    }
+
+    /**
+     * Maps a Location Button `fetchPosition()` failure to the matching `GeolocationErrors` code.
+     * Passed to [IONGLOCLocationButtonRegistry.register] so the button's error events carry the
+     * same codes as the regular API.
+     * @param exception Throwable to map
+     */
+    private fun mapButtonErrorCode(exception: Throwable): String? =
+        (exception as? IONGLOCException)?.let { mapToErrorInfo(it).code }
 
     /**
      * Extension function to return a successful plugin result

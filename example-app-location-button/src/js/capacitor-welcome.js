@@ -160,6 +160,22 @@ window.customElements.define(
 
           <hr>
 
+          <h4>Fetch options (plugin properties)</h4>
+          <div class="field">
+            <label for="lb-timeout">Timeout: <span id="lb-timeout-value">10000</span>ms</label>
+            <input type="range" id="lb-timeout" min="1" max="60000" step="500" value="10000">
+          </div>
+          <div class="field">
+            <label for="lb-maximum-age">Maximum age: <span id="lb-maximum-age-value">0</span>ms</label>
+            <input type="range" id="lb-maximum-age" min="0" max="600000" step="1000" value="0">
+          </div>
+          <div class="field field-inline">
+            <input type="checkbox" id="lb-enable-location-fallback" checked>
+            <label for="lb-enable-location-fallback">Enable location fallback (Android only — no effect on iOS)</label>
+          </div>
+
+          <hr>
+
           <h4>Layout (app-level CSS — not a plugin feature)</h4>
           <div class="field field-inline">
             <input type="checkbox" id="lb-width-auto" checked>
@@ -231,13 +247,40 @@ window.customElements.define(
         logLocationButtonEvent(`location-grant: granted=${event.detail.granted}`);
       });
       locationButton.addEventListener('location-position', (event) => {
-        const { latitude, longitude, accuracy, timestamp } = event.detail;
+        const { timestamp, coords } = event.detail;
+        const {
+          latitude,
+          longitude,
+          accuracy,
+          altitude,
+          altitudeAccuracy,
+          heading,
+          speed,
+          magneticHeading,
+          trueHeading,
+          headingAccuracy,
+          course,
+        } = coords;
+        const field = (label, value) => `\n- ${label}: ${value ?? 'n/a'}`;
         logLocationButtonEvent(
-          `location-position:\n- Latitude: ${latitude}\n- Longitude: ${longitude}\n- Accuracy: ${accuracy}\n- Time: ${new Date(timestamp).toISOString()}`,
+          'location-position:' +
+            field('Latitude', latitude) +
+            field('Longitude', longitude) +
+            field('Accuracy', accuracy) +
+            field('Altitude', altitude) +
+            field('Altitude accuracy', altitudeAccuracy) +
+            field('Heading', heading) +
+            field('Speed', speed) +
+            field('Magnetic heading', magneticHeading) +
+            field('True heading', trueHeading) +
+            field('Heading accuracy', headingAccuracy) +
+            field('Course', course) +
+            field('Time', new Date(timestamp).toISOString()),
         );
       });
       locationButton.addEventListener('location-error', (event) => {
-        logLocationButtonEvent(`location-error: ${event.detail.reason}`);
+        const { reason, code } = event.detail;
+        logLocationButtonEvent(`location-error: ${reason}${code ? ` (code=${code})` : ''}`);
       });
       locationButton.addEventListener('nativeislanderror', (event) => {
         logLocationButtonEvent(`nativeislanderror (permanent fallback): ${event.detail.reason}`);
@@ -286,6 +329,19 @@ window.customElements.define(
       });
       customizePanel.querySelector('#lb-stroke-color').addEventListener('input', (event) => {
         locationButton.style.borderTopColor = event.target.value;
+      });
+
+      // Fetch option controls — each maps to a real plugin-supported HTML attribute.
+      // `timeout`/`maximum-age` apply on every platform; `enable-location-fallback` is Android-only
+      // (silently ignored on iOS/web, per the regular getCurrentPosition() API it delegates to).
+      bindRange('lb-timeout', 'lb-timeout-value', (value) => {
+        locationButton.setAttribute('timeout', value);
+      });
+      bindRange('lb-maximum-age', 'lb-maximum-age-value', (value) => {
+        locationButton.setAttribute('maximum-age', value);
+      });
+      customizePanel.querySelector('#lb-enable-location-fallback').addEventListener('change', (event) => {
+        locationButton.setAttribute('enable-location-fallback', event.target.checked ? 'true' : 'false');
       });
 
       // Layout controls — plain app-level CSS on the element, not a plugin API.

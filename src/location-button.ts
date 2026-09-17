@@ -6,21 +6,17 @@ import {
   NATIVE_ISLANDS_TRANSPORT_PRIORITY,
 } from '@capacitor/native-islands/internal';
 
-import type { GeolocationPlugin } from './definitions.js';
+import type { GeolocationPlugin, Position } from './definitions.js';
 
 export interface LocationButtonGrantDetail {
   granted: boolean;
 }
 
-export interface LocationButtonPositionDetail {
-  latitude: number;
-  longitude: number;
-  accuracy: number;
-  timestamp: number;
-}
+export type LocationButtonPositionDetail = Position;
 
 export interface LocationButtonErrorDetail {
   reason: string;
+  code?: string;
 }
 
 declare global {
@@ -49,7 +45,7 @@ const STYLE_PROPERTIES = {
   pressedCornerRadius: '--os-location-button-pressed-corner-radius',
   clickablePadding: '--os-location-button-clickable-padding',
 } as const;
-const OBSERVED_ATTRIBUTES = ['text-type'];
+const OBSERVED_ATTRIBUTES = ['text-type', 'maximum-age', 'timeout', 'enable-location-fallback'];
 const OBSERVED_STYLES = [
   STYLE_PROPERTIES.backgroundColor,
   STYLE_PROPERTIES.textColor,
@@ -112,6 +108,26 @@ function clampedPixelStyle(
   return Number.isFinite(number) ? Math.min(maximum, Math.max(minimum, number)) : fallback;
 }
 
+function nonNegativeIntegerAttribute(
+  element: HTMLElement,
+  name: string,
+  fallback: number,
+  minimum = 0,
+): number {
+  const value = element.getAttribute(name);
+  if (value === null) return fallback;
+  const number = Number.parseInt(value, 10);
+  return Number.isFinite(number) && number >= minimum ? number : fallback;
+}
+
+function booleanAttribute(element: HTMLElement, name: string, fallback: boolean): boolean {
+  const value = element.getAttribute(name);
+  if (value === null) return fallback;
+  if (value === 'true') return true;
+  if (value === 'false') return false;
+  return fallback;
+}
+
 function dispatch<T>(element: HTMLElement, type: string, detail: T): void {
   element.dispatchEvent(new CustomEvent(type, { bubbles: true, composed: true, detail }));
 }
@@ -121,6 +137,14 @@ interface LocationPosition {
     latitude: number;
     longitude: number;
     accuracy: number;
+    altitude: number | null;
+    altitudeAccuracy?: number | null;
+    heading: number | null;
+    speed: number | null;
+    magneticHeading?: number | null;
+    trueHeading?: number | null;
+    headingAccuracy?: number | null;
+    course?: number | null;
   };
   timestamp: number;
 }
@@ -131,13 +155,27 @@ interface LocationButtonCarrier extends GeolocationPlugin {
   }>;
 }
 
-function dispatchPosition(element: HTMLElement, position: LocationPosition): void {
-  dispatch<LocationButtonPositionDetail>(element, 'location-position', {
-    latitude: position.coords.latitude,
-    longitude: position.coords.longitude,
-    accuracy: position.coords.accuracy,
+function toLocationButtonPosition(position: LocationPosition): LocationButtonPositionDetail {
+  return {
     timestamp: position.timestamp,
-  });
+    coords: {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+      accuracy: position.coords.accuracy,
+      altitude: position.coords.altitude,
+      altitudeAccuracy: position.coords.altitudeAccuracy,
+      heading: position.coords.heading,
+      speed: position.coords.speed,
+      magneticHeading: position.coords.magneticHeading,
+      trueHeading: position.coords.trueHeading,
+      headingAccuracy: position.coords.headingAccuracy,
+      course: position.coords.course,
+    },
+  };
+}
+
+function dispatchPosition(element: HTMLElement, position: LocationPosition): void {
+  dispatch<LocationButtonPositionDetail>(element, 'location-position', toLocationButtonPosition(position));
 }
 
 async function requestNativeFallback(element: HTMLElement, geolocationPlugin: GeolocationPlugin): Promise<void> {
@@ -157,11 +195,16 @@ async function requestNativeFallback(element: HTMLElement, geolocationPlugin: Ge
       element,
       await geolocationPlugin.getCurrentPosition({
         enableHighAccuracy: true,
+        timeout: nonNegativeIntegerAttribute(element, 'timeout', 10_000, 1),
+        maximumAge: nonNegativeIntegerAttribute(element, 'maximum-age', 0),
+        enableLocationFallback: booleanAttribute(element, 'enable-location-fallback', true),
       }),
     );
   } catch (error) {
+    const code = (error as { code?: unknown } | undefined)?.code;
     dispatch<LocationButtonErrorDetail>(element, 'location-error', {
       reason: error instanceof Error && error.message ? error.message : 'Location request failed',
+      code: typeof code === 'string' ? code : undefined,
     });
   }
 }
@@ -216,7 +259,11 @@ function browserFallback(element: HTMLElement, geolocationPlugin: GeolocationPlu
           reason: error.message || 'Browser location request failed',
         });
       },
-      { enableHighAccuracy: true },
+      {
+        enableHighAccuracy: true,
+        timeout: nonNegativeIntegerAttribute(element, 'timeout', 10_000, 1),
+        maximumAge: nonNegativeIntegerAttribute(element, 'maximum-age', 0),
+      },
     );
   });
   element.replaceChildren(button);
@@ -398,6 +445,9 @@ function registerLocationButton(geolocationPlugin: GeolocationPlugin, protectedS
         pressedCornerRadius: pixelStyle(style, STYLE_PROPERTIES.pressedCornerRadius, 0, 68, 12),
         strokeWidth: pixelStyle(style, STYLE_PROPERTIES.strokeWidth, 0, 3, 0),
         clickablePadding: clampedPixelStyle(style, STYLE_PROPERTIES.clickablePadding, 4, 8, 6),
+        maximumAge: nonNegativeIntegerAttribute(element, 'maximum-age', 0),
+        timeout: nonNegativeIntegerAttribute(element, 'timeout', 10_000, 1),
+        enableLocationFallback: booleanAttribute(element, 'enable-location-fallback', true),
       };
     },
     renderFallback: (element) => browserFallback(element, geolocationPlugin),
