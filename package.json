@@ -33,12 +33,13 @@
     "native"
   ],
   "scripts": {
-    "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
+    "verify": "npm run verify:ios && npm run verify:android && npm run verify:web && npm test",
     "verify:ios": "xcodebuild -scheme CapacitorGeolocation -destination generic/platform=iOS",
     "verify:android": "cd android && ./gradlew clean compileDebugKotlin compileReleaseKotlin test lint && cd ..",
     "verify:web": "npm run build",
-    "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
-    "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
+    "test": "node --test test/*.test.mjs",
+    "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint ios Package.swift",
+    "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- lint --fix --format ios Package.swift",
     "eslint": "eslint . --ext ts",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\" --plugin=prettier-plugin-java",
     "swiftlint": "node-swiftlint",
@@ -78,7 +79,7 @@
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "@capacitor/core": ">=8.0.0"
+    "@capacitor/core": ">=8.4.1 <9"
   },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",

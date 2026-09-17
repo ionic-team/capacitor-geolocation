@@ -145,14 +145,14 @@ class GeolocationPlugin : Plugin() {
         val exclusions = envelope.opt("exclusions") as JSONObject
         val cutouts = envelope.opt("cutouts") as JSONObject
         val scrollContainers = envelope.opt("scrollContainers") as JSONArray
-        val motionPresentation = envelope.optBoolean("motionPresentation", false)
+        val documentRange = envelope.optDouble("documentRange", 0.0).toFloat()
         host.validateLayout(
             components,
             order,
             exclusions,
             cutouts,
             scrollContainers,
-            motionPresentation,
+            documentRange,
         )?.let { reason ->
             call.reject(reason, "invalid_request")
             return
@@ -163,7 +163,7 @@ class GeolocationPlugin : Plugin() {
             exclusions,
             cutouts,
             scrollContainers,
-            motionPresentation,
+            documentRange,
             failure = { code, message -> call.reject(message, code) },
         ) { call.resolve() }
     }
@@ -185,23 +185,6 @@ class GeolocationPlugin : Plugin() {
             settled = envelope.optBoolean("settled", false),
             failure = { code, message -> call.reject(message, code) },
         ) { call.resolve() }
-    }
-
-    @PluginMethod
-    fun nativeIslandsPrepareScrollPresentation(call: PluginCall) {
-        if (
-            !validateNativeIslands(
-                call,
-                NativeIslandsBridgeValidator.validateScrollPresentationOperation(call.data),
-            )
-        ) {
-            return
-        }
-        if (nativeIslandsHost().prepareScrollPresentation(call.data.getJSONArray("containerIds"))) {
-            call.resolve()
-        } else {
-            call.reject("Native scroll presentation is unavailable", "internal_error")
-        }
     }
 
     @PluginMethod
