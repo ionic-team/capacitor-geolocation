@@ -303,7 +303,7 @@ window.customElements.define(
 
       // Style controls — each maps to a real plugin-supported CSS property.
       bindRange('lb-corner-radius', 'lb-corner-radius-value', (value) => {
-        locationButton.style.borderTopLeftRadius = `${value}px`;
+        locationButton.style.borderRadius = `${value}px`;
       });
       bindRange('lb-pressed-corner-radius', 'lb-pressed-corner-radius-value', (value) => {
         locationButton.style.setProperty('--os-location-button-pressed-corner-radius', `${value}px`);

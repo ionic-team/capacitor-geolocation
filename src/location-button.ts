@@ -269,8 +269,23 @@ function browserFallback(element: HTMLElement, geolocationPlugin: GeolocationPlu
   element.replaceChildren(button);
 }
 
-function installFallbackStyles(): void {
-  if (document.querySelector('style[data-os-location-button]')) return;
+const installedStyleRoots = new WeakSet<Document | ShadowRoot>();
+
+// A native island's host element can live inside a shadow root (e.g. an app wrapping its UI in a
+// custom element with attachShadow()). Shadow DOM style encapsulation means CSS appended to
+// document.head never reaches it, so an element that gets emptied once native composition
+// activates (see clearChildren() in the shared runtime) has no sizing CSS and collapses to zero
+// height. Resolving the actual root here lets installFallbackStyles() inject a scoped copy where
+// the element really lives, not just into the top-level document.
+function styleRootFor(element: HTMLElement): Document | ShadowRoot {
+  const root = element.getRootNode();
+  return root instanceof ShadowRoot ? root : document;
+}
+
+function installFallbackStyles(root: Document | ShadowRoot = document): void {
+  if (installedStyleRoots.has(root)) return;
+  installedStyleRoots.add(root);
+  if (root.querySelector('style[data-os-location-button]')) return;
 
   const style = document.createElement('style');
   style.dataset.osLocationButton = '';
@@ -361,6 +376,12 @@ function installFallbackStyles(): void {
       border: 0;
     }
   `;
+
+  if (root instanceof ShadowRoot) {
+    root.append(style);
+    return;
+  }
+
   if (document.head) {
     document.head.append(style);
     return;
@@ -432,6 +453,10 @@ function registerLocationButton(geolocationPlugin: GeolocationPlugin, protectedS
     observedAttributes: OBSERVED_ATTRIBUTES,
     observedStyles: OBSERVED_STYLES,
     getProperties: (element) => {
+      // Runs synchronously during connectedCallback() (activateNative() -> send('create')),
+      // before any async/rAF-scheduled geometry measurement — early enough to guarantee the
+      // element has sizing CSS before it's first measured, even inside a shadow root.
+      installFallbackStyles(styleRootFor(element));
       const style = getComputedStyle(element);
       const cornerRadius = pixelStyle(style, 'border-top-left-radius', 0, 68, 22);
       const textColor = colorStyle(style, STYLE_PROPERTIES.textColor, '#FFFFFF');
