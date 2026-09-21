@@ -210,6 +210,12 @@ async function requestNativeFallback(element: HTMLElement, geolocationPlugin: Ge
 }
 
 function browserFallback(element: HTMLElement, geolocationPlugin: GeolocationPlugin): void {
+  // Same shadow-DOM concern as the native path's getProperties() call: this is the actual
+  // fallback face used in PWA/web, on iOS, and whenever native composition isn't available.
+  // Without this, an element nested inside a shadow root never gets the plugin's sizing CSS and
+  // collapses to zero size — clicking "does nothing" because there's nothing there to click, not
+  // because the handler is broken.
+  installFallbackStyles(styleRootFor(element));
   element.dataset.osLocationButtonFallbackFace = '';
   const button = document.createElement('button');
   button.type = 'button';
