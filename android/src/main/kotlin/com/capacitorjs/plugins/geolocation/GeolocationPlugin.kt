@@ -22,6 +22,7 @@ import io.ionic.libs.iongeolocationlib.view.IONGLOCLocationButtonRegistry
 import io.ionic.libs.iongeolocationlib.view.IONGLOCLocationButtonPermissionRequester
 import io.ionic.libs.ionnativeislandslib.NativeIslandsBridgeValidationError
 import io.ionic.libs.ionnativeislandslib.NativeIslandsBridgeValidator
+import io.ionic.libs.ionnativeislandslib.NativeIslandsCapabilities
 import io.ionic.libs.ionnativeislandslib.NativeIslandsController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -146,6 +147,12 @@ class GeolocationPlugin : Plugin() {
         val cutouts = envelope.opt("cutouts") as JSONObject
         val scrollContainers = envelope.opt("scrollContainers") as JSONArray
         val documentRange = envelope.optDouble("documentRange", 0.0).toFloat()
+        val generations = NativeIslandsBridgeValidator.readGenerations(envelope, "layoutSeq", "offsetSeq")
+        if (generations == null) {
+            call.reject("layout generations must be non-negative integers sent together", "invalid_request")
+            return
+        }
+        val (layoutSeq, offsetSeq) = generations
         host.validateLayout(
             components,
             order,
@@ -164,8 +171,11 @@ class GeolocationPlugin : Plugin() {
             cutouts,
             scrollContainers,
             documentRange,
+            layoutSeq,
+            offsetSeq,
+            envelope.optString("canvasColor").takeIf(String::isNotEmpty),
             failure = { code, message -> call.reject(message, code) },
-        ) { call.resolve() }
+        ) { call.resolve(JSObject.fromJSONObject(NativeIslandsCapabilities.layoutAcknowledgement())) }
     }
 
     @PluginMethod
@@ -179,10 +189,16 @@ class GeolocationPlugin : Plugin() {
         ) {
             return
         }
+        val generation = NativeIslandsBridgeValidator.readGenerations(envelope, "layoutSeq")
+        if (generation == null) {
+            call.reject("layoutSeq must be a non-negative integer", "invalid_request")
+            return
+        }
         nativeIslandsHost().applyScrollOffsets(
             sequence = (envelope.opt("sequence") as Number).toLong(),
             offsets = envelope.opt("offsets") as JSONArray,
             settled = envelope.optBoolean("settled", false),
+            layoutSeq = generation[0],
             failure = { code, message -> call.reject(message, code) },
         ) { call.resolve() }
     }
@@ -225,8 +241,9 @@ class GeolocationPlugin : Plugin() {
         ) {
             return
         }
-        nativeIslandsHost().reset()
-        call.resolve()
+        nativeIslandsHost().reset {
+            call.resolve(JSObject.fromJSONObject(NativeIslandsCapabilities.sessionCapabilities()))
+        }
     }
 
     private fun nativeIslandsHost(): NativeIslandsController {
