@@ -24,6 +24,7 @@ import io.ionic.libs.ionnativeislandslib.NativeIslandsBridgeValidationError
 import io.ionic.libs.ionnativeislandslib.NativeIslandsBridgeValidator
 import io.ionic.libs.ionnativeislandslib.NativeIslandsCapabilities
 import io.ionic.libs.ionnativeislandslib.NativeIslandsController
+import io.ionic.libs.ionnativeislandslib.NativeIslandsScrollChannel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -89,6 +90,13 @@ class GeolocationPlugin : Plugin() {
             ::mapButtonErrorCode,
             ::mapButtonPosition,
         )
+        activity.runOnUiThread {
+            NativeIslandsScrollChannel.install(
+                bridge.webView,
+                "Geolocation",
+                bridge.allowedOriginRules,
+            ) { nativeIslandsController?.receiveScrollOffsets(it) }
+        }
     }
 
     private fun requestLocationButtonPermission(callback: (Boolean) -> Unit) {
