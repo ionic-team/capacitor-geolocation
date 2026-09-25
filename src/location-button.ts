@@ -456,6 +456,7 @@ function registerLocationButton(geolocationPlugin: GeolocationPlugin, protectedS
     isInteractive: true,
     accessibility: 'native',
     requiresUnobscuredSurface: protectedSurface,
+    supportsProtectedSurfaceClip: protectedSurface,
     observedAttributes: OBSERVED_ATTRIBUTES,
     observedStyles: OBSERVED_STYLES,
     getProperties: (element) => {

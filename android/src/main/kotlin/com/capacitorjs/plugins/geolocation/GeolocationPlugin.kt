@@ -199,6 +199,7 @@ class GeolocationPlugin : Plugin() {
             offsets = envelope.opt("offsets") as JSONArray,
             settled = envelope.optBoolean("settled", false),
             layoutSeq = generation[0],
+            documentOffsetY = (envelope.opt("documentOffsetY") as? Number)?.toFloat(),
             failure = { code, message -> call.reject(message, code) },
         ) { call.resolve() }
     }
