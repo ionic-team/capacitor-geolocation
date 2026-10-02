@@ -1,3 +1,11 @@
+## [8.2.3](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.2...v8.2.3) (2026-10-02)
+
+
+### Bug Fixes
+
+* **ios:** update native lib to latest version ([#103](https://github.com/ionic-team/capacitor-geolocation/issues/103)) ([0638cae](https://github.com/ionic-team/capacitor-geolocation/commit/0638caee8c813c759b916e026c5dbc6728cc47d0))
+
+
 # [9.0.0-next.2](https://github.com/ionic-team/capacitor-geolocation/compare/v9.0.0-next.1...v9.0.0-next.2) (2026-08-13)
 
 
