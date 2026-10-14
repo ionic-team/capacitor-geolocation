@@ -45,7 +45,7 @@ class GeolocationPlugin : Plugin() {
         super.load()
 
         coroutineScope = CoroutineScope(Dispatchers.Main)
-        val activityLauncher = activity.registerForActivityResult(
+        val activityLauncher = bridge.registerForActivityResult(
             ActivityResultContracts.StartIntentSenderForResult()
         ) { result ->
             CoroutineScope(Dispatchers.Main).launch {
