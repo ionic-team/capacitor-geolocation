@@ -1,3 +1,10 @@
+## [8.2.4](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.3...v8.2.4) (2026-10-16)
+
+
+### Bug Fixes
+
+* **android:** use bridge.registerForActivityResult for Fragment compatibility ([#104](https://github.com/ionic-team/capacitor-geolocation/issues/104)) ([6a171fe](https://github.com/ionic-team/capacitor-geolocation/commit/6a171fe0374f2db7dc7dce55ab9915a01ab99342))
+
 ## [8.2.3](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.2...v8.2.3) (2026-10-02)
 
 
