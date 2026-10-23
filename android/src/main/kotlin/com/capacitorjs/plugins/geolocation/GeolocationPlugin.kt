@@ -168,6 +168,8 @@ class GeolocationPlugin : Plugin() {
             cutouts,
             scrollContainers,
             documentRange,
+            envelope.optJSONArray("motions"),
+            tints = envelope.optJSONObject("tints"),
         )?.let { reason ->
             call.reject(reason, "invalid_request")
             return
@@ -182,8 +184,13 @@ class GeolocationPlugin : Plugin() {
             layoutSeq,
             offsetSeq,
             envelope.optString("canvasColor").takeIf(String::isNotEmpty),
+            envelope.optJSONArray("motions"),
+            (envelope.opt("sentAt") as? Number)?.toDouble(),
+            tints = envelope.optJSONObject("tints"),
             failure = { code, message -> call.reject(message, code) },
-        ) { call.resolve(JSObject.fromJSONObject(NativeIslandsCapabilities.layoutAcknowledgement())) }
+        ) {
+            call.resolve(JSObject.fromJSONObject(NativeIslandsCapabilities.layoutAcknowledgement(host.lastLayoutAppliedAt)))
+        }
     }
 
     @PluginMethod
@@ -208,6 +215,7 @@ class GeolocationPlugin : Plugin() {
             settled = envelope.optBoolean("settled", false),
             layoutSeq = generation[0],
             documentOffsetY = (envelope.opt("documentOffsetY") as? Number)?.toFloat(),
+            sentAt = (envelope.opt("sentAt") as? Number)?.toDouble(),
             failure = { code, message -> call.reject(message, code) },
         ) { call.resolve() }
     }
@@ -219,17 +227,16 @@ class GeolocationPlugin : Plugin() {
             return
         }
         val host = nativeIslandsHost()
-        val version = (envelope.opt("protocolVersion") as Number).toInt()
         val island = envelope.opt("island") as String
         val component = envelope.opt("islandType") as String
         val method = envelope.opt("method") as String
         val params = envelope.opt("params") as? JSONObject ?: JSONObject()
         host.dispatchCommand(
-            version,
             island,
             component,
             method,
             NativeIslandsCarrierJson.objectToMap(params),
+            NativeIslandsBridgeValidator.commandInstance(envelope),
         ) { result ->
             val code = result.optString("code")
             if (code.isNotEmpty()) {
