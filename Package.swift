@@ -10,7 +10,7 @@ let package = Package(
             targets: ["GeolocationPlugin"])
     ],
     dependencies: [
-        .package(url: "https://github.com/ionic-team/capacitor.git", from: "9.0.0-alpha.7"),
+        .package(url: "https://github.com/ionic-team/capacitor.git", from: "9.0.0-beta.0"),
         .package(url: "https://github.com/ionic-team/ion-ios-geolocation.git", from: "3.0.0")
     ],
     targets: [
