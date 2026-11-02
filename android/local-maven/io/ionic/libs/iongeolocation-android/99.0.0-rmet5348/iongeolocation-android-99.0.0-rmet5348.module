@@ -1,0 +1,132 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.ionic.libs",
+    "module": "iongeolocation-android",
+    "version": "99.0.0-rmet5348",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.14.3"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.25"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "iongeolocation-android-99.0.0-rmet5348.aar",
+          "url": "iongeolocation-android-99.0.0-rmet5348.aar",
+          "size": 79001,
+          "sha512": "7463baa01b401a3e5d5d7295e3216ac147ebc2298acaa3f6f0120ea31edffee516d9c92073005d7a9ed12bdce30ac0aff10f776b9b72484128f8086a9cf5a624",
+          "sha256": "8dc09bf44356b00ee12661550f8c3192cd6a27eed3207a3850ca29fc4fc262d7",
+          "sha1": "8634a3afe68ceeeedb04312015b9ae1f360cd52e",
+          "md5": "c6221ea84e61e91c1b6317a501fb3868"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.16.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core",
+          "version": {
+            "requires": "1.9.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.9.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-play-services",
+          "version": {
+            "requires": "1.9.0"
+          }
+        },
+        {
+          "group": "com.google.android.gms",
+          "module": "play-services-location",
+          "version": {
+            "requires": "21.3.0"
+          }
+        },
+        {
+          "group": "com.google.android.gms",
+          "module": "play-services-base",
+          "version": {
+            "requires": "18.5.0"
+          }
+        },
+        {
+          "group": "androidx.activity",
+          "module": "activity",
+          "version": {
+            "requires": "1.10.1"
+          }
+        },
+        {
+          "group": "androidx.activity",
+          "module": "activity-ktx",
+          "version": {
+            "requires": "1.10.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.25"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "iongeolocation-android-99.0.0-rmet5348.aar",
+          "url": "iongeolocation-android-99.0.0-rmet5348.aar",
+          "size": 79001,
+          "sha512": "7463baa01b401a3e5d5d7295e3216ac147ebc2298acaa3f6f0120ea31edffee516d9c92073005d7a9ed12bdce30ac0aff10f776b9b72484128f8086a9cf5a624",
+          "sha256": "8dc09bf44356b00ee12661550f8c3192cd6a27eed3207a3850ca29fc4fc262d7",
+          "sha1": "8634a3afe68ceeeedb04312015b9ae1f360cd52e",
+          "md5": "c6221ea84e61e91c1b6317a501fb3868"
+        }
+      ]
+    }
+  ]
+}
