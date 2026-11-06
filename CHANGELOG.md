@@ -1,3 +1,10 @@
+# [9.0.0-next.4](https://github.com/ionic-team/capacitor-geolocation/compare/v9.0.0-next.3...v9.0.0-next.4) (2026-11-06)
+
+
+### Bug Fixes
+
+* native android publishing compatibility with Gradle 9 / AGP 9 ([#109](https://github.com/ionic-team/capacitor-geolocation/issues/109)) ([ea8322d](https://github.com/ionic-team/capacitor-geolocation/commit/ea8322da0a4f2f212e3676efa7bb1d3bb26feb4b))
+
 # [9.0.0-next.3](https://github.com/ionic-team/capacitor-geolocation/compare/v9.0.0-next.2...v9.0.0-next.3) (2026-10-02)
 
 
