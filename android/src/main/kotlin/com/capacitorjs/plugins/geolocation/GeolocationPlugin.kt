@@ -20,9 +20,6 @@ import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationOptions
 import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationResult
 import io.ionic.libs.iongeolocationlib.view.IONGLOCLocationButtonRegistry
 import io.ionic.libs.iongeolocationlib.view.IONGLOCLocationButtonPermissionRequester
-import io.ionic.libs.ionnativeislandslib.NativeIslandsBridgeValidationError
-import io.ionic.libs.ionnativeislandslib.NativeIslandsBridgeValidator
-import io.ionic.libs.ionnativeislandslib.NativeIslandsCapabilities
 import io.ionic.libs.ionnativeislandslib.NativeIslandsController
 import io.ionic.libs.ionnativeislandslib.NativeIslandsScrollChannel
 import kotlinx.coroutines.CoroutineScope
@@ -166,16 +163,8 @@ class GeolocationPlugin : Plugin() {
 
     @PluginMethod
     fun nativeIslandsReset(call: PluginCall) {
-        if (
-            !validateNativeIslands(
-                call,
-                NativeIslandsBridgeValidator.validateOperation("reset", call.data),
-            )
-        ) {
-            return
-        }
-        nativeIslandsHost().reset {
-            call.resolve(JSObject.fromJSONObject(NativeIslandsCapabilities.sessionCapabilities()))
+        nativeIslandsHost().submitReset(call.data, failure = { code, message -> call.reject(message, code) }) {
+            call.resolve(JSObject.fromJSONObject(it))
         }
     }
 
@@ -199,17 +188,6 @@ class GeolocationPlugin : Plugin() {
         }
         return host
     }
-
-    private fun validateNativeIslands(
-        call: PluginCall,
-        error: NativeIslandsBridgeValidationError?,
-    ): Boolean =
-        if (error == null) {
-            true
-        } else {
-            call.reject(error.message, error.code)
-            false
-        }
 
     override fun handleOnDestroy() {
         super.handleOnDestroy()
