@@ -108,12 +108,7 @@ function clampedPixelStyle(
   return Number.isFinite(number) ? Math.min(maximum, Math.max(minimum, number)) : fallback;
 }
 
-function nonNegativeIntegerAttribute(
-  element: HTMLElement,
-  name: string,
-  fallback: number,
-  minimum = 0,
-): number {
+function nonNegativeIntegerAttribute(element: HTMLElement, name: string, fallback: number, minimum = 0): number {
   const value = element.getAttribute(name);
   if (value === null) return fallback;
   const number = Number.parseInt(value, 10);
