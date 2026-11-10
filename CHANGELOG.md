@@ -1,3 +1,24 @@
+## [8.2.4](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.3...v8.2.4) (2026-10-16)
+
+
+### Bug Fixes
+
+* **android:** use bridge.registerForActivityResult for Fragment compatibility ([#104](https://github.com/ionic-team/capacitor-geolocation/issues/104)) ([6a171fe](https://github.com/ionic-team/capacitor-geolocation/commit/6a171fe0374f2db7dc7dce55ab9915a01ab99342))
+
+## [8.2.3](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.2...v8.2.3) (2026-10-02)
+
+
+### Bug Fixes
+
+* **ios:** update native lib to latest version ([#103](https://github.com/ionic-team/capacitor-geolocation/issues/103)) ([0638cae](https://github.com/ionic-team/capacitor-geolocation/commit/0638caee8c813c759b916e026c5dbc6728cc47d0))
+
+## [8.2.2](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.1...v8.2.2) (2026-08-13)
+
+
+### Bug Fixes
+
+* **android:** only apply kotlin-android plugin if not already applied ([#97](https://github.com/ionic-team/capacitor-geolocation/issues/97)) ([d7024ed](https://github.com/ionic-team/capacitor-geolocation/commit/d7024ed5b4d05bbb4df4fd7c0eeaa14c824c6837))
+
 ## [8.2.1](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.0...v8.2.1) (2026-08-06)
 
 
