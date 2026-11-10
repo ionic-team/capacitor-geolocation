@@ -76,7 +76,7 @@ class GeolocationPlugin : Plugin() {
         }
 
         this.controller = IONGLOCController(context, activityLauncher)
-        locationButtonPermissionLauncher = activity.registerForActivityResult(
+        locationButtonPermissionLauncher = bridge.registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions(),
         ) { results ->
             completeLocationButtonPermissionRequest(
