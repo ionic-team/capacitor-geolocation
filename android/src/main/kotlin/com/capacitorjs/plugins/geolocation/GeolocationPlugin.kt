@@ -43,7 +43,9 @@ class GeolocationPlugin : Plugin() {
     private lateinit var controller: IONGLOCController
     private lateinit var coroutineScope: CoroutineScope
     private lateinit var locationButtonPermissionLauncher: ActivityResultLauncher<Array<String>>
-    private var nativeIslandsController: NativeIslandsController? = null
+    private val nativeIslandsController = NativeIslandsController { event, payload ->
+        notifyListeners("nativeIslands:$event", JSObject.fromJSONObject(payload))
+    }
     private val pendingLocationButtonPermissionResults = mutableListOf<(Boolean) -> Unit>()
     private var locationButtonPermissionRequestInFlight = false
     private val watchingCalls: MutableMap<String, PluginCall> = mutableMapOf()
@@ -86,14 +88,21 @@ class GeolocationPlugin : Plugin() {
             ::mapButtonErrorCode,
             ::mapButtonPosition,
         )
+        nativeIslandsController.bind(bridge.webView, activity)
         activity.runOnUiThread {
             NativeIslandsScrollChannel.install(
                 bridge.webView,
                 "Geolocation",
                 bridge.allowedOriginRules,
-                { nativeIslandsController?.receiveScrollOffsets(it) },
-                { message, reply -> nativeIslandsController?.receiveDirect(message, reply) },
+                nativeIslandsController::receiveScrollOffsets,
+                nativeIslandsController::receiveDirect,
             )
+            nativeIslandsController.ensureContainer()
+            if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                nativeIslandsController.onHostResume()
+            } else {
+                nativeIslandsController.onHostPause()
+            }
         }
     }
 
@@ -142,51 +151,30 @@ class GeolocationPlugin : Plugin() {
 
     @PluginMethod
     fun nativeIslandsApplyLayout(call: PluginCall) {
-        nativeIslandsHost().submitLayout(call.data, failure = { code, message -> call.reject(message, code) }) {
+        nativeIslandsController.submitLayout(call.data, failure = { code, message -> call.reject(message, code) }) {
             call.resolve(JSObject.fromJSONObject(it))
         }
     }
 
     @PluginMethod
     fun nativeIslandsApplyScrollOffsets(call: PluginCall) {
-        nativeIslandsHost().submitScrollOffsets(call.data, failure = { code, message -> call.reject(message, code) }) {
+        nativeIslandsController.submitScrollOffsets(call.data, failure = { code, message -> call.reject(message, code) }) {
             call.resolve()
         }
     }
 
     @PluginMethod
     fun nativeIslandsCommand(call: PluginCall) {
-        nativeIslandsHost().submitCommand(call.data, failure = { code, message -> call.reject(message, code) }) {
+        nativeIslandsController.submitCommand(call.data, failure = { code, message -> call.reject(message, code) }) {
             call.resolve()
         }
     }
 
     @PluginMethod
     fun nativeIslandsReset(call: PluginCall) {
-        nativeIslandsHost().submitReset(call.data, failure = { code, message -> call.reject(message, code) }) {
+        nativeIslandsController.submitReset(call.data, failure = { code, message -> call.reject(message, code) }) {
             call.resolve(JSObject.fromJSONObject(it))
         }
-    }
-
-    private fun nativeIslandsHost(): NativeIslandsController {
-        nativeIslandsController?.let { host ->
-            host.bind(bridge.webView, activity)
-            return host
-        }
-        val host = NativeIslandsController { event, payload ->
-            notifyListeners("nativeIslands:$event", JSObject.fromJSONObject(payload))
-        }
-        nativeIslandsController = host
-        host.bind(bridge.webView, activity)
-        activity.runOnUiThread {
-            host.ensureContainer()
-            if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                host.onHostResume()
-            } else {
-                host.onHostPause()
-            }
-        }
-        return host
     }
 
     override fun handleOnDestroy() {
@@ -197,19 +185,18 @@ class GeolocationPlugin : Plugin() {
         if (::locationButtonPermissionLauncher.isInitialized) {
             locationButtonPermissionLauncher.unregister()
         }
-        nativeIslandsController?.dispose()
-        nativeIslandsController = null
+        nativeIslandsController.dispose()
         IONGLOCLocationButtonRegistry.unregister(activity)
     }
 
     override fun handleOnResume() {
         super.handleOnResume()
-        nativeIslandsController?.onHostResume()
+        nativeIslandsController.onHostResume()
     }
 
     override fun handleOnPause() {
         super.handleOnPause()
-        nativeIslandsController?.onHostPause()
+        nativeIslandsController.onHostPause()
     }
 
     @PluginMethod
