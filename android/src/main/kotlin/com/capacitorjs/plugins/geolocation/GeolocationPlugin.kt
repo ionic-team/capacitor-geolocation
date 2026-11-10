@@ -63,7 +63,7 @@ class GeolocationPlugin : Plugin() {
         super.load()
 
         coroutineScope = CoroutineScope(Dispatchers.Main)
-        val activityLauncher = activity.registerForActivityResult(
+        val activityLauncher = bridge.registerForActivityResult(
             ActivityResultContracts.StartIntentSenderForResult()
         ) { result ->
             CoroutineScope(Dispatchers.Main).launch {
@@ -72,7 +72,7 @@ class GeolocationPlugin : Plugin() {
         }
 
         this.controller = IONGLOCController(context, activityLauncher)
-        locationButtonPermissionLauncher = activity.registerForActivityResult(
+        locationButtonPermissionLauncher = bridge.registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions(),
         ) { results ->
             completeLocationButtonPermissionRequest(
