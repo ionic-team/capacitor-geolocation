@@ -1,11 +1,9 @@
 name: "Release Plugin"
 
 on:
-  push:
-    branches:
-      - development
-      - next
   workflow_dispatch:
+  release:
+    types: published
 
 permissions:
     contents: write
@@ -14,55 +12,31 @@ permissions:
     id-token: write # to enable use of OIDC for npm provenance and trusted publishing
 
 jobs:
-  setup:
-    uses: ./.github/workflows/reusable_setup.yml
-    secrets:
-      THE_GH_RELEASE_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
-
   lint:
-    needs: 'setup'
-    uses: ./.github/workflows/reusable_lint.yml
-    secrets:
-      THE_GH_RELEASE_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
-
-  build-packages:
-    needs: 'setup'
-    uses: ./.github/workflows/reusable_build.yml
-    secrets:
-      THE_GH_RELEASE_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
-
-  release:
-    needs: ['setup','lint','build-packages']
-    runs-on: 'ubuntu-24.04'
+    runs-on: "ubuntu-latest"
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v7
+      - uses: ionic-team/capacitor-actions/lint-plugin@v1.0.0
         with:
-          fetch-depth: 0
-          token: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
-      - name: 'Setup Tools'
-        uses: ./.github/actions/setup-tools
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
-          GH_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
-        run: npx semantic-release
+          working-directory: .
+          gh-token: ${{ github.token }}
 
-  publish-pod:
-    needs: release
-    uses: ./.github/workflows/publish_pod.yml
-    secrets:
-      COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-      CAP_GH_RELEASE_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
+  build:
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 30
+    steps:
+      - uses: ionic-team/capacitor-actions/build-plugin@v1.0.0
+        with:
+          working-directory: .
+          gh-token: ${{ github.token }}
 
-  publish-android:
-    needs: release
-    uses: ./.github/workflows/publish_maven_central.yml
-    secrets:
-      ANDROID_CENTRAL_USERNAME: ${{ secrets.ANDROID_CENTRAL_USERNAME }}
-      ANDROID_CENTRAL_PASSWORD: ${{ secrets.ANDROID_CENTRAL_PASSWORD }}
-      ANDROID_SIGNING_KEY_ID: ${{ secrets.ANDROID_SIGNING_KEY_ID }}
-      ANDROID_SIGNING_KEY: ${{ secrets.ANDROID_SIGNING_KEY }}
-      ANDROID_SIGNING_PASSWORD: ${{ secrets.ANDROID_SIGNING_PASSWORD }}
-      ANDROID_SONATYPE_STAGING_PROFILE_ID: ${{ secrets.ANDROID_SONATYPE_STAGING_PROFILE_ID }}
-      CAP_GH_RELEASE_TOKEN: ${{ secrets.CAP_GH_RELEASE_TOKEN }}
+  release:
+    needs: [ 'lint', 'build']
+    runs-on: 'ubuntu-latest'
+    timeout-minutes: 30
+    steps:
+      - uses: ionic-team/capacitor-actions/release-plugin-npm@v1.0.0
+        with:
+          working-directory: .
+          gh-token: ${{ github.token }}
+          npm-tag: ${{ github.ref_name == 'next' && 'next' || 'latest' }}
