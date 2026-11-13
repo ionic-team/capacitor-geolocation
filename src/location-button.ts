@@ -108,12 +108,7 @@ function clampedPixelStyle(
   return Number.isFinite(number) ? Math.min(maximum, Math.max(minimum, number)) : fallback;
 }
 
-function nonNegativeIntegerAttribute(
-  element: HTMLElement,
-  name: string,
-  fallback: number,
-  minimum = 0,
-): number {
+function nonNegativeIntegerAttribute(element: HTMLElement, name: string, fallback: number, minimum = 0): number {
   const value = element.getAttribute(name);
   if (value === null) return fallback;
   const number = Number.parseInt(value, 10);
@@ -180,28 +175,19 @@ function dispatchPosition(element: HTMLElement, position: LocationPosition): voi
 
 async function requestNativeFallback(element: HTMLElement, geolocationPlugin: GeolocationPlugin): Promise<void> {
   try {
-    const status = await geolocationPlugin.requestPermissions({
-      permissions: ['location'],
+    const position = await geolocationPlugin.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: nonNegativeIntegerAttribute(element, 'timeout', 10_000, 1),
+      maximumAge: nonNegativeIntegerAttribute(element, 'maximum-age', 0),
+      enableLocationFallback: booleanAttribute(element, 'enable-location-fallback', true),
     });
-    const granted = status.location === 'granted';
-    dispatch<LocationButtonGrantDetail>(element, 'location-grant', { granted });
-    if (!granted) {
-      dispatch<LocationButtonErrorDetail>(element, 'location-error', {
-        reason: 'Location permission request was denied',
-      });
-      return;
-    }
-    dispatchPosition(
-      element,
-      await geolocationPlugin.getCurrentPosition({
-        enableHighAccuracy: true,
-        timeout: nonNegativeIntegerAttribute(element, 'timeout', 10_000, 1),
-        maximumAge: nonNegativeIntegerAttribute(element, 'maximum-age', 0),
-        enableLocationFallback: booleanAttribute(element, 'enable-location-fallback', true),
-      }),
-    );
+    dispatch<LocationButtonGrantDetail>(element, 'location-grant', { granted: true });
+    dispatchPosition(element, position);
   } catch (error) {
     const code = (error as { code?: unknown } | undefined)?.code;
+    if (code === 'OS-PLUG-GLOC-0003' || code === 'OS-PLUG-GLOC-0008') {
+      dispatch<LocationButtonGrantDetail>(element, 'location-grant', { granted: false });
+    }
     dispatch<LocationButtonErrorDetail>(element, 'location-error', {
       reason: error instanceof Error && error.message ? error.message : 'Location request failed',
       code: typeof code === 'string' ? code : undefined,

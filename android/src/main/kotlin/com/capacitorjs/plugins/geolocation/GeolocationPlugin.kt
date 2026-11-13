@@ -20,16 +20,12 @@ import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationOptions
 import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationResult
 import io.ionic.libs.iongeolocationlib.view.IONGLOCLocationButtonRegistry
 import io.ionic.libs.iongeolocationlib.view.IONGLOCLocationButtonPermissionRequester
-import io.ionic.libs.ionnativeislandslib.NativeIslandsBridgeValidationError
-import io.ionic.libs.ionnativeislandslib.NativeIslandsBridgeValidator
-import io.ionic.libs.ionnativeislandslib.NativeIslandsCapabilities
 import io.ionic.libs.ionnativeislandslib.NativeIslandsController
 import io.ionic.libs.ionnativeislandslib.NativeIslandsScrollChannel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import org.json.JSONArray
 import org.json.JSONObject
 
 @CapacitorPlugin(
@@ -47,7 +43,9 @@ class GeolocationPlugin : Plugin() {
     private lateinit var controller: IONGLOCController
     private lateinit var coroutineScope: CoroutineScope
     private lateinit var locationButtonPermissionLauncher: ActivityResultLauncher<Array<String>>
-    private var nativeIslandsController: NativeIslandsController? = null
+    private val nativeIslandsController = NativeIslandsController { event, payload ->
+        notifyListeners("nativeIslands:$event", JSObject.fromJSONObject(payload))
+    }
     private val pendingLocationButtonPermissionResults = mutableListOf<(Boolean) -> Unit>()
     private var locationButtonPermissionRequestInFlight = false
     private val watchingCalls: MutableMap<String, PluginCall> = mutableMapOf()
@@ -90,12 +88,21 @@ class GeolocationPlugin : Plugin() {
             ::mapButtonErrorCode,
             ::mapButtonPosition,
         )
+        nativeIslandsController.bind(bridge.webView, activity)
         activity.runOnUiThread {
             NativeIslandsScrollChannel.install(
                 bridge.webView,
                 "Geolocation",
                 bridge.allowedOriginRules,
-            ) { nativeIslandsController?.receiveScrollOffsets(it) }
+                nativeIslandsController::receiveScrollOffsets,
+                nativeIslandsController::receiveDirect,
+            )
+            nativeIslandsController.ensureContainer()
+            if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                nativeIslandsController.onHostResume()
+            } else {
+                nativeIslandsController.onHostPause()
+            }
         }
     }
 
@@ -144,155 +151,31 @@ class GeolocationPlugin : Plugin() {
 
     @PluginMethod
     fun nativeIslandsApplyLayout(call: PluginCall) {
-        val envelope = call.data
-        if (!validateNativeIslands(call, NativeIslandsBridgeValidator.validateLayoutOperation(envelope))) {
-            return
-        }
-        val host = nativeIslandsHost()
-        val components = envelope.opt("components") as JSONArray
-        val order = envelope.opt("order") as JSONArray
-        val exclusions = envelope.opt("exclusions") as JSONObject
-        val cutouts = envelope.opt("cutouts") as JSONObject
-        val scrollContainers = envelope.opt("scrollContainers") as JSONArray
-        val documentRange = envelope.optDouble("documentRange", 0.0).toFloat()
-        val generations = NativeIslandsBridgeValidator.readGenerations(envelope, "layoutSeq", "offsetSeq")
-        if (generations == null) {
-            call.reject("layout generations must be non-negative integers sent together", "invalid_request")
-            return
-        }
-        val (layoutSeq, offsetSeq) = generations
-        host.validateLayout(
-            components,
-            order,
-            exclusions,
-            cutouts,
-            scrollContainers,
-            documentRange,
-            envelope.optJSONArray("motions"),
-            tints = envelope.optJSONObject("tints"),
-        )?.let { reason ->
-            call.reject(reason, "invalid_request")
-            return
-        }
-        host.applyLayout(
-            components,
-            order,
-            exclusions,
-            cutouts,
-            scrollContainers,
-            documentRange,
-            layoutSeq,
-            offsetSeq,
-            envelope.optString("canvasColor").takeIf(String::isNotEmpty),
-            envelope.optJSONArray("motions"),
-            (envelope.opt("sentAt") as? Number)?.toDouble(),
-            tints = envelope.optJSONObject("tints"),
-            failure = { code, message -> call.reject(message, code) },
-        ) {
-            call.resolve(JSObject.fromJSONObject(NativeIslandsCapabilities.layoutAcknowledgement(host.lastLayoutAppliedAt)))
+        nativeIslandsController.submitLayout(call.data, failure = { code, message -> call.reject(message, code) }) {
+            call.resolve(JSObject.fromJSONObject(it))
         }
     }
 
     @PluginMethod
     fun nativeIslandsApplyScrollOffsets(call: PluginCall) {
-        val envelope = call.data
-        if (
-            !validateNativeIslands(
-                call,
-                NativeIslandsBridgeValidator.validateScrollOffsetsOperation(envelope),
-            )
-        ) {
-            return
+        nativeIslandsController.submitScrollOffsets(call.data, failure = { code, message -> call.reject(message, code) }) {
+            call.resolve()
         }
-        val generation = NativeIslandsBridgeValidator.readGenerations(envelope, "layoutSeq")
-        if (generation == null) {
-            call.reject("layoutSeq must be a non-negative integer", "invalid_request")
-            return
-        }
-        nativeIslandsHost().applyScrollOffsets(
-            sequence = (envelope.opt("sequence") as Number).toLong(),
-            offsets = envelope.opt("offsets") as JSONArray,
-            settled = envelope.optBoolean("settled", false),
-            layoutSeq = generation[0],
-            documentOffsetY = (envelope.opt("documentOffsetY") as? Number)?.toFloat(),
-            sentAt = (envelope.opt("sentAt") as? Number)?.toDouble(),
-            failure = { code, message -> call.reject(message, code) },
-        ) { call.resolve() }
     }
 
     @PluginMethod
     fun nativeIslandsCommand(call: PluginCall) {
-        val envelope = call.data
-        if (!validateNativeIslands(call, NativeIslandsBridgeValidator.validateCommandOperation(envelope))) {
-            return
-        }
-        val host = nativeIslandsHost()
-        val island = envelope.opt("island") as String
-        val component = envelope.opt("islandType") as String
-        val method = envelope.opt("method") as String
-        val params = envelope.opt("params") as? JSONObject ?: JSONObject()
-        host.dispatchCommand(
-            island,
-            component,
-            method,
-            NativeIslandsCarrierJson.objectToMap(params),
-            NativeIslandsBridgeValidator.commandInstance(envelope),
-        ) { result ->
-            val code = result.optString("code")
-            if (code.isNotEmpty()) {
-                call.reject(result.optString("error", code), code)
-            } else {
-                call.resolve()
-            }
+        nativeIslandsController.submitCommand(call.data, failure = { code, message -> call.reject(message, code) }) {
+            call.resolve()
         }
     }
 
     @PluginMethod
     fun nativeIslandsReset(call: PluginCall) {
-        if (
-            !validateNativeIslands(
-                call,
-                NativeIslandsBridgeValidator.validateOperation("reset", call.data),
-            )
-        ) {
-            return
-        }
-        nativeIslandsHost().reset {
-            call.resolve(JSObject.fromJSONObject(NativeIslandsCapabilities.sessionCapabilities()))
+        nativeIslandsController.submitReset(call.data, failure = { code, message -> call.reject(message, code) }) {
+            call.resolve(JSObject.fromJSONObject(it))
         }
     }
-
-    private fun nativeIslandsHost(): NativeIslandsController {
-        nativeIslandsController?.let { host ->
-            host.bind(bridge.webView, activity)
-            return host
-        }
-        val host = NativeIslandsController { event, payload ->
-            notifyListeners("nativeIslands:$event", JSObject.fromJSONObject(payload))
-        }
-        nativeIslandsController = host
-        host.bind(bridge.webView, activity)
-        activity.runOnUiThread {
-            host.ensureContainer()
-            if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                host.onHostResume()
-            } else {
-                host.onHostPause()
-            }
-        }
-        return host
-    }
-
-    private fun validateNativeIslands(
-        call: PluginCall,
-        error: NativeIslandsBridgeValidationError?,
-    ): Boolean =
-        if (error == null) {
-            true
-        } else {
-            call.reject(error.message, error.code)
-            false
-        }
 
     override fun handleOnDestroy() {
         super.handleOnDestroy()
@@ -302,19 +185,18 @@ class GeolocationPlugin : Plugin() {
         if (::locationButtonPermissionLauncher.isInitialized) {
             locationButtonPermissionLauncher.unregister()
         }
-        nativeIslandsController?.dispose()
-        nativeIslandsController = null
+        nativeIslandsController.dispose()
         IONGLOCLocationButtonRegistry.unregister(activity)
     }
 
     override fun handleOnResume() {
         super.handleOnResume()
-        nativeIslandsController?.onHostResume()
+        nativeIslandsController.onHostResume()
     }
 
     override fun handleOnPause() {
         super.handleOnPause()
-        nativeIslandsController?.onHostPause()
+        nativeIslandsController.onHostPause()
     }
 
     @PluginMethod
@@ -642,25 +524,4 @@ class GeolocationPlugin : Plugin() {
 
     private fun PluginCall.getNumber(name: String, defaultValue: Long): Long =
         getLong(name) ?: getInt(name)?.toLong() ?: defaultValue
-}
-
-private object NativeIslandsCarrierJson {
-    fun objectToMap(value: JSONObject): Map<String, Any?> {
-        val result = HashMap<String, Any?>()
-        val keys = value.keys()
-        while (keys.hasNext()) {
-            val key = keys.next()
-            result[key] = normalize(value.opt(key))
-        }
-        return result
-    }
-
-    private fun normalize(value: Any?): Any? = when (value) {
-        null, JSONObject.NULL -> null
-        is JSONObject -> objectToMap(value)
-        is JSONArray -> List(value.length()) { index ->
-            normalize(value.opt(index))
-        }
-        else -> value
-    }
 }
