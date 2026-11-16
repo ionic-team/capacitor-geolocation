@@ -1,15 +1,14 @@
 ext {
     capacitorVersion = System.getenv('CAPACITOR_VERSION')
     junitVersion = project.hasProperty('junitVersion') ? rootProject.ext.junitVersion : '4.13.2'
-    androidxAppCompatVersion = project.hasProperty('androidxAppCompatVersion') ? rootProject.ext.androidxAppCompatVersion : '1.7.1'
+    androidxAppCompatVersion = project.hasProperty('androidxAppCompatVersion') ? rootProject.ext.androidxAppCompatVersion : '1.8.0'
     androidxJunitVersion = project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.3.0'
     androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.7.0'
-    playServicesLocationVersion = project.hasProperty('playServicesLocationVersion') ? rootProject.ext.playServicesLocationVersion : '21.3.0'
-    kotlinxCoroutinesVersion = project.hasProperty('kotlinxCoroutinesVersion') ? rootProject.ext.kotlinxCoroutinesVersion : '1.10.2'
+    playServicesLocationVersion = project.hasProperty('playServicesLocationVersion') ? rootProject.ext.playServicesLocationVersion : '21.4.0'
+    kotlinxCoroutinesVersion = project.hasProperty('kotlinxCoroutinesVersion') ? rootProject.ext.kotlinxCoroutinesVersion : '1.11.0'
 }
 
 buildscript {
-    ext.kotlin_version = project.hasProperty("kotlin_version") ? rootProject.ext.kotlin_version : '2.2.20'
     repositories {
         google()
         mavenCentral()
@@ -18,39 +17,26 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.13.0'
-        if (org.gradle.util.GradleVersion.current() < org.gradle.util.GradleVersion.version('9.1')) {
-            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        }
+        classpath 'com.android.tools.build:gradle:9.4.1'
         if (System.getenv("CAP_PLUGIN_PUBLISH") == "true") {
-            classpath 'io.github.gradle-nexus:publish-plugin:1.3.0'
+            classpath 'io.github.gradle-nexus:publish-plugin:2.0.0'
         }
     }
 }
 
 apply plugin: 'com.android.library'
-if (project.extensions.findByName('kotlin') == null) {
-    apply plugin: 'kotlin-android'
-}
 if (System.getenv("CAP_PLUGIN_PUBLISH") == "true") {
     apply plugin: 'io.github.gradle-nexus.publish-plugin'
     apply from: file('../scripts/android/publish-root.gradle')
     apply from: file('../scripts/android/publish-module.gradle')
 }
 
-def locationButtonCompileSdkValue =
-    rootProject.ext.has('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 36
-def locationButtonCompileSdkMatch =
-    locationButtonCompileSdkValue.toString() =~ /(\d+)$/
-def locationButtonCompileSdk =
-    locationButtonCompileSdkMatch ? locationButtonCompileSdkMatch[0][1].toInteger() : 36
-
 android {
     namespace = "com.capacitorjs.plugins.geolocation"
-    compileSdk = locationButtonCompileSdk
+    compileSdk = 37 // Capacitor 9
     defaultConfig {
-        minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 24
-        targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 36
+        consumerProguardFiles "proguard-rules.pro"
+        minSdk = 26 // Capacitor 9
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -82,18 +68,11 @@ repositories {
     mavenCentral()
 }
 
-/*def locationButtonAar =
-    locationButtonCompileSdk >= 37
-        ? file('libs/IONGeolocationLib-api37-release.aar')
-        : file('libs/IONGeolocationLib-compat-release.aar')
-*/
 // TODO - replace geolocation native library with release aar or maven central dependency
-def locationButtonAar =
-    locationButtonCompileSdk >= 37
-        ? file('libs/IONGeolocationLibApi37-debug.aar')
-        : file('libs/IONGeolocationLib-debug.aar')
-def nativeIslandsAar = file('libs/ionnativeislands-android-release.aar')
-def localRuntimeAars = files(locationButtonAar, nativeIslandsAar)
+def localRuntimeAars = files(
+    'libs/IONGeolocationLib-debug.aar',
+    'libs/ionnativeislands-android-release.aar',
+)
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -104,13 +83,10 @@ dependencies {
         implementation project(':capacitor-android')
     }
 
-    if (locationButtonCompileSdk >= 37) {
-        implementation 'androidx.core.locationbutton:locationbutton:1.0.0-alpha01'
-    }
+    implementation 'androidx.core.locationbutton:locationbutton:1.0.0-alpha01'
     compileOnly localRuntimeAars
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
 
-    implementation 'com.google.code.gson:gson:2.13.2'
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$kotlinxCoroutinesVersion")
     implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
 
