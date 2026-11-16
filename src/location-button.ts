@@ -286,7 +286,7 @@ function installFallbackStyles(root: Document | ShadowRoot = document): void {
       display: inline-block;
       inline-size: min(100%, 22rem);
       min-inline-size: 3rem;
-      block-size: 3.25rem;
+      block-size: 3rem;
       min-block-size: 3rem;
       max-block-size: 136px;
       box-sizing: border-box;
