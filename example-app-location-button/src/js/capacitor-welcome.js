@@ -126,20 +126,12 @@ window.customElements.define(
             </select>
           </div>
           <div class="field">
-            <label for="lb-corner-radius">Corner radius: <span id="lb-corner-radius-value">22</span>px</label>
-            <input type="range" id="lb-corner-radius" min="0" max="68" value="22">
-          </div>
-          <div class="field">
-            <label for="lb-pressed-corner-radius">Pressed corner radius: <span id="lb-pressed-corner-radius-value">12</span>px</label>
-            <input type="range" id="lb-pressed-corner-radius" min="0" max="68" value="12">
+            <label for="lb-corner-radius">Corner radius: <span id="lb-corner-radius-value">16</span>px</label>
+            <input type="range" id="lb-corner-radius" min="0" max="68" value="16">
           </div>
           <div class="field">
             <label for="lb-stroke-width">Stroke width: <span id="lb-stroke-width-value">0</span>px (library max is 3)</label>
             <input type="range" id="lb-stroke-width" min="0" max="3" value="0">
-          </div>
-          <div class="field">
-            <label for="lb-clickable-padding">Clickable padding: <span id="lb-clickable-padding-value">6</span>px</label>
-            <input type="range" id="lb-clickable-padding" min="4" max="8" value="6">
           </div>
           <div class="field field-inline">
             <label for="lb-background-color">Background color</label>
@@ -305,14 +297,8 @@ window.customElements.define(
       bindRange('lb-corner-radius', 'lb-corner-radius-value', (value) => {
         locationButton.style.borderRadius = `${value}px`;
       });
-      bindRange('lb-pressed-corner-radius', 'lb-pressed-corner-radius-value', (value) => {
-        locationButton.style.setProperty('--os-location-button-pressed-corner-radius', `${value}px`);
-      });
       bindRange('lb-stroke-width', 'lb-stroke-width-value', (value) => {
         locationButton.style.borderTopWidth = `${value}px`;
-      });
-      bindRange('lb-clickable-padding', 'lb-clickable-padding-value', (value) => {
-        locationButton.style.setProperty('--os-location-button-clickable-padding', `${value}px`);
       });
 
       customizePanel.querySelector('#lb-text-type').addEventListener('change', (event) => {
