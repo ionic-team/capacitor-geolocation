@@ -2,9 +2,7 @@ package com.capacitorjs.plugins.geolocation
 
 import android.Manifest
 import android.os.Build
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import com.getcapacitor.JSObject
 import com.getcapacitor.PermissionState
@@ -19,7 +17,6 @@ import io.ionic.libs.iongeolocationlib.model.IONGLOCException
 import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationOptions
 import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationResult
 import io.ionic.libs.iongeolocationlib.view.IONGLOCLocationButtonRegistry
-import io.ionic.libs.iongeolocationlib.view.IONGLOCLocationButtonPermissionRequester
 import io.ionic.libs.ionnativeislandslib.NativeIslandsController
 import io.ionic.libs.ionnativeislandslib.NativeIslandsScrollChannel
 import kotlinx.coroutines.CoroutineScope
@@ -42,19 +39,10 @@ class GeolocationPlugin : Plugin() {
 
     private lateinit var controller: IONGLOCController
     private lateinit var coroutineScope: CoroutineScope
-    private lateinit var locationButtonPermissionLauncher: ActivityResultLauncher<Array<String>>
     private val nativeIslandsController = NativeIslandsController { event, payload ->
         notifyListeners("nativeIslands:$event", JSObject.fromJSONObject(payload))
     }
-    private val pendingLocationButtonPermissionResults = mutableListOf<(Boolean) -> Unit>()
-    private var locationButtonPermissionRequestInFlight = false
     private val watchingCalls: MutableMap<String, PluginCall> = mutableMapOf()
-    private val locationButtonPermissionRequester =
-        IONGLOCLocationButtonPermissionRequester { callback ->
-            activity.runOnUiThread {
-                requestLocationButtonPermission(callback)
-            }
-        }
 
     companion object {
         const val LOCATION_ALIAS: String = "location"
@@ -74,17 +62,8 @@ class GeolocationPlugin : Plugin() {
         }
 
         this.controller = IONGLOCController(context, activityLauncher)
-        locationButtonPermissionLauncher = bridge.registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions(),
-        ) { results ->
-            completeLocationButtonPermissionRequest(
-                results[Manifest.permission.ACCESS_FINE_LOCATION] == true,
-            )
-        }
         IONGLOCLocationButtonRegistry.register(
-            activity,
             controller,
-            locationButtonPermissionRequester,
             ::mapButtonErrorCode,
             ::mapButtonPosition,
         )
@@ -104,38 +83,6 @@ class GeolocationPlugin : Plugin() {
                 nativeIslandsController.onHostPause()
             }
         }
-    }
-
-    private fun requestLocationButtonPermission(callback: (Boolean) -> Unit) {
-        if (
-            ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
-        ) {
-            callback(true)
-            return
-        }
-        pendingLocationButtonPermissionResults += callback
-        if (locationButtonPermissionRequestInFlight) return
-        locationButtonPermissionRequestInFlight = true
-        try {
-            locationButtonPermissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                ),
-            )
-        } catch (_: RuntimeException) {
-            completeLocationButtonPermissionRequest(false)
-        }
-    }
-
-    private fun completeLocationButtonPermissionRequest(granted: Boolean) {
-        locationButtonPermissionRequestInFlight = false
-        val callbacks = pendingLocationButtonPermissionResults.toList()
-        pendingLocationButtonPermissionResults.clear()
-        callbacks.forEach { callback -> callback(granted) }
     }
 
     /** Native Islands carrier methods hosted by Geolocation. */
@@ -180,13 +127,7 @@ class GeolocationPlugin : Plugin() {
     override fun handleOnDestroy() {
         super.handleOnDestroy()
         coroutineScope.cancel()
-        pendingLocationButtonPermissionResults.clear()
-        locationButtonPermissionRequestInFlight = false
-        if (::locationButtonPermissionLauncher.isInitialized) {
-            locationButtonPermissionLauncher.unregister()
-        }
         nativeIslandsController.dispose()
-        IONGLOCLocationButtonRegistry.unregister(activity)
     }
 
     override fun handleOnResume() {

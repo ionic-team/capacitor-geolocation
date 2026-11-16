@@ -10,7 +10,6 @@
     "android/src/main/",
     "android/build.gradle",
     "android/libs/IONGeolocationLib-debug.aar",
-    "android/libs/IONGeolocationLibApi37-debug.aar",
     "android/libs/ionnativeislands-android-release.aar",
     "dist/",
     "ios/Sources",
