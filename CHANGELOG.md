@@ -3,7 +3,15 @@
 
 ### Bug Fixes
 
+* **android:** use bridge.registerForActivityResult for Fragment compatibility ([#104](https://github.com/ionic-team/capacitor-geolocation/issues/104)) ([6a171fe](https://github.com/ionic-team/capacitor-geolocation/commit/6a171fe0374f2db7dc7dce55ab9915a01ab99342))
 * native android publishing compatibility with Gradle 9 / AGP 9 ([#109](https://github.com/ionic-team/capacitor-geolocation/issues/109)) ([ea8322d](https://github.com/ionic-team/capacitor-geolocation/commit/ea8322da0a4f2f212e3676efa7bb1d3bb26feb4b))
+
+## [8.2.4](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.3...v8.2.4) (2026-10-16)
+
+
+### Bug Fixes
+
+* **android:** use bridge.registerForActivityResult for Fragment compatibility ([#104](https://github.com/ionic-team/capacitor-geolocation/issues/104)) ([6a171fe](https://github.com/ionic-team/capacitor-geolocation/commit/6a171fe0374f2db7dc7dce55ab9915a01ab99342))
 
 # [9.0.0-next.3](https://github.com/ionic-team/capacitor-geolocation/compare/v9.0.0-next.2...v9.0.0-next.3) (2026-10-02)
 

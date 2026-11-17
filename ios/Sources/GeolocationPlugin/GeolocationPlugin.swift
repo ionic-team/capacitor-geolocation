@@ -180,7 +180,7 @@ private extension GeolocationPlugin {
     }
 
     func requestLocationAuthorisation(type requestType: IONGLOCAuthorisationRequestType) {
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             guard self.checkIfLocationServicesAreEnabled() else { return }
             self.locationService?.requestAuthorisation(withType: requestType)
         }
