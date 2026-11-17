@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "node",
+  "prerelease-type": "beta",
+  "prerelease": true,
+  "packages": {
+    ".": {
+      "package-name": "@capacitor/geolocation",
+      "changelog-path": "CHANGELOG.md",
+      "include-component-in-tag": false,
+      "bump-minor-pre-major": true,
+      "bump-patch-for-minor-pre-major": true,
+      "versioning": "prerelease"
+    }
+  }
+}
