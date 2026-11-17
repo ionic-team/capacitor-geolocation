@@ -1,3 +1,10 @@
+## [8.2.5](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.4...v8.2.5) (2026-11-17)
+
+
+### Bug Fixes
+
+* **ios:** use `userInitiated` QoS when requesting location authorisation ([#112](https://github.com/ionic-team/capacitor-geolocation/issues/112)) ([41afa83](https://github.com/ionic-team/capacitor-geolocation/commit/41afa835e1676a41c4a46c1023d85acb2f70340b))
+
 ## [8.2.4](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.3...v8.2.4) (2026-10-16)
 
 
