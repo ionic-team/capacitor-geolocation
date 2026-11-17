@@ -398,6 +398,7 @@ class GeolocationPlugin : Plugin() {
                 GeolocationErrors.GOOGLE_SERVICES_ERROR
             }
         is IONGLOCException.IONGLOCLocationRetrievalTimeoutException -> GeolocationErrors.GET_LOCATION_TIMEOUT
+        is IONGLOCException.IONGLOCLocationButtonException -> GeolocationErrors.LOCATION_BUTTON_ERROR
     }
 
     /**
@@ -407,7 +408,7 @@ class GeolocationPlugin : Plugin() {
      * @param exception Throwable to map
      */
     private fun mapButtonErrorCode(exception: Throwable): String? =
-        (exception as? IONGLOCException)?.let { mapToErrorInfo(it).code }
+        ((exception as? IONGLOCException)?.let { mapToErrorInfo(it) } ?: GeolocationErrors.POSITION_UNAVAILABLE).code
 
     /**
      * Extension function to return a successful plugin result
