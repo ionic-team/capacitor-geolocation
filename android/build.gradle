@@ -83,7 +83,9 @@ dependencies {
         implementation project(':capacitor-android')
     }
 
-    implementation 'androidx.core.locationbutton:locationbutton:1.0.0-alpha01'
+    // Using compose androidx library instead of views because Views has UI issues
+    // See https://issuetracker.google.com/issues/567953859
+    implementation 'androidx.core.locationbutton:locationbutton-compose:1.0.0-alpha01'
     compileOnly localRuntimeAars
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
 
