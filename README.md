@@ -74,15 +74,12 @@ os-location-button {
   border-color: #000000;
   border-width: 1px;
   border-radius: 16px;
-  --os-location-button-pressed-corner-radius: 12px;
-  --os-location-button-clickable-padding: 6px;
   z-index: 2;
 }
 ```
 
 The native button supports opaque hexadecimal and RGB colors. Border width supports
-`0px` through `3px`; both corner radii support `0px` through `68px`. Clickable
-padding is clamped to the Android-supported range of `4px` through `8px`.
+`0px` through `3px`; the corner radius supports `0px` through `68px`.
 
 ## API
 
@@ -290,3 +287,4 @@ The following table list all the plugin errors:
 | OS-PLUG-GLOC-0016 | Android      | Location settings error. |
 | OS-PLUG-GLOC-0017 | Android      | Unable to retrieve location because device has both Network and Location turned off. |
 | OS-PLUG-GLOC-0018 | Android      | Location permissions are not declared in manifest. Make sure at least ACCESS_COARSE_LOCATION is declared in AndroidManifest.xml, and optionally ACCESS_FINE_LOCATION if you require precise location access. |
+| OS-PLUG-GLOC-0019 | Android      | The location button reported an error. |
