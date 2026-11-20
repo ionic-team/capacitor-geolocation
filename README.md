@@ -52,16 +52,35 @@ Read about [Setting Permissions](https://capacitorjs.com/docs/android/configurat
 
 ## Location Button
 
-Importing `@capacitor/geolocation` registers `<os-location-button>`. The plugin
+Importing `@capacitor/geolocation` registers `<os-location-button>` on Android. The plugin
 includes the Native Islands runtime, so applications do not install it separately.
 
 ```html
 <os-location-button text-type="use-precise-location"></os-location-button>
 ```
 
-On Android, the element renders a native button and emits `location-grant`,
-`location-position`, and `location-error` DOM events. Browsers use
-`navigator.geolocation`. Native iOS support is not currently provided.
+The element shows the system location button on Android 17 and later, and Google's
+compatibility button on older versions. It emits `location-grant`, `location-position`, and
+`location-error` DOM events. On iOS and web it renders nothing. Call
+[`getLocationButtonState()`](#getlocationbuttonstate) to hide the button or show your own control.
+
+Attributes: `text-type` (`use-precise-location` by default, or `share-precise-location`,
+`near-my-precise-location`, `near-your-precise-location`, `precise-location`, `none`), `timeout`
+(5000 ms), `maximum-age` (3000 ms) and `enable-location-fallback` (`true`). The system translates
+the label, so it can differ from your app's language.
+
+To grant precise location only through the button, keep `ACCESS_COARSE_LOCATION` and declare
+`ACCESS_FINE_LOCATION` with the `onlyForLocationButton` flag:
+
+```xml
+<uses-permission
+    android:name="android.permission.ACCESS_FINE_LOCATION"
+    android:usesPermissionFlags="onlyForLocationButton" />
+```
+
+On Android 17 and later, the regular API then gets approximate location until the button grants
+precise location: after a request, `coarseLocation` is `granted` and `location` is `denied`. Older
+versions ignore the flag.
 
 Style the element with ordinary CSS. The icon can inherit `color` or use its
 component-specific custom property:
@@ -79,7 +98,8 @@ os-location-button {
 ```
 
 The native button supports opaque hexadecimal and RGB colors. Border width supports
-`0px` through `3px`; the corner radius supports `0px` through `68px`.
+`0px` through `3px`; the corner radius supports `0px` through `68px`. Android draws no button
+smaller than 48 by 48 pixels.
 
 ## API
 
@@ -90,6 +110,7 @@ The native button supports opaque hexadecimal and RGB colors. Border width suppo
 * [`clearWatch(...)`](#clearwatch)
 * [`checkPermissions()`](#checkpermissions)
 * [`requestPermissions(...)`](#requestpermissions)
+* [`getLocationButtonState()`](#getlocationbuttonstate)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
@@ -193,6 +214,23 @@ Not available on web.
 --------------------
 
 
+### getLocationButtonState()
+
+```typescript
+getLocationButtonState() => Promise<LocationButtonState>
+```
+
+Check which location button this device supports.
+
+The button is Android only. Use this to hide it, or to show your own control instead.
+
+**Returns:** <code>Promise&lt;<a href="#locationbuttonstate">LocationButtonState</a>&gt;</code>
+
+**Since:** 9.0.0
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -236,6 +274,13 @@ Not available on web.
 | Prop              | Type                                     |
 | ----------------- | ---------------------------------------- |
 | **`permissions`** | <code>GeolocationPermissionType[]</code> |
+
+
+#### LocationButtonState
+
+| Prop        | Type                                               | Description                                                                                                                                                                                                                              | Since |
+| ----------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| **`state`** | <code>'system' \| 'compat' \| 'unavailable'</code> | `system` on Android 17 and later, where the system draws the button. `compat` on older Android versions, which show Google's compatibility button. `unavailable` on iOS and web, where the `os-location-button` element renders nothing. | 9.0.0 |
 
 
 ### Type Aliases

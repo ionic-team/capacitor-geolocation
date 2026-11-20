@@ -27,14 +27,14 @@ declare global {
   }
 }
 
-const TEXT_LABELS: Record<string, string> = {
-  'use-precise-location': 'Use precise location',
-  'share-precise-location': 'Share precise location',
-  'near-my-precise-location': 'Near my precise location',
-  'near-your-precise-location': 'Near your precise location',
-  'precise-location': 'Precise location',
-  none: 'Share location',
-};
+const TEXT_TYPES = [
+  'use-precise-location',
+  'share-precise-location',
+  'near-my-precise-location',
+  'near-your-precise-location',
+  'precise-location',
+  'none',
+];
 
 const STYLE_PROPERTIES = {
   backgroundColor: 'background-color',
@@ -57,8 +57,8 @@ const HEX_COLOR = /^#[0-9A-Fa-f]{6}$/;
 const RGB_COLOR = /^rgba?\((.+)\)$/;
 
 function textType(element: HTMLElement): string {
-  const value = element.getAttribute('text-type') ?? 'precise-location';
-  return value in TEXT_LABELS ? value : 'precise-location';
+  const value = element.getAttribute('text-type') ?? 'use-precise-location';
+  return TEXT_TYPES.includes(value) ? value : 'use-precise-location';
 }
 
 function colorStyle(style: CSSStyleDeclaration, name: string, fallback: string): string {
@@ -106,158 +106,16 @@ function booleanAttribute(element: HTMLElement, name: string, fallback: boolean)
   return fallback;
 }
 
-function dispatch<T>(element: HTMLElement, type: string, detail: T): void {
-  element.dispatchEvent(new CustomEvent(type, { bubbles: true, composed: true, detail }));
-}
-
-interface LocationPosition {
-  coords: {
-    latitude: number;
-    longitude: number;
-    accuracy: number;
-    altitude: number | null;
-    altitudeAccuracy?: number | null;
-    heading: number | null;
-    speed: number | null;
-    magneticHeading?: number | null;
-    trueHeading?: number | null;
-    headingAccuracy?: number | null;
-    course?: number | null;
-  };
-  timestamp: number;
-}
-
-interface LocationButtonCarrier extends GeolocationPlugin {
-  nativeIslandsLocationButtonCapabilities(): Promise<{
-    requiresUnobscuredSurface?: boolean;
-  }>;
-}
-
-function toLocationButtonPosition(position: LocationPosition): LocationButtonPositionDetail {
-  return {
-    timestamp: position.timestamp,
-    coords: {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-      accuracy: position.coords.accuracy,
-      altitude: position.coords.altitude,
-      altitudeAccuracy: position.coords.altitudeAccuracy,
-      heading: position.coords.heading,
-      speed: position.coords.speed,
-      magneticHeading: position.coords.magneticHeading,
-      trueHeading: position.coords.trueHeading,
-      headingAccuracy: position.coords.headingAccuracy,
-      course: position.coords.course,
-    },
-  };
-}
-
-function dispatchPosition(element: HTMLElement, position: LocationPosition): void {
-  dispatch<LocationButtonPositionDetail>(element, 'location-position', toLocationButtonPosition(position));
-}
-
-async function requestNativeFallback(element: HTMLElement, geolocationPlugin: GeolocationPlugin): Promise<void> {
-  try {
-    const position = await geolocationPlugin.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: nonNegativeIntegerAttribute(element, 'timeout', 10_000, 1),
-      maximumAge: nonNegativeIntegerAttribute(element, 'maximum-age', 0),
-      enableLocationFallback: booleanAttribute(element, 'enable-location-fallback', true),
-    });
-    dispatch<LocationButtonGrantDetail>(element, 'location-grant', { granted: true });
-    dispatchPosition(element, position);
-  } catch (error) {
-    const code = (error as { code?: unknown } | undefined)?.code;
-    if (code === 'OS-PLUG-GLOC-0003' || code === 'OS-PLUG-GLOC-0008') {
-      dispatch<LocationButtonGrantDetail>(element, 'location-grant', { granted: false });
-    }
-    dispatch<LocationButtonErrorDetail>(element, 'location-error', {
-      reason: error instanceof Error && error.message ? error.message : 'Location request failed',
-      code: typeof code === 'string' ? code : undefined,
-    });
-  }
-}
-
-function browserFallback(element: HTMLElement, geolocationPlugin: GeolocationPlugin): void {
-  // Same shadow-DOM concern as the native path's getProperties() call: this is the actual
-  // fallback face used in PWA/web, on iOS, and whenever native composition isn't available.
-  // Without this, an element nested inside a shadow root never gets the plugin's sizing CSS and
-  // collapses to zero size — clicking "does nothing" because there's nothing there to click, not
-  // because the handler is broken.
-  installFallbackStyles(styleRootFor(element));
-  element.dataset.osLocationButtonFallbackFace = '';
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.className = 'os-location-button-fallback';
-  const normalizedTextType = textType(element);
-  const label = TEXT_LABELS[normalizedTextType];
-  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  icon.classList.add('os-location-button-fallback__icon');
-  icon.setAttribute('viewBox', '0 0 960 960');
-  icon.setAttribute('aria-hidden', 'true');
-  const iconPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  iconPath.setAttribute(
-    'd',
-    'M440 918v-80q-125-14-214.5-103.5T122 520H42v-80h80q14-125 103.5-214.5T440 122V42h80v80q125 14 214.5 103.5T838 440h80v80h-80q-14 125-103.5 214.5T520 838v80h-80Zm40-158q116 0 198-82t82-198q0-116-82-198t-198-82q-116 0-198 82t-82 198q0 116 82 198t198 82Zm0-120q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm0-80q33 0 56.5-23.5T560 480q0-33-23.5-56.5T480 400q-33 0-56.5 23.5T400 480q0 33 23.5 56.5T480 560Z',
-  );
-  icon.append(iconPath);
-  const text = document.createElement('span');
-  text.className = normalizedTextType === 'none' ? 'os-location-button-fallback__visually-hidden' : '';
-  text.textContent = label;
-  button.append(icon, text);
-  button.setAttribute('aria-label', label);
-  button.addEventListener('click', () => {
-    if (Capacitor.getPlatform() !== 'web') {
-      void requestNativeFallback(element, geolocationPlugin);
-      return;
-    }
-    if (!navigator.geolocation) {
-      dispatch<LocationButtonErrorDetail>(element, 'location-error', {
-        reason: 'Browser geolocation is unavailable',
-      });
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        dispatch<LocationButtonGrantDetail>(element, 'location-grant', {
-          granted: true,
-        });
-        dispatchPosition(element, position);
-      },
-      (error) => {
-        if (error.code === error.PERMISSION_DENIED) {
-          dispatch<LocationButtonGrantDetail>(element, 'location-grant', {
-            granted: false,
-          });
-        }
-        dispatch<LocationButtonErrorDetail>(element, 'location-error', {
-          reason: error.message || 'Browser location request failed',
-        });
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: nonNegativeIntegerAttribute(element, 'timeout', 10_000, 1),
-        maximumAge: nonNegativeIntegerAttribute(element, 'maximum-age', 0),
-      },
-    );
-  });
-  element.replaceChildren(button);
-}
-
 const installedStyleRoots = new WeakSet<Document | ShadowRoot>();
 
-// A native island's host element can live inside a shadow root (e.g. an app wrapping its UI in a
-// custom element with attachShadow()). Shadow DOM style encapsulation means CSS appended to
-// document.head never reaches it, so an element that gets emptied once native composition
-// activates (see clearChildren() in the shared runtime) has no sizing CSS and collapses to zero
-// height. Resolving the actual root here lets installFallbackStyles() inject a scoped copy where
-// the element really lives, not just into the top-level document.
+// The element can live inside a shadow root, which CSS in document.head never reaches. Without its
+// sizing CSS it collapses to zero size and the native button has nothing to fill.
 function styleRootFor(element: HTMLElement): Document | ShadowRoot {
   const root = element.getRootNode();
   return root instanceof ShadowRoot ? root : document;
 }
 
-function installFallbackStyles(root: Document | ShadowRoot = document): void {
+function installStyles(root: Document | ShadowRoot = document): void {
   if (installedStyleRoots.has(root)) return;
   installedStyleRoots.add(root);
   if (root.querySelector('style[data-os-location-button]')) return;
@@ -267,7 +125,7 @@ function installFallbackStyles(root: Document | ShadowRoot = document): void {
   style.textContent = `
     :where(os-location-button) {
       display: inline-block;
-      inline-size: min(100%, 22rem);
+      inline-size: 100%;
       min-inline-size: 3rem;
       block-size: 3rem;
       min-block-size: 3rem;
@@ -280,71 +138,10 @@ function installFallbackStyles(root: Document | ShadowRoot = document): void {
       color: #ffffff;
     }
 
-    :where([data-os-location-button-fallback-face]) {
+    :where(os-location-button[data-native-islands-fallback]) {
       background-clip: text !important;
       border-image-source: linear-gradient(transparent, transparent) !important;
       border-image-slice: 1 !important;
-    }
-
-    .os-location-button-fallback {
-      position: relative;
-      isolation: isolate;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      inline-size: 100%;
-      block-size: 100%;
-      min-inline-size: 3rem;
-      min-block-size: 3rem;
-      padding-inline: 1rem;
-      border: inherit;
-      border-image-source: linear-gradient(transparent, transparent);
-      border-image-slice: 1;
-      border-radius: inherit;
-      background-color: inherit;
-      background-clip: text;
-      color: inherit;
-      font: 500 0.875rem/1.25rem Roboto, system-ui, sans-serif;
-      letter-spacing: 0.007142857em;
-    }
-
-    .os-location-button-fallback::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      box-sizing: border-box;
-      border-width: inherit;
-      border-style: inherit;
-      border-color: inherit;
-      border-radius: inherit;
-      background-color: inherit;
-    }
-
-    .os-location-button-fallback > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .os-location-button-fallback__icon {
-      color: var(--os-location-button-icon-color, currentColor);
-      inline-size: 1.25rem;
-      block-size: 1.25rem;
-      flex: 0 0 auto;
-      fill: currentColor;
-    }
-
-    .os-location-button-fallback__visually-hidden {
-      position: absolute;
-      inline-size: 1px;
-      block-size: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
-      border: 0;
     }
   `;
 
@@ -369,49 +166,13 @@ function installFallbackStyles(root: Document | ShadowRoot = document): void {
   );
 }
 
-async function requiresUnobscuredSurface(geolocationPlugin: GeolocationPlugin): Promise<boolean> {
-  const carrier = geolocationPlugin as LocationButtonCarrier;
-  if (typeof carrier.nativeIslandsLocationButtonCapabilities !== 'function') return true;
-  try {
-    const capabilities = await carrier.nativeIslandsLocationButtonCapabilities();
-    return capabilities.requiresUnobscuredSurface !== false;
-  } catch {
-    return true;
-  }
-}
-
-function registerLocationButton(geolocationPlugin: GeolocationPlugin, protectedSurface: boolean): void {
+function registerLocationButton(protectedSurface: boolean): void {
   if (
     typeof document === 'undefined' ||
     typeof HTMLElement === 'undefined' ||
     typeof customElements === 'undefined' ||
     customElements.get('os-location-button')
   ) {
-    return;
-  }
-
-  installFallbackStyles();
-
-  if (Capacitor.isNativePlatform() && Capacitor.getPlatform() !== 'android') {
-    class OsLocationButtonFallback extends HTMLElement {
-      private connected = false;
-
-      static get observedAttributes(): string[] {
-        return OBSERVED_ATTRIBUTES;
-      }
-
-      connectedCallback(): void {
-        if (this.connected) return;
-        this.connected = true;
-        browserFallback(this, geolocationPlugin);
-      }
-
-      attributeChangedCallback(_name: string, oldValue: string | null, newValue: string | null): void {
-        if (this.connected && oldValue !== newValue) browserFallback(this, geolocationPlugin);
-      }
-    }
-
-    customElements.define('os-location-button', OsLocationButtonFallback);
     return;
   }
 
@@ -428,7 +189,7 @@ function registerLocationButton(geolocationPlugin: GeolocationPlugin, protectedS
       // Runs synchronously during connectedCallback() (activateNative() -> send('create')),
       // before any async/rAF-scheduled geometry measurement — early enough to guarantee the
       // element has sizing CSS before it's first measured, even inside a shadow root.
-      installFallbackStyles(styleRootFor(element));
+      installStyles(styleRootFor(element));
       const style = getComputedStyle(element);
       const cornerRadius = pixelStyle(style, 'border-top-left-radius', 0, 68, 16);
       const textColor = colorStyle(style, STYLE_PROPERTIES.textColor, '#FFFFFF');
@@ -440,12 +201,12 @@ function registerLocationButton(geolocationPlugin: GeolocationPlugin, protectedS
         strokeColor: colorStyle(style, STYLE_PROPERTIES.strokeColor, '#000000'),
         cornerRadius,
         strokeWidth: pixelStyle(style, STYLE_PROPERTIES.strokeWidth, 0, 3, 0),
-        maximumAge: nonNegativeIntegerAttribute(element, 'maximum-age', 0),
-        timeout: nonNegativeIntegerAttribute(element, 'timeout', 10_000, 1),
+        maximumAge: nonNegativeIntegerAttribute(element, 'maximum-age', 3_000),
+        timeout: nonNegativeIntegerAttribute(element, 'timeout', 5_000, 1),
         enableLocationFallback: booleanAttribute(element, 'enable-location-fallback', true),
       };
     },
-    renderFallback: (element) => browserFallback(element, geolocationPlugin),
+    renderFallback: () => undefined,
     events: {
       grant: 'location-grant',
       position: 'location-position',
@@ -455,45 +216,51 @@ function registerLocationButton(geolocationPlugin: GeolocationPlugin, protectedS
 }
 
 export function registerLocationButtonElement(geolocationPlugin: GeolocationPlugin): void {
-  if (Capacitor.getPlatform() === 'android') {
-    const dedicatedNativeIslands = Capacitor.isPluginAvailable('NativeIslands');
-
-    initializeNativeIslands(
-      createCapacitorTransport(
-        dedicatedNativeIslands
-          ? {
-              pluginName: 'NativeIslands',
-              platforms: ['android'],
-            }
-          : {
-              pluginName: 'Geolocation',
-              plugin: geolocationPlugin,
-              methods: {
-                applyLayout: 'nativeIslandsApplyLayout',
-                applyScrollOffsets: 'nativeIslandsApplyScrollOffsets',
-                command: 'nativeIslandsCommand',
-                reset: 'nativeIslandsReset',
-              },
-              eventPrefix: 'nativeIslands:',
-              platforms: ['android'],
-            },
-      ),
-      {
-        identity: dedicatedNativeIslands ? '@capacitor/native-islands' : '@capacitor/geolocation/location-button',
-        priority: dedicatedNativeIslands
-          ? NATIVE_ISLANDS_TRANSPORT_PRIORITY.dedicated
-          : NATIVE_ISLANDS_TRANSPORT_PRIORITY.carrier,
-      },
-    );
-  }
-
-  if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android') {
-    installFallbackStyles();
-    void requiresUnobscuredSurface(geolocationPlugin).then((protectedSurface) => {
-      registerLocationButton(geolocationPlugin, protectedSurface);
-    });
+  if (Capacitor.getPlatform() !== 'android') {
+    if (typeof customElements !== 'undefined' && !customElements.get('os-location-button')) {
+      customElements.define(
+        'os-location-button',
+        class extends HTMLElement {
+          connectedCallback(): void {
+            this.style.setProperty('display', 'none', 'important');
+          }
+        },
+      );
+    }
     return;
   }
 
-  registerLocationButton(geolocationPlugin, false);
+  const dedicatedNativeIslands = Capacitor.isPluginAvailable('NativeIslands');
+  initializeNativeIslands(
+    createCapacitorTransport(
+      dedicatedNativeIslands
+        ? {
+            pluginName: 'NativeIslands',
+            platforms: ['android'],
+          }
+        : {
+            pluginName: 'Geolocation',
+            plugin: geolocationPlugin,
+            methods: {
+              applyLayout: 'nativeIslandsApplyLayout',
+              applyScrollOffsets: 'nativeIslandsApplyScrollOffsets',
+              command: 'nativeIslandsCommand',
+              reset: 'nativeIslandsReset',
+            },
+            eventPrefix: 'nativeIslands:',
+            platforms: ['android'],
+          },
+    ),
+    {
+      identity: dedicatedNativeIslands ? '@capacitor/native-islands' : '@capacitor/geolocation/location-button',
+      priority: dedicatedNativeIslands
+        ? NATIVE_ISLANDS_TRANSPORT_PRIORITY.dedicated
+        : NATIVE_ISLANDS_TRANSPORT_PRIORITY.carrier,
+    },
+  );
+
+  void geolocationPlugin.getLocationButtonState().then(({ state }) => {
+    installStyles();
+    registerLocationButton(state === 'system');
+  });
 }
