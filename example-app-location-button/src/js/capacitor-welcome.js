@@ -101,13 +101,12 @@ window.customElements.define(
       </capacitor-welcome-titlebar>
       <main>
         <p>
-          Renders the system LocationButton on Android 17+ (compileSdk 37), falling back to an
-          AppCompat replica below that. Tapping requests precise location directly — no
-          separate permission step. On grant, <code>fetchPosition()</code> delegates to the same
-          <code>IONGLOCController.getCurrentPosition()</code> used by the regular API below.
+          Android only: the system location button on Android 17 and later, Google's compat
+          button before that, and nothing on iOS and web.
         </p>
 
         <h2>os-location-button</h2>
+        <p>getLocationButtonState(): <code id="lb-state">…</code></p>
         <os-location-button text-type="use-precise-location" style="display: block; margin: 10px 0;"></os-location-button>
 
         <details id="location-button-customize">
@@ -154,16 +153,16 @@ window.customElements.define(
 
           <h4>Fetch options (plugin properties)</h4>
           <div class="field">
-            <label for="lb-timeout">Timeout: <span id="lb-timeout-value">10000</span>ms</label>
-            <input type="range" id="lb-timeout" min="1" max="60000" step="500" value="10000">
+            <label for="lb-timeout">Timeout: <span id="lb-timeout-value">5000</span>ms</label>
+            <input type="range" id="lb-timeout" min="1" max="60000" step="500" value="5000">
           </div>
           <div class="field">
-            <label for="lb-maximum-age">Maximum age: <span id="lb-maximum-age-value">0</span>ms</label>
-            <input type="range" id="lb-maximum-age" min="0" max="600000" step="1000" value="0">
+            <label for="lb-maximum-age">Maximum age: <span id="lb-maximum-age-value">3000</span>ms</label>
+            <input type="range" id="lb-maximum-age" min="0" max="600000" step="1000" value="3000">
           </div>
           <div class="field field-inline">
             <input type="checkbox" id="lb-enable-location-fallback" checked>
-            <label for="lb-enable-location-fallback">Enable location fallback (Android only — no effect on iOS)</label>
+            <label for="lb-enable-location-fallback">Enable location fallback</label>
           </div>
 
           <hr>
@@ -171,7 +170,7 @@ window.customElements.define(
           <h4>Layout (app-level CSS — not a plugin feature)</h4>
           <div class="field field-inline">
             <input type="checkbox" id="lb-width-auto" checked>
-            <label for="lb-width-auto">Auto width (plugin default: min(100%, 22rem))</label>
+            <label for="lb-width-auto">Auto width (plugin default: 100%)</label>
           </div>
           <div class="field">
             <label for="lb-width">Width: <span id="lb-width-value">-</span>px</label>
@@ -182,7 +181,7 @@ window.customElements.define(
             <label for="lb-height-auto">Auto height (plugin default: 3.25rem)</label>
           </div>
           <div class="field">
-            <label for="lb-height">Height: <span id="lb-height-value">-</span>px (above 136 shows the dead-zone gap on native api37 only — the LocationButton widget caps at 136dp inside a taller host; the web fallback has no such cap and just grows)</label>
+            <label for="lb-height">Height: <span id="lb-height-value">-</span>px (above 136 shows the dead-zone gap on api37 only: the LocationButton widget caps at 136dp inside a taller host)</label>
             <input type="range" id="lb-height" min="40" max="200" value="52" disabled>
           </div>
           <div class="field">
@@ -213,6 +212,29 @@ window.customElements.define(
           <h3>Result:</h3>
           <pre id="current-location-result"></pre>
         </div>
+
+        <hr>
+
+        <h2>Permissions</h2>
+        <p>
+          <code>checkPermissions()</code> and <code>requestPermissions()</code> from the plugin's normal JS API.
+          <code>coarseLocation</code> asks for ACCESS_COARSE_LOCATION only; <code>location</code> asks for
+          coarse and fine.
+        </p>
+        <p>
+          <button id="check-permissions" class="button">Check permissions</button>
+        </p>
+        <p>
+          <button id="request-permissions-coarse" class="button">Request coarse</button>
+        </p>
+        <p>
+          <button id="request-permissions-coarse-fine" class="button">Request coarse + fine</button>
+        </p>
+
+        <div id="permissions-result-container">
+          <h3>Result:</h3>
+          <pre id="permissions-result"></pre>
+        </div>
       </main>
     </div>
     `;
@@ -222,6 +244,9 @@ window.customElements.define(
       const self = this;
 
       const locationButton = self.shadowRoot.querySelector('os-location-button');
+      Geolocation.getLocationButtonState().then(({ state }) => {
+        self.shadowRoot.querySelector('#lb-state').textContent = state;
+      });
       const locationButtonEventsList = self.shadowRoot.querySelector('#location-button-events-list');
 
       function logLocationButtonEvent(text) {
@@ -318,8 +343,6 @@ window.customElements.define(
       });
 
       // Fetch option controls — each maps to a real plugin-supported HTML attribute.
-      // `timeout`/`maximum-age` apply on every platform; `enable-location-fallback` is Android-only
-      // (silently ignored on iOS/web, per the regular getCurrentPosition() API it delegates to).
       bindRange('lb-timeout', 'lb-timeout-value', (value) => {
         locationButton.setAttribute('timeout', value);
       });
@@ -381,6 +404,31 @@ window.customElements.define(
         } catch (exception) {
           resultElement.textContent = `Error: code=${exception.code} message="${exception.message}"`;
         }
+      });
+
+      const permissionsResult = self.shadowRoot.querySelector('#permissions-result');
+
+      async function showPermissions(label, action) {
+        try {
+          const status = await action();
+          permissionsResult.textContent = `${label}:\n${JSON.stringify(status, null, 2)}`;
+        } catch (exception) {
+          permissionsResult.textContent = `${label} error: code=${exception.code} message="${exception.message}"`;
+        }
+      }
+
+      self.shadowRoot.querySelector('#check-permissions').addEventListener('click', () => {
+        showPermissions('checkPermissions()', () => Geolocation.checkPermissions());
+      });
+      self.shadowRoot.querySelector('#request-permissions-coarse').addEventListener('click', () => {
+        showPermissions("requestPermissions({ permissions: ['coarseLocation'] })", () =>
+          Geolocation.requestPermissions({ permissions: ['coarseLocation'] }),
+        );
+      });
+      self.shadowRoot.querySelector('#request-permissions-coarse-fine').addEventListener('click', () => {
+        showPermissions("requestPermissions({ permissions: ['location'] })", () =>
+          Geolocation.requestPermissions({ permissions: ['location'] }),
+        );
       });
     }
   },
