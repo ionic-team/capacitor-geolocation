@@ -212,6 +212,29 @@ window.customElements.define(
           <h3>Result:</h3>
           <pre id="current-location-result"></pre>
         </div>
+
+        <hr>
+
+        <h2>Permissions</h2>
+        <p>
+          <code>checkPermissions()</code> and <code>requestPermissions()</code> from the plugin's normal JS API.
+          <code>coarseLocation</code> asks for ACCESS_COARSE_LOCATION only; <code>location</code> asks for
+          coarse and fine.
+        </p>
+        <p>
+          <button id="check-permissions" class="button">Check permissions</button>
+        </p>
+        <p>
+          <button id="request-permissions-coarse" class="button">Request coarse</button>
+        </p>
+        <p>
+          <button id="request-permissions-coarse-fine" class="button">Request coarse + fine</button>
+        </p>
+
+        <div id="permissions-result-container">
+          <h3>Result:</h3>
+          <pre id="permissions-result"></pre>
+        </div>
       </main>
     </div>
     `;
@@ -381,6 +404,31 @@ window.customElements.define(
         } catch (exception) {
           resultElement.textContent = `Error: code=${exception.code} message="${exception.message}"`;
         }
+      });
+
+      const permissionsResult = self.shadowRoot.querySelector('#permissions-result');
+
+      async function showPermissions(label, action) {
+        try {
+          const status = await action();
+          permissionsResult.textContent = `${label}:\n${JSON.stringify(status, null, 2)}`;
+        } catch (exception) {
+          permissionsResult.textContent = `${label} error: code=${exception.code} message="${exception.message}"`;
+        }
+      }
+
+      self.shadowRoot.querySelector('#check-permissions').addEventListener('click', () => {
+        showPermissions('checkPermissions()', () => Geolocation.checkPermissions());
+      });
+      self.shadowRoot.querySelector('#request-permissions-coarse').addEventListener('click', () => {
+        showPermissions("requestPermissions({ permissions: ['coarseLocation'] })", () =>
+          Geolocation.requestPermissions({ permissions: ['coarseLocation'] }),
+        );
+      });
+      self.shadowRoot.querySelector('#request-permissions-coarse-fine').addEventListener('click', () => {
+        showPermissions("requestPermissions({ permissions: ['location'] })", () =>
+          Geolocation.requestPermissions({ permissions: ['location'] }),
+        );
       });
     }
   },
