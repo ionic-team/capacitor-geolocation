@@ -123,9 +123,30 @@ os-location-button {
 }
 ```
 
-The native button supports opaque hexadecimal and RGB colors. Border width supports
-`0px` through `3px`; the corner radius supports `0px` through `68px`. Android draws no button
-smaller than 48 by 48 pixels.
+The native button follows these rules:
+
+- Colors are opaque hexadecimal or RGB. A color with transparency (an alpha below 1) isn't supported and
+  the default is used.
+- Border width supports `0px` through `3px` and the corner radius `0px` through `68px`. A value outside
+  that range, or a radius that isn't in pixels (such as `50%`), isn't clamped: the default (no border, a
+  `16px` radius) is used.
+- The border color and width are read from the element's top border and the radius from its top-left
+  corner, and apply to the whole button.
+- CSS filters, blend modes and masks on the element or its ancestors aren't applied.
+- Android draws no button smaller than 48 by 48 pixels, or taller than 136 pixels (a taller element
+  leaves empty space around the button).
+- By default the element is as wide as its container and `3rem` tall (48 pixels at the default font
+  size). Your own CSS overrides these defaults.
+- The button is drawn slightly smaller than the element's box: 4 pixels inside it are kept for the touch
+  target.
+
+Android only lets the system button respond to taps when nothing covers it:
+
+- The plugin clips the button around web content that overlaps its edges, such as a header or a sidebar.
+- It hides the button while a cover it can't clip around remains, for example a modal dialog, a popup, a
+  bottom sheet or a moving overlay, and shows it again when the cover is gone.
+- Hiding the button doesn't emit `location-error` or any other event, so keep it out of areas other
+  content can cover, or keep another way to ask for location.
 
 ## API
 
