@@ -3,6 +3,7 @@ import { WebPlugin } from '@capacitor/core';
 import type {
   CallbackID,
   GeolocationPlugin,
+  LocationButtonState,
   PermissionStatus,
   Position,
   PositionOptions,
@@ -134,6 +135,10 @@ export class GeolocationWeb extends WebPlugin implements GeolocationPlugin {
 
   async requestPermissions(): Promise<PermissionStatus> {
     throw this.unimplemented('Not implemented on web.');
+  }
+
+  async getLocationButtonState(): Promise<LocationButtonState> {
+    return { state: 'unavailable' };
   }
 }
 

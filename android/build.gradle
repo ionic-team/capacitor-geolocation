@@ -68,6 +68,11 @@ repositories {
     mavenCentral()
 }
 
+// TODO - replace geolocation native library with release aar or maven central dependency
+def localRuntimeAars = files(
+    'libs/IONGeolocationLib-debug.aar',
+    'libs/ionnativeislands-android-release.aar',
+)
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -78,7 +83,11 @@ dependencies {
         implementation project(':capacitor-android')
     }
 
-    implementation("io.ionic.libs:iongeolocation-android:2.2.2")
+    // Using compose androidx library instead of views because Views has UI issues
+    // See https://issuetracker.google.com/issues/567953859
+    implementation 'androidx.core.locationbutton:locationbutton-compose:1.0.0-alpha01'
+    implementation 'androidx.compose.foundation:foundation:1.12.1'
+    compileOnly localRuntimeAars
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$kotlinxCoroutinesVersion")
@@ -87,4 +96,9 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+}
+
+def applicationProject = rootProject.findProject(':app')
+if (applicationProject != null && applicationProject != project) {
+    applicationProject.dependencies.add('implementation', localRuntimeAars)
 }

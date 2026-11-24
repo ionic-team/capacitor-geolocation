@@ -3,6 +3,7 @@ package com.capacitorjs.plugins.geolocation
 import android.Manifest
 import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.Lifecycle
 import com.getcapacitor.JSObject
 import com.getcapacitor.PermissionState
 import com.getcapacitor.Plugin
@@ -15,10 +16,14 @@ import io.ionic.libs.iongeolocationlib.controller.IONGLOCController
 import io.ionic.libs.iongeolocationlib.model.IONGLOCException
 import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationOptions
 import io.ionic.libs.iongeolocationlib.model.IONGLOCLocationResult
+import io.ionic.libs.iongeolocationlib.view.IONGLOCLocationButtonRegistry
+import io.ionic.libs.ionnativeislandslib.NativeIslandsController
+import io.ionic.libs.ionnativeislandslib.NativeIslandsScrollChannel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 @CapacitorPlugin(
     name = "Geolocation",
@@ -34,6 +39,9 @@ class GeolocationPlugin : Plugin() {
 
     private lateinit var controller: IONGLOCController
     private lateinit var coroutineScope: CoroutineScope
+    private val nativeIslandsController = NativeIslandsController { event, payload ->
+        notifyListeners("nativeIslands:$event", JSObject.fromJSONObject(payload))
+    }
     private val watchingCalls: MutableMap<String, PluginCall> = mutableMapOf()
 
     companion object {
@@ -54,11 +62,78 @@ class GeolocationPlugin : Plugin() {
         }
 
         this.controller = IONGLOCController(context, activityLauncher)
+        IONGLOCLocationButtonRegistry.register(
+            controller,
+            ::mapButtonErrorCode,
+            ::mapButtonPosition,
+        )
+        nativeIslandsController.bind(bridge.webView, activity)
+        activity.runOnUiThread {
+            NativeIslandsScrollChannel.install(
+                bridge.webView,
+                "Geolocation",
+                bridge.allowedOriginRules,
+                nativeIslandsController::receiveScrollOffsets,
+                nativeIslandsController::receiveDirect,
+            )
+            nativeIslandsController.ensureContainer()
+            if (activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                nativeIslandsController.onHostResume()
+            } else {
+                nativeIslandsController.onHostPause()
+            }
+        }
+    }
+
+    @PluginMethod
+    fun getLocationButtonState(call: PluginCall) {
+        val state = if (IONGLOCLocationButtonRegistry.requiresUnobscuredSurface()) "system" else "compat"
+        call.resolve(JSObject().put("state", state))
+    }
+
+    /** Native Islands carrier methods hosted by Geolocation. */
+    @PluginMethod
+    fun nativeIslandsApplyLayout(call: PluginCall) {
+        nativeIslandsController.submitLayout(call.data, failure = { code, message -> call.reject(message, code) }) {
+            call.resolve(JSObject.fromJSONObject(it))
+        }
+    }
+
+    @PluginMethod
+    fun nativeIslandsApplyScrollOffsets(call: PluginCall) {
+        nativeIslandsController.submitScrollOffsets(call.data, failure = { code, message -> call.reject(message, code) }) {
+            call.resolve()
+        }
+    }
+
+    @PluginMethod
+    fun nativeIslandsCommand(call: PluginCall) {
+        nativeIslandsController.submitCommand(call.data, failure = { code, message -> call.reject(message, code) }) {
+            call.resolve()
+        }
+    }
+
+    @PluginMethod
+    fun nativeIslandsReset(call: PluginCall) {
+        nativeIslandsController.submitReset(call.data, failure = { code, message -> call.reject(message, code) }) {
+            call.resolve(JSObject.fromJSONObject(it))
+        }
     }
 
     override fun handleOnDestroy() {
         super.handleOnDestroy()
         coroutineScope.cancel()
+        nativeIslandsController.dispose()
+    }
+
+    override fun handleOnResume() {
+        super.handleOnResume()
+        nativeIslandsController.onHostResume()
+    }
+
+    override fun handleOnPause() {
+        super.handleOnPause()
+        nativeIslandsController.onHostPause()
     }
 
     @PluginMethod
@@ -270,39 +345,66 @@ class GeolocationPlugin : Plugin() {
     }
 
     /**
+     * Maps a Location Button `fetchPosition()` success into the same nested `{ timestamp, coords }`
+     * shape [getJSObjectForLocation] already produces for the regular API — reused here rather than
+     * duplicating the field list. Passed to [IONGLOCLocationButtonRegistry.register].
+     *
+     * `coords` is kept as the real `JSObject` [getJSObjectForLocation] builds, not flattened into a
+     * plain `Map` — `NativeIslandsController`'s event-forwarding `eventSink` only does a shallow
+     * `Map<String, Any?> -> JSONObject` conversion (one `put()` per top-level key); a nested plain
+     * `Map` value would fall through to `Object.toString()` when later JSON-stringified and arrive
+     * in JS as a garbled string instead of a nested object, while a nested `JSONObject` value is
+     * already a type that stringifies correctly.
+     * @param location IONGLOCLocationResult to map
+     */
+    private fun mapButtonPosition(location: IONGLOCLocationResult): Map<String, Any?> {
+        val position = getJSObjectForLocation(location)
+        return mapOf(
+            "timestamp" to position.get("timestamp"),
+            "coords" to position.get("coords"),
+        )
+    }
+
+    /**
      * Helper function to handle error cases
      * @param exception Throwable to handle as an error
      * @param call the plugin call
      */
     private fun onLocationError(exception: Throwable?, call: PluginCall) {
-        when (exception) {
-            is IONGLOCException.IONGLOCRequestDeniedException -> {
-                call.sendError(GeolocationErrors.LOCATION_ENABLE_REQUEST_DENIED)
-            }
-            is IONGLOCException.IONGLOCSettingsException -> {
-                call.sendError(GeolocationErrors.LOCATION_SETTINGS_ERROR)
-            }
-            is IONGLOCException.IONGLOCLocationAndNetworkDisabledException -> {
-                call.sendError(GeolocationErrors.NETWORK_LOCATION_DISABLED_ERROR)
-            }
-            is IONGLOCException.IONGLOCInvalidTimeoutException -> {
-                call.sendError(GeolocationErrors.INVALID_TIMEOUT)
-            }
-            is IONGLOCException.IONGLOCGoogleServicesException -> {
-                if (exception.resolvable) {
-                    call.sendError(GeolocationErrors.GOOGLE_SERVICES_RESOLVABLE)
-                } else {
-                    call.sendError(GeolocationErrors.GOOGLE_SERVICES_ERROR)
-                }
-            }
-            is IONGLOCException.IONGLOCLocationRetrievalTimeoutException -> {
-                call.sendError(GeolocationErrors.GET_LOCATION_TIMEOUT)
-            }
-            else -> {
-                call.sendError(GeolocationErrors.POSITION_UNAVAILABLE)
-            }
-        }
+        val errorInfo = (exception as? IONGLOCException)?.let { mapToErrorInfo(it) }
+            ?: GeolocationErrors.POSITION_UNAVAILABLE
+        call.sendError(errorInfo)
     }
+
+    /**
+     * Maps a known [IONGLOCException] to its corresponding [GeolocationErrors.ErrorInfo].
+     * Shared by [onLocationError] (regular API) and [mapButtonErrorCode] (Location Button).
+     * @param exception the exception to map
+     */
+    private fun mapToErrorInfo(exception: IONGLOCException): GeolocationErrors.ErrorInfo = when (exception) {
+        is IONGLOCException.IONGLOCRequestDeniedException -> GeolocationErrors.LOCATION_ENABLE_REQUEST_DENIED
+        is IONGLOCException.IONGLOCSettingsException -> GeolocationErrors.LOCATION_SETTINGS_ERROR
+        is IONGLOCException.IONGLOCLocationAndNetworkDisabledException ->
+            GeolocationErrors.NETWORK_LOCATION_DISABLED_ERROR
+        is IONGLOCException.IONGLOCInvalidTimeoutException -> GeolocationErrors.INVALID_TIMEOUT
+        is IONGLOCException.IONGLOCGoogleServicesException ->
+            if (exception.resolvable) {
+                GeolocationErrors.GOOGLE_SERVICES_RESOLVABLE
+            } else {
+                GeolocationErrors.GOOGLE_SERVICES_ERROR
+            }
+        is IONGLOCException.IONGLOCLocationRetrievalTimeoutException -> GeolocationErrors.GET_LOCATION_TIMEOUT
+        is IONGLOCException.IONGLOCLocationButtonException -> GeolocationErrors.LOCATION_BUTTON_ERROR
+    }
+
+    /**
+     * Maps a Location Button `fetchPosition()` failure to the matching `GeolocationErrors` code.
+     * Passed to [IONGLOCLocationButtonRegistry.register] so the button's error events carry the
+     * same codes as the regular API.
+     * @param exception Throwable to map
+     */
+    private fun mapButtonErrorCode(exception: Throwable): String? =
+        ((exception as? IONGLOCException)?.let { mapToErrorInfo(it) } ?: GeolocationErrors.POSITION_UNAVAILABLE).code
 
     /**
      * Extension function to return a successful plugin result

@@ -23,6 +23,19 @@ jobs:
           working-directory: .
           gh-token: ${{ github.token }}
 
+  test-typescript:
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 30
+    steps:
+      - name: 'Setup Tools'
+        uses: ionic-team/capacitor-actions/setup-tools@v1.0.0
+        with:
+          working-directory: .
+          gh-token: ${{ github.token }}
+      - name: 'Build and test TypeScript'
+        working-directory: .
+        run: npm run build && npm test
+
   verify-plugin-android:
     needs: ['lint', 'build']
     runs-on: 'xcode-27'
