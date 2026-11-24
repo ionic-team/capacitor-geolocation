@@ -97,9 +97,16 @@ To grant precise location only through the button, keep `ACCESS_COARSE_LOCATION`
     android:usesPermissionFlags="onlyForLocationButton" />
 ```
 
-On Android 17 and later, `getCurrentPosition()`, `watchPosition()` and the permission methods then
-get approximate location until the button grants precise location: after a permission request,
-`coarseLocation` is `granted` and `location` is `denied`.
+With this flag, on Android 17 and later, your app gets precise location only through the button.
+The rest of the plugin works with approximate location:
+
+- When `requestPermissions()`, `getCurrentPosition()` or `watchPosition()` ask for permission, the
+  system dialog only offers approximate location.
+- `getCurrentPosition()` and `watchPosition()` return approximate positions.
+- `checkPermissions()` returns `location: 'denied'` and `coarseLocation: 'granted'`.
+
+Once the user taps the button and allows precise location, the rest of the plugin also gets precise
+location until the app is closed.
 
 Style the element with ordinary CSS. The icon can inherit `color` or use its
 component-specific custom property:
