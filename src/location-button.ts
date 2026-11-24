@@ -201,8 +201,8 @@ function registerLocationButton(protectedSurface: boolean): void {
         strokeColor: colorStyle(style, STYLE_PROPERTIES.strokeColor, '#000000'),
         cornerRadius,
         strokeWidth: pixelStyle(style, STYLE_PROPERTIES.strokeWidth, 0, 3, 0),
-        maximumAge: nonNegativeIntegerAttribute(element, 'maximum-age', 3_000),
-        timeout: nonNegativeIntegerAttribute(element, 'timeout', 5_000, 1),
+        maximumAge: nonNegativeIntegerAttribute(element, 'maximum-age', 0),
+        timeout: nonNegativeIntegerAttribute(element, 'timeout', 10_000, 1),
         enableLocationFallback: booleanAttribute(element, 'enable-location-fallback', true),
       };
     },

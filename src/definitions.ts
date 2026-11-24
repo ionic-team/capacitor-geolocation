@@ -79,7 +79,8 @@ export interface GeolocationPlugin {
   /**
    * Check which location button this device supports.
    *
-   * The button is Android only. Use this to hide it, or to show your own control instead.
+   * The button is Android only. Use this to show your own control where it is `unavailable`, or to
+   * hide the `compat` button on older Android versions.
    *
    * @since 9.0.0
    */

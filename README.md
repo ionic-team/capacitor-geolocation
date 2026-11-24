@@ -55,18 +55,30 @@ Read about [Setting Permissions](https://capacitorjs.com/docs/android/configurat
 Importing `@capacitor/geolocation` registers `<os-location-button>` on Android. The plugin
 includes the Native Islands runtime, so applications do not install it separately.
 
+The element shows the system location button on Android 17 and later, and Google's
+compatibility button on older versions. On iOS and web it renders nothing. Use
+[`getLocationButtonState()`](#getlocationbuttonstate) to show your own control where it is
+`unavailable`:
+
 ```html
-<os-location-button text-type="use-precise-location"></os-location-button>
+<os-location-button id="location-button"></os-location-button>
 ```
 
-The element shows the system location button on Android 17 and later, and Google's
-compatibility button on older versions. It emits `location-grant`, `location-position`, and
-`location-error` DOM events. On iOS and web it renders nothing. Call
-[`getLocationButtonState()`](#getlocationbuttonstate) to hide the button or show your own control.
+```ts
+const { state } = await Geolocation.getLocationButtonState();
+if (state === 'unavailable') {
+  // Show your own control.
+}
+
+const button = document.querySelector('#location-button');
+button.addEventListener('location-grant', (event) => console.log(event.detail.granted));
+button.addEventListener('location-position', (event) => console.log(event.detail.coords));
+button.addEventListener('location-error', (event) => console.log(event.detail.code, event.detail.reason));
+```
 
 Attributes: `text-type` (`use-precise-location` by default, or `share-precise-location`,
 `near-my-precise-location`, `near-your-precise-location`, `precise-location`, `none`), `timeout`
-(5000 ms), `maximum-age` (3000 ms) and `enable-location-fallback` (`true`). The system translates
+(10000 ms), `maximum-age` (0 ms) and `enable-location-fallback` (`true`). The system translates
 the label, so it can differ from your app's language.
 
 To grant precise location only through the button, keep `ACCESS_COARSE_LOCATION` and declare
@@ -78,9 +90,9 @@ To grant precise location only through the button, keep `ACCESS_COARSE_LOCATION`
     android:usesPermissionFlags="onlyForLocationButton" />
 ```
 
-On Android 17 and later, the regular API then gets approximate location until the button grants
-precise location: after a request, `coarseLocation` is `granted` and `location` is `denied`. Older
-versions ignore the flag.
+On Android 17 and later, `getCurrentPosition()`, `watchPosition()` and the permission methods then
+get approximate location until the button grants precise location: after a permission request,
+`coarseLocation` is `granted` and `location` is `denied`. Older versions ignore the flag.
 
 Style the element with ordinary CSS. The icon can inherit `color` or use its
 component-specific custom property:
@@ -222,7 +234,8 @@ getLocationButtonState() => Promise<LocationButtonState>
 
 Check which location button this device supports.
 
-The button is Android only. Use this to hide it, or to show your own control instead.
+The button is Android only. Use this to show your own control where it is `unavailable`, or to
+hide the `compat` button on older Android versions.
 
 **Returns:** <code>Promise&lt;<a href="#locationbuttonstate">LocationButtonState</a>&gt;</code>
 

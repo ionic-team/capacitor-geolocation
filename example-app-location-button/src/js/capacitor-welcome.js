@@ -153,12 +153,12 @@ window.customElements.define(
 
           <h4>Fetch options (plugin properties)</h4>
           <div class="field">
-            <label for="lb-timeout">Timeout: <span id="lb-timeout-value">5000</span>ms</label>
-            <input type="range" id="lb-timeout" min="1" max="60000" step="500" value="5000">
+            <label for="lb-timeout">Timeout: <span id="lb-timeout-value">10000</span>ms</label>
+            <input type="range" id="lb-timeout" min="1" max="60000" step="500" value="10000">
           </div>
           <div class="field">
-            <label for="lb-maximum-age">Maximum age: <span id="lb-maximum-age-value">3000</span>ms</label>
-            <input type="range" id="lb-maximum-age" min="0" max="600000" step="1000" value="3000">
+            <label for="lb-maximum-age">Maximum age: <span id="lb-maximum-age-value">0</span>ms</label>
+            <input type="range" id="lb-maximum-age" min="0" max="600000" step="1000" value="0">
           </div>
           <div class="field field-inline">
             <input type="checkbox" id="lb-enable-location-fallback" checked>
