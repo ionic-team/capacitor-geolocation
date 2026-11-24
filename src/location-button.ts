@@ -215,18 +215,23 @@ function registerLocationButton(protectedSurface: boolean): void {
   });
 }
 
+// Where there is no button (iOS, web, or when its state can't be read), the element stays in the DOM but is hidden.
+function defineHiddenLocationButton(): void {
+  if (typeof customElements === 'undefined' || typeof HTMLElement === 'undefined') return;
+  if (customElements.get('os-location-button')) return;
+  customElements.define(
+    'os-location-button',
+    class extends HTMLElement {
+      connectedCallback(): void {
+        this.style.setProperty('display', 'none', 'important');
+      }
+    },
+  );
+}
+
 export function registerLocationButtonElement(geolocationPlugin: GeolocationPlugin): void {
   if (Capacitor.getPlatform() !== 'android') {
-    if (typeof customElements !== 'undefined' && !customElements.get('os-location-button')) {
-      customElements.define(
-        'os-location-button',
-        class extends HTMLElement {
-          connectedCallback(): void {
-            this.style.setProperty('display', 'none', 'important');
-          }
-        },
-      );
-    }
+    defineHiddenLocationButton();
     return;
   }
 
@@ -259,8 +264,13 @@ export function registerLocationButtonElement(geolocationPlugin: GeolocationPlug
     },
   );
 
-  void geolocationPlugin.getLocationButtonState().then(({ state }) => {
-    installStyles();
-    registerLocationButton(state === 'system');
-  });
+  void geolocationPlugin.getLocationButtonState().then(
+    ({ state }) => {
+      installStyles();
+      registerLocationButton(state === 'system');
+    },
+    // The native side can't tell, for example an older native binary that doesn't have the method: treat it as
+    // unavailable instead of leaving an unhandled rejection and an undefined element.
+    defineHiddenLocationButton,
+  );
 }
