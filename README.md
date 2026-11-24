@@ -44,7 +44,9 @@ The first two permissions ask for location data, both fine and coarse, and the l
 
 :::note
 
-If you only require approximate location (variable accuracy but usually around 2 kilometers), you may just declare `ACCESS_COARSE_LOCATION` and `<uses-feature`, and use `enableHighAccuracy=false` when requesting location
+If you only require approximate location (variable accuracy but usually around 2 kilometers), you may just declare `ACCESS_COARSE_LOCATION` and `<uses-feature`, and use `enableHighAccuracy=false` when requesting location.
+
+If you're trying to comply with the Location Button policy, please read the [location button section](#location-button) below.
 
 :::
 
@@ -52,13 +54,34 @@ Read about [Setting Permissions](https://capacitorjs.com/docs/android/configurat
 
 ## Location Button
 
-Importing `@capacitor/geolocation` registers `<os-location-button>` on Android. The plugin
-includes the Native Islands runtime, so applications do not install it separately.
+`@capacitor/geolocation` includes `<os-location-button>`, the plugin's way to embed Android's system location button inside your web UI. When the user taps
+it, your app gets precise location for the current session, without asking for the broader precise-location
+permission. It is Android only: on iOS and web the element renders nothing.
 
-The element shows the system location button on Android 17 and later, and Google's
-compatibility button on older versions. On iOS and web it renders nothing. Use
-[`getLocationButtonState()`](#getlocationbuttonstate) to show your own control where it is
-`unavailable`:
+### Do you need it?
+
+The main reason to use it is Google Play. If your app uses Capacitor 9 or later (target Android API 37) and only needs precise
+location for momentary, user-initiated features (such as "search near me" or sharing your location once),
+Google Play policy requires you to use the location button, or to submit a declaration explaining why it
+isn't enough. See
+[Google Play's location permissions policy](https://support.google.com/googleplay/android-developer/answer/17033915)
+and [Android's location button guide](https://developer.android.com/guide/topics/permissions/private-alternatives/location-button)
+for the current rules and dates.
+
+You can skip it if your app isn't distributed through Google Play, or if
+it only needs approximate location. The rest of the plugin works as before either way: `getCurrentPosition()`,
+`watchPosition()`, `checkPermissions()` and `requestPermissions()` are unchanged, and an app that doesn't add
+the element behaves as before. The button's native code, including Jetpack Compose, is part of every Android
+build that includes the plugin, so updating makes the app larger even if you never use the element.
+
+### Using it in a new integration
+
+1. Declare the location permissions in your `AndroidManifest.xml` as described in [Android](#android). To get
+   precise location only through the button, also see
+   [Limiting precise location to the button](#limiting-precise-location-to-the-button).
+2. Add the element and listen to its events. Use
+   [`getLocationButtonState()`](#getlocationbuttonstate) to show your own control where the button is
+   `unavailable`:
 
 ```html
 <os-location-button id="location-button"></os-location-button>
@@ -76,17 +99,42 @@ button.addEventListener('location-position', (event) => console.log(event.detail
 button.addEventListener('location-error', (event) => console.log(event.detail.code, event.detail.reason));
 ```
 
-Attributes: `text-type` (`use-precise-location` by default, or `share-precise-location`,
+On Android 17 and later (`system`) the element shows the system location button. On Android 16 and older
+(`compat`) it shows Google's compatibility button, which triggers the standard permission prompt, so the same
+code works on every Android version.
+
+### Migrating an existing app
+
+Updating the plugin changes nothing visible until you add the element, so you can migrate screen by screen.
+
+1. On each screen that asks for precise location from a user action (for example a "Use my location" button),
+   replace your own control with `<os-location-button>`:
+
+   |                          | Before                                                                          | With the button                                         |
+   | ------------------------ | ------------------------------------------------------------------------------- | ------------------------------------------------------- |
+   | Ask for precise location | `requestPermissions()`, then `getCurrentPosition({ enableHighAccuracy: true })` | The user taps the element                               |
+   | Permission result        | The result of `requestPermissions()`                                            | The `location-grant` event                              |
+   | Position                 | The result of `getCurrentPosition()`                                            | The `location-position` event (same shape as `Position`) |
+   | Errors                   | A rejected promise                                                              | The `location-error` event                              |
+
+2. Keep your existing flow where the button isn't available. When `getLocationButtonState()` returns
+   `unavailable` (iOS and web), the element renders nothing. When it returns `compat` (Android 16 and older),
+   the element works the same way but is optional, so you can keep your existing flow there if you prefer.
+3. Leave other location code alone. The button covers one-time, foreground requests; for continuous tracking
+   with `watchPosition()`, see Google Play's policy above for what you need to declare.
+4. Decide whether to add the `onlyForLocationButton` flag (below). It is optional. Without it, nothing else
+   changes. With it, on Android 17 and later the rest of the plugin only gets approximate location until the user
+   taps the button, so code that expects `checkPermissions()` to report `location: 'granted'` needs updating. Add
+   it only once every precise-location use in your app goes through the button.
+
+### Attributes
+
+Set these on the element: `text-type` (`use-precise-location` by default, or `share-precise-location`,
 `near-my-precise-location`, `near-your-precise-location`, `precise-location`, `none`), `timeout`
 (10000 ms), `maximum-age` (0 ms) and `enable-location-fallback` (`true`). The system translates
 the label, so it can differ from your app's language.
 
-Google Play requires apps that target Android 17 (API 37) to use the location button for one-time
-precise location, or to submit a declaration explaining why it isn't enough. See
-[Google Play's location permissions policy](https://support.google.com/googleplay/android-developer/answer/17033915).
-Below Android 17 there is no system button and the `onlyForLocationButton` flag below is ignored, so
-the plugin's other methods can still get precise location. There, the compatibility button is
-optional: when `getLocationButtonState()` returns `compat`, you can show your own control instead.
+### Limiting precise location to the button
 
 To grant precise location only through the button, keep `ACCESS_COARSE_LOCATION` and declare
 `ACCESS_FINE_LOCATION` with the `onlyForLocationButton` flag:
@@ -107,6 +155,11 @@ The rest of the plugin works with approximate location:
 
 Once the user taps the button and allows precise location, the rest of the plugin also gets precise
 location until the app is closed.
+
+Below Android 17 there is no system button and the `onlyForLocationButton` flag is ignored, so the plugin's
+other methods can still get precise location.
+
+### Styling
 
 Style the element with ordinary CSS. The icon can inherit `color` or use its
 component-specific custom property:
@@ -139,6 +192,8 @@ The native button follows these rules:
   size). Your own CSS overrides these defaults.
 - The button is drawn slightly smaller than the element's box: 4 pixels inside it are kept for the touch
   target.
+
+### When the button is covered
 
 Android only lets the system button respond to taps when nothing covers it:
 
