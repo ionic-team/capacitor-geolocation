@@ -81,6 +81,13 @@ Attributes: `text-type` (`use-precise-location` by default, or `share-precise-lo
 (10000 ms), `maximum-age` (0 ms) and `enable-location-fallback` (`true`). The system translates
 the label, so it can differ from your app's language.
 
+Google Play requires apps that target Android 17 (API 37) to use the location button for one-time
+precise location, or to submit a declaration explaining why it isn't enough. See
+[Google Play's location permissions policy](https://support.google.com/googleplay/android-developer/answer/17033915).
+Below Android 17 there is no system button and the `onlyForLocationButton` flag below is ignored, so
+the plugin's other methods can still get precise location. There, the compatibility button is
+optional: when `getLocationButtonState()` returns `compat`, you can show your own control instead.
+
 To grant precise location only through the button, keep `ACCESS_COARSE_LOCATION` and declare
 `ACCESS_FINE_LOCATION` with the `onlyForLocationButton` flag:
 
@@ -92,7 +99,7 @@ To grant precise location only through the button, keep `ACCESS_COARSE_LOCATION`
 
 On Android 17 and later, `getCurrentPosition()`, `watchPosition()` and the permission methods then
 get approximate location until the button grants precise location: after a permission request,
-`coarseLocation` is `granted` and `location` is `denied`. Older versions ignore the flag.
+`coarseLocation` is `granted` and `location` is `denied`.
 
 Style the element with ordinary CSS. The icon can inherit `color` or use its
 component-specific custom property:
