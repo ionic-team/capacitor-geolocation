@@ -12,7 +12,8 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         .init(name: "watchPosition", returnType: CAPPluginReturnCallback),
         .init(name: "clearWatch", returnType: CAPPluginReturnPromise),
         .init(name: "checkPermissions", returnType: CAPPluginReturnPromise),
-        .init(name: "requestPermissions", returnType: CAPPluginReturnPromise)
+        .init(name: "requestPermissions", returnType: CAPPluginReturnPromise),
+        .init(name: "getLocationButtonState", returnType: CAPPluginReturnPromise)
     ]
 
     private var locationService: (any IONGLOCService)?
@@ -112,6 +113,10 @@ public class GeolocationPlugin: CAPPlugin, CAPBridgedPlugin {
         } else {
             checkPermissions(call)
         }
+    }
+
+    @objc func getLocationButtonState(_ call: CAPPluginCall) {
+        call.resolve(["state": "unavailable"])
     }
 }
 

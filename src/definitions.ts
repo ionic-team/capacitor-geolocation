@@ -75,6 +75,29 @@ export interface GeolocationPlugin {
    * @since 1.0.0
    */
   requestPermissions(permissions?: GeolocationPluginPermissions): Promise<PermissionStatus>;
+
+  /**
+   * Check which location button this device supports.
+   *
+   * The button is Android only. Use this to show your own control where it is `unavailable`, or to
+   * hide the `compat` button on older Android versions.
+   *
+   * @since 9.0.0
+   */
+  getLocationButtonState(): Promise<LocationButtonState>;
+}
+
+export interface LocationButtonState {
+  /**
+   * `system` on Android 17 and later, where the system draws the button.
+   *
+   * `compat` on older Android versions, which show Google's compatibility button.
+   *
+   * `unavailable` on iOS and web, where the `os-location-button` element renders nothing.
+   *
+   * @since 9.0.0
+   */
+  state: 'system' | 'compat' | 'unavailable';
 }
 
 export interface ClearWatchOptions {

@@ -7,7 +7,7 @@ const transport = readFileSync(new URL('../src/location-button.ts', import.meta.
 test('Native Islands subscribes before location-button registration can apply layout', () => {
   const registration = transport.slice(transport.indexOf('export function registerLocationButtonElement'));
   const initialize = registration.indexOf('initializeNativeIslands(');
-  const register = registration.indexOf('requiresUnobscuredSurface(geolocationPlugin).then');
+  const register = registration.indexOf('getLocationButtonState().then');
 
   assert.ok(initialize >= 0);
   assert.ok(register > initialize);

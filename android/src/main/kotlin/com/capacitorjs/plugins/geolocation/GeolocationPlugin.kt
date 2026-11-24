@@ -85,17 +85,13 @@ class GeolocationPlugin : Plugin() {
         }
     }
 
-    /** Native Islands carrier methods hosted by Geolocation. */
     @PluginMethod
-    fun nativeIslandsLocationButtonCapabilities(call: PluginCall) {
-        call.resolve(
-            JSObject().put(
-                "requiresUnobscuredSurface",
-                IONGLOCLocationButtonRegistry.requiresUnobscuredSurface(),
-            ),
-        )
+    fun getLocationButtonState(call: PluginCall) {
+        val state = if (IONGLOCLocationButtonRegistry.requiresUnobscuredSurface()) "system" else "compat"
+        call.resolve(JSObject().put("state", state))
     }
 
+    /** Native Islands carrier methods hosted by Geolocation. */
     @PluginMethod
     fun nativeIslandsApplyLayout(call: PluginCall) {
         nativeIslandsController.submitLayout(call.data, failure = { code, message -> call.reject(message, code) }) {
