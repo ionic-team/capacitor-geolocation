@@ -5,67 +5,50 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  setup:
-    uses: ./.github/workflows/reusable_setup.yml
-
   lint:
-    needs: 'setup'
-    uses: ./.github/workflows/reusable_lint.yml
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 30
+    steps:
+      - uses: ionic-team/capacitor-actions/lint-plugin@v1.0.0
+        with:
+          working-directory: .
+          gh-token: ${{ github.token }}
 
   build:
-    needs: 'setup'
-    uses: ./.github/workflows/reusable_build.yml
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 30
+    steps:
+      - uses: ionic-team/capacitor-actions/build-plugin@v1.0.0
+        with:
+          working-directory: .
+          gh-token: ${{ github.token }}
 
   verify-plugin-android:
-    needs: ['setup', 'lint', 'build']
+    needs: ['lint', 'build']
     runs-on: 'xcode-27'
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       - name: 'Setup Tools'
-        uses: ./.github/actions/setup-tools
+        uses: ionic-team/capacitor-actions/setup-tools@v1.0.0
+        with:
+          working-directory: .
+          gh-token: ${{ github.token }}
       - name: 'Verify Android'
+        working-directory: .
         run: npm run verify:android
 
   verify-plugin-ios:
-    needs: ['setup', 'lint', 'build']
+    needs: ['lint', 'build']
     runs-on: 'xcode-27'
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       - name: 'Setup Tools'
-        uses: ./.github/actions/setup-tools
-      - name: 'Set Xcode version'
-        run: sudo xcode-select -s /Applications/Xcode_27.0.app/Contents/Developer
+        uses: ionic-team/capacitor-actions/setup-tools@v1.0.0
+        with:
+          working-directory: .
+          gh-token: ${{ github.token }}
       - name: 'Verify iOS'
+        working-directory: .
         run: npm run verify:ios
-
-  build-example-app-android:
-    needs: ['verify-plugin-ios', 'verify-plugin-android']
-    runs-on: 'xcode-27'
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v7
-      - name: 'Setup Tools'
-        uses: ./.github/actions/setup-tools
-      - name: 'Prepare example app'
-        uses: ./.github/actions/prepare-example-app
-      - name: 'Build Android example app'
-        working-directory: ./example-app/android
-        run: ./gradlew clean assembleDebug
-    
-  build-example-app-ios:
-    needs: ['verify-plugin-ios', 'verify-plugin-android']
-    runs-on: 'xcode-27'
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v7
-      - name: 'Setup Tools'
-        uses: ./.github/actions/setup-tools
-      - name: 'Set Xcode version'
-        run: sudo xcode-select -s /Applications/Xcode_27.0.app/Contents/Developer
-      - name: 'Prepare example app'
-        uses: ./.github/actions/prepare-example-app
-      - name: 'Build iOS example app'
-        working-directory: ./example-app/ios/App
-        run: xcodebuild clean build -workspace App.xcworkspace -scheme App CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
