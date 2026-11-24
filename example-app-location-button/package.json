@@ -15,7 +15,6 @@
   "dependencies": {
     "@capacitor/android": "next",
     "@capacitor/core": "next",
-    "@capacitor/ios": "next",
     "@capacitor/splash-screen": "next",
     "@capacitor/geolocation": "file:../"
   },
