@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: capacitor-geolocation
+  title: '@capacitor/geolocation'
+  description: Device GPS and location tracking.
+  annotations:
+    github.com/project-slug: ionic-team/capacitor-geolocation
+  tags: [typescript, swift, java, npm-package, capacitor-plugin]
+spec:
+  type: library
+  lifecycle: production
+  owner: group:default/mobile-ecosystem
+  system: capacitor
+  dependsOn: [component:default/capacitor-core]
