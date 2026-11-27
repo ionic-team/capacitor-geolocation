@@ -1,3 +1,10 @@
+## [8.2.6](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.5...v8.2.6) (2026-11-27)
+
+
+### Bug Fixes
+
+* **android:** bump iongeolocation-android to 3.0.0 ([#118](https://github.com/ionic-team/capacitor-geolocation/issues/118)) ([2cdab4c](https://github.com/ionic-team/capacitor-geolocation/commit/2cdab4c07961e37efea87c99ffd32a9d9c9aa702))
+
 ## [8.2.5](https://github.com/ionic-team/capacitor-geolocation/compare/v8.2.4...v8.2.5) (2026-11-17)
 
 
