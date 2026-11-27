@@ -78,7 +78,7 @@ dependencies {
         implementation project(':capacitor-android')
     }
 
-    implementation("io.ionic.libs:iongeolocation-android:2.2.2")
+    implementation("io.ionic.libs:iongeolocation-android:3.0.0")
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$kotlinxCoroutinesVersion")
