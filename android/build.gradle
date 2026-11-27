@@ -68,7 +68,6 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -78,7 +77,7 @@ dependencies {
         implementation project(':capacitor-android')
     }
 
-    implementation("io.ionic.libs:iongeolocation-android:3.0.0")
+    implementation 'io.ionic.libs:iongeolocation-android:4.0.0'
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$kotlinxCoroutinesVersion")
