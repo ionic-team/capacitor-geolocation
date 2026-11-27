@@ -129,20 +129,25 @@ class GeolocationPlugin : Plugin() {
     /**
      * Completes the getCurrentPosition plugin call after a permission request
      * @see .getCurrentPosition
-     * @param call the plugin call
+     * @param call the plugin call, or null if Capacitor no longer has the saved call
      */
     @PermissionCallback
-    private fun completeCurrentPosition(call: PluginCall) {
+    private fun completeCurrentPosition(call: PluginCall?) {
+        // Capacitor passes null when it no longer has the saved call, for example if
+        // Android recreated the app process while the permission dialog was open.
+        if (call == null) return
         handlePermissionResult(call) { getPosition(call) }
     }
 
     /**
      * Completes the watchPosition plugin call after a permission request
      * @see .startWatch
-     * @param call the plugin call
+     * @param call the plugin call, or null if Capacitor no longer has the saved call
      */
     @PermissionCallback
-    private fun completeWatchPosition(call: PluginCall) {
+    private fun completeWatchPosition(call: PluginCall?) {
+        // See completeCurrentPosition: there is no call left to answer.
+        if (call == null) return
         handlePermissionResult(call) { startWatch(call) }
     }
 
